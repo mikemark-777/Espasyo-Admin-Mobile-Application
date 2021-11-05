@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "142003418706",
+    "project_id": "espasyo-8fef6",
+    "storage_bucket": "espasyo-8fef6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142003418706:android:3d404c395c96d8ba40918b",
+        "android_client_info": {
+          "package_name": "com.capstone.espasyo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142003418706-gf2hncedj00cth41hataq9dvh02bc762.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsiy_dRjZ78MFsqKCcTAI14YnTyeYqdGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142003418706-gf2hncedj00cth41hataq9dvh02bc762.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142003418706:android:367452004699197340918b",
+        "android_client_info": {
+          "package_name": "com.capstone.espasyoadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142003418706-gf2hncedj00cth41hataq9dvh02bc762.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsiy_dRjZ78MFsqKCcTAI14YnTyeYqdGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142003418706-gf2hncedj00cth41hataq9dvh02bc762.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
