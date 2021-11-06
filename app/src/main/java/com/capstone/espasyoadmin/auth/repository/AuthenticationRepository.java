@@ -4,6 +4,7 @@ import android.app.Application;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.capstone.espasyoadmin.models.Admin;
@@ -18,7 +19,10 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class AuthenticationRepository {
 
@@ -109,8 +113,9 @@ public class AuthenticationRepository {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
 
-                            //Update email in database
-                            DocumentReference currentUserDocumentRef = database.collection("users").document(currentUser.getUid());
+                            String adminID = currentUser.getUid();
+                            //Update email in users collection in database
+                            DocumentReference currentUserDocumentRef = database.collection("users").document(adminID);
                             currentUserDocumentRef.update("email", newEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -119,7 +124,8 @@ public class AuthenticationRepository {
                                         sendEmailVerification();
                                         firebaseUserMutableLiveData.postValue(firebaseAuth.getCurrentUser());
                                         Toast.makeText(application, "Email Address successfully updated", Toast.LENGTH_SHORT).show();
-                                        //TODO: Must update the email in the Firestore database as well
+                                        //update email in admins collection in database
+                                        updateAdminEmail(adminID, newEmail);
                                     }
                                 }
                             });
@@ -184,8 +190,15 @@ public class AuthenticationRepository {
         });
     }
 
-    public void updateAdminEmail() {
-        //todo: update landlord table if the landlord changes email
+    public void updateAdminEmail(String adminID, String newEmail) {
+        //todo: update admin's document if the admin changes email
+        DocumentReference adminDocRef = database.collection("admins").document(adminID);
+        adminDocRef.update("email", newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //will not give notification because the updateEmailAddress function will do it
+            }
+        });
     }
 
 }

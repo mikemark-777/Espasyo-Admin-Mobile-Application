@@ -162,7 +162,7 @@ public class SignUpFragment extends Fragment {
                             if (task.isSuccessful()) {
                                 if (task.getResult().getSignInMethods().size() == 0) {
 
-                                    int userRole = 3;
+                                    int userRole = 1;
                                     //todo: must include set a code that only the admin knows to be able to create a new account
                                     Admin newAdmin = new Admin("", firstName, lastName, email, password, userRole);
                                     signUpProgressBar.setVisibility(View.VISIBLE);

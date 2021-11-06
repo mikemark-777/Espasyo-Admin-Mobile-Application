@@ -22,13 +22,19 @@ import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.auth.viewmodels.AuthViewModel;
+import com.capstone.espasyoadmin.models.Admin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 
 
 public class UpdateEmailFragment extends Fragment {
 
+    private FirebaseAuth firebaseAuth;
     private FirebaseUser currentUser;
 
     private TextInputLayout textInputCurrentEmailLayout,
@@ -39,17 +45,22 @@ public class UpdateEmailFragment extends Fragment {
             textInputNewEmailAddress,
             textInputPassword;
 
-    private Button btnChangeEmail;
+    private Button btnChangeEmail,
+            btnCancelChangeEmail;
     private ProgressBar updateEmailProgressBar;
     private AuthViewModel viewModel;
     private NavController navController;
     private Boolean isEmailChanged = false;
+
+    private boolean currentEmailExists = false;
+    private boolean newEmailExists = false;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getActivity().getApplication())).get(AuthViewModel.class);
 
@@ -57,15 +68,15 @@ public class UpdateEmailFragment extends Fragment {
         viewModel.getUserData().observe(this, new Observer<FirebaseUser>() {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
-                if(firebaseUser != null) {
+                if (firebaseUser != null) {
 
                     currentUser = firebaseUser;
 
-                    if(isEmailChanged) {
+                    if (isEmailChanged) {
                         isEmailChanged = false;
                         navController.navigate(R.id.action_updateEmailFragment_to_emailVerificationFragment);
                     }
-                } else  {
+                } else {
                     // by default will navigate to login fragment if firebaseUser is null
                     navController.navigate(R.id.action_updateEmailFragment_to_loginFragment);
                 }
@@ -96,6 +107,7 @@ public class UpdateEmailFragment extends Fragment {
         textInputPassword = view.findViewById(R.id.text_input_password_updateemail);
 
         btnChangeEmail = view.findViewById(R.id.btnChangeEmail);
+        btnCancelChangeEmail = view.findViewById(R.id.btnCancelChangeEmail);
         //progress bar
         updateEmailProgressBar = view.findViewById(R.id.updateEmailProgressBar);
 
@@ -107,27 +119,46 @@ public class UpdateEmailFragment extends Fragment {
                 String newEmailAddress = textInputNewEmailAddress.getText().toString();
                 String password = textInputPassword.getText().toString();
 
-                if(confirmInput(currentEmailAddress, newEmailAddress, password)) {
-
-                    updateEmailProgressBar.setVisibility(View.VISIBLE);
+                if (confirmInput(currentEmailAddress, newEmailAddress, password)) {
+                    btnChangeEmail.setEnabled(false);
+                    checkIfCurrentEmailExist(currentEmailAddress);
+                    checkIfNewEmailExist(newEmailAddress);
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            updateEmailProgressBar.setVisibility(View.INVISIBLE);
-                            viewModel.updateEmailAddress(currentUser, currentEmailAddress ,newEmailAddress ,password);
-                            isEmailChanged = true;
-                            textInputCurrentEmailAddress.setText("");
-                            textInputNewEmailAddress.setText("");
-                            textInputPassword.setText("");
+                            btnChangeEmail.setEnabled(true);
+                            if (currentEmailExists) {
+                                if (!newEmailExists) {
+                                    //check if newEmail already exists
+                                    updateEmailProgressBar.setVisibility(View.VISIBLE);
+                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            updateEmailProgressBar.setVisibility(View.INVISIBLE);
+                                            viewModel.updateEmailAddress(currentUser, currentEmailAddress, newEmailAddress, password);
+                                            isEmailChanged = true;
+                                        }
+                                    }, 4000);
+                                } else {
+                                    textInputNewEmailLayout.setError("Email already exist");
+                                }
+                            } else {
+                                textInputCurrentEmailLayout.setError("Current Email do not exist");
+                            }
                         }
-                    }, 4000);
-
+                    }, 5000);
 
                 } else {
                     Toast.makeText(getActivity(), "Please fill out everything", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
 
+        btnCancelChangeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_updateEmailFragment_to_emailVerificationFragment);
             }
         });
 
@@ -138,7 +169,7 @@ public class UpdateEmailFragment extends Fragment {
     public final String TAG = "TESTING";
 
     private boolean isCurrentEmailAddressEmpty(String email) {
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             textInputCurrentEmailLayout.setError("Current Email Address field cannot be empty");
             Log.d(TAG, "CURRENT EMAIL: EMPTY");
             return false;
@@ -151,7 +182,7 @@ public class UpdateEmailFragment extends Fragment {
 
     private boolean isNewEmailAddressEmpty(String email) {
         //TODO: Must include validations if email exist in firebase auth and database
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             textInputNewEmailLayout.setError("New Email Address field cannot be empty");
             Log.d(TAG, "NEW EMAIL: EMPTY");
             return false;
@@ -164,7 +195,7 @@ public class UpdateEmailFragment extends Fragment {
 
     private boolean validatePassword(String password) {
         //TODO: Must include validations if password is the password of the real account being updated
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             textInputPasswordLayout.setError("Password field cannot be empty");
             Log.d(TAG, "PASSWORD: EMPTY");
             return false;
@@ -180,13 +211,58 @@ public class UpdateEmailFragment extends Fragment {
         boolean newEmailAddressResult = isNewEmailAddressEmpty(newEmailAddress);
         boolean passwordResult = validatePassword(password);
 
-        if(currentEmailAddressResult == true && newEmailAddressResult == true && passwordResult == true) {
+        if (currentEmailAddressResult == true && newEmailAddressResult == true && passwordResult == true) {
             Log.d(TAG, "CAN PROCEED: TRUE");
             return true;
         } else {
             Log.d(TAG, "CAN PROCEED: FALSE");
             return false;
         }
+    }
+
+    public void checkIfCurrentEmailExist(String currentEmail) {
+        //check if newEmail already exists
+        firebaseAuth.fetchSignInMethodsForEmail(currentEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().getSignInMethods().size() == 0) {
+                        currentEmailExists = false;
+                    } else {
+                        currentEmailExists = true;
+                        //textInputCurrentEmailLayout.setError("Email already exists");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    public void checkIfNewEmailExist(String newEmail) {
+        firebaseAuth.fetchSignInMethodsForEmail(newEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult().getSignInMethods().size() == 0) {
+                        newEmailExists = false;
+                    } else {
+                        newEmailExists = true;
+                        //textInputNewEmailLayout.setError("Email already exists");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    public void resetInputs() {
+        textInputCurrentEmailAddress.setText("");
+        textInputNewEmailAddress.setText("");
+        textInputPassword.setText("");
     }
 
 }
