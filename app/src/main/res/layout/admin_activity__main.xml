@@ -77,9 +77,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/apartmentCountDisplay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="12"
+                            android:text="0"
                             android:textColor="@color/espasyo_orange_200"
                             android:textSize="40dp"
                             android:textStyle="bold" />
@@ -128,9 +129,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/boardinHouseCountDisplay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="18"
+                            android:text="0"
                             android:textColor="@color/espasyo_green_200"
                             android:textSize="40dp"
                             android:textStyle="bold" />
@@ -179,9 +181,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/dormitoryCountDisplay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="6"
+                            android:text="0"
                             android:textColor="@color/espasyo_blue_200"
                             android:textSize="40dp"
                             android:textStyle="bold" />
