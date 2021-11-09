@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
+import com.capstone.espasyoadmin.admin.views.PropertiesOnMapActivity;
 import com.capstone.espasyoadmin.admin.views.PropertyMasterListActivity;
 import com.capstone.espasyoadmin.models.Property;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -75,10 +76,10 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         });
 
-        btnIconGotoProfile.setOnClickListener(new View.OnClickListener() {
+        btnGotoPropertyOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoPropertyMasterList();
+                gotoPropertiesOnMap();
             }
         });
 
@@ -104,6 +105,12 @@ public class AdminMainActivity extends AppCompatActivity {
 
     public void gotoPropertyMasterList() {
         Intent intent = new Intent(AdminMainActivity.this, PropertyMasterListActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoPropertiesOnMap() {
+        Intent intent = new Intent(AdminMainActivity.this, PropertiesOnMapActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

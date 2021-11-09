@@ -2,5 +2,7 @@
 
     <!-- Application Name -->
     <string name="app_name">Espasyo Admin</string>
+    <!-- Map API Key -->
+    <string name="map_key" translatable="false">AIzaSyB2ezTnYYFo9v1RzBton0tbcWhkoiXnx3E</string>
 
 </resources>

@@ -46,6 +46,14 @@ dependencies {
     //FIREBASE STORAGE
     implementation 'com.google.firebase:firebase-storage:20.0.0'
 
+    /* ---------------- Google Maps Dependencies ----------------*/
+    // MAPS
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    // PLACES
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    // LOCATION
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
     /* ---------------- Navigation Dependencies ----------------*/
     def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
