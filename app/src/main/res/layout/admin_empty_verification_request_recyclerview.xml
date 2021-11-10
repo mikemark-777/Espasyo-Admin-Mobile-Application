@@ -10,7 +10,7 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Registered Property Yet"
+        android:text="No Verification Request Yet"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp"
@@ -23,9 +23,9 @@
         app:layout_constraintVertical_bias="0.59" />
 
     <TextView
-        android:layout_width="232dp"
-        android:layout_height="44dp"
-        android:text="Registered and Verified Properties\nwill appear here"
+        android:layout_width="241dp"
+        android:layout_height="41dp"
+        android:text="Submitted verification requests\n of landlords will appear here"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,17 +35,14 @@
         app:layout_constraintVertical_bias="0.064" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/img_property_empty_state" />
+        app:srcCompat="@drawable/no_verification_request_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
