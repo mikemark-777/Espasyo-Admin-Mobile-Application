@@ -31,7 +31,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/verificationRequestSwipeRefresh"
+        android:id="@+id/verifiedRequestSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <com.capstone.espasyoadmin.admin.widgets.VerificationRequestRecyclerView
-            android:id="@+id/verificationRequestRecyclerView"
+            android:id="@+id/verifiedRequestRecyclerView"
             android:layout_width="370dp"
             android:layout_height="570dp"
             android:layout_margin="4dp"

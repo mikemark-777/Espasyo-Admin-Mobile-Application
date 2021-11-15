@@ -54,7 +54,7 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
 
         initVerificationRequest();
 
-        progressDialog.showProgressDialog("Loading Verification Requests...", false);
+        progressDialog.showProgressDialog("Loading Verified Requests...", false);
         fetchVerificationRequest();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -83,14 +83,14 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
     public void initVerificationRequest() {
         // initialize verificationRequestRecyclerView, layoutManager and verificationRequestAdapter
         verificationRequestsRecyclerViewEmptyState = findViewById(R.id.empty_verified_request_state);
-        verificationRequestsRecyclerView = (VerificationRequestRecyclerView) findViewById(R.id.verificationRequestRecyclerView);
+        verificationRequestsRecyclerView = (VerificationRequestRecyclerView) findViewById(R.id.verifiedRequestRecyclerView);
         verificationRequestsRecyclerView.showIfEmpty(verificationRequestsRecyclerViewEmptyState);
         verificationRequestsRecyclerView.setHasFixedSize(true);
         LinearLayoutManager verificationRequestLayoutManager = new LinearLayoutManager(VerifiedVerificationRequestsActivity.this, LinearLayoutManager.VERTICAL, false);
         verificationRequestsRecyclerView.setLayoutManager(verificationRequestLayoutManager);
         verificationRequestAdapter = new VerificationRequestAdapter(VerifiedVerificationRequestsActivity.this, verifiedVerifications, this);
         verificationRequestsRecyclerView.setAdapter(verificationRequestAdapter);
-        verificationRequestRVSwipeRefresh = findViewById(R.id.verificationRequestSwipeRefresh);
+        verificationRequestRVSwipeRefresh = findViewById(R.id.verifiedRequestSwipeRefresh);
 
         //initialize custom progress dialog
         composeVerificationRequestFAB = findViewById(R.id.composeVerificationRequestFAB);
