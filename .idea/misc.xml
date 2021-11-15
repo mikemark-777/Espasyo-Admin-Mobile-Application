@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable-v24/icon_declined.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable-v24/icon_map_type.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable/custom_button.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable/icon_address.xml" value="0.21197916666666666" />
@@ -16,13 +17,20 @@
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable/icon_water.xml" value="0.21197916666666666" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity__main.xml" value="0.22" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_declined_verification_requests.xml" value="0.4253393665158371" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_properties_on_map.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_property_details.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_property_master_list.xml" value="0.2" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_unverified_verification_requests.xml" value="0.39166666666666666" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_request_details.xml" value="0.33" />
-        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_requests.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_requests.xml" value="0.33" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_requests_on_their_status.xml" value="0.4602203182374541" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verified_verification_requests.xml" value="0.26129256428075054" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_declined_request_recyclerview.xml" value="0.67" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_property_recyclerview.xml" value="0.33" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_unverified_request_recyclerview.xml" value="0.5" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_verification_request_recyclerview.xml" value="0.5" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_verified_request_recyclerview.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_email_verification.xml" value="0.19583333333333333" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_sign_up.xml" value="0.33" />

@@ -15,10 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.DeclinedVerificationRequestsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.views.UnverifiedVerificationRequestsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.views.VerificationRequestsOnTheirStatus"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.VerificationRequestDetailsActivity"
             android:exported="true" />
         <activity
-            android:name=".admin.views.VerificationRequestsActivity"
+            android:name=".admin.views.VerifiedVerificationRequestsActivity"
             android:exported="true" />
         <activity
             android:name=".admin.views.PropertiesOnMapActivity"

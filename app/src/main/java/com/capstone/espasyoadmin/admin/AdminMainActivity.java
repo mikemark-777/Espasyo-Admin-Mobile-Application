@@ -18,7 +18,7 @@ import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.views.PropertiesOnMapActivity;
 import com.capstone.espasyoadmin.admin.views.PropertyMasterListActivity;
-import com.capstone.espasyoadmin.admin.views.VerificationRequestsActivity;
+import com.capstone.espasyoadmin.admin.views.VerificationRequestsOnTheirStatus;
 import com.capstone.espasyoadmin.models.Property;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -124,7 +124,7 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     public void gotoVerificationRequests() {
-        Intent intent = new Intent(AdminMainActivity.this, VerificationRequestsActivity.class);
+        Intent intent = new Intent(AdminMainActivity.this, VerificationRequestsOnTheirStatus.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

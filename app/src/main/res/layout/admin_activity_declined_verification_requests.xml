@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.views.VerificationRequestsActivity">
+    tools:context=".admin.views.DeclinedVerificationRequestsActivity">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -19,7 +20,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verification Requests"
+            android:text="Declined Requests"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -31,7 +32,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/verificationRequestSwipeRefresh"
+        android:id="@+id/declinedRequestSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <com.capstone.espasyoadmin.admin.widgets.VerificationRequestRecyclerView
-            android:id="@+id/verificationRequestRecyclerView"
+            android:id="@+id/declinedRequestRecyclerView"
             android:layout_width="370dp"
             android:layout_height="570dp"
             android:layout_margin="4dp"
@@ -55,11 +56,12 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <include
-        android:id="@+id/empty_verification_request_state_verifFragment"
-        layout="@layout/admin_empty_verification_request_recyclerview"
+        android:id="@+id/empty_declined_request_state"
+        layout="@layout/admin_empty_declined_request_recyclerview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="15dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="16dp">
@@ -56,31 +56,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginRight="15dp"
-                    app:srcCompat="@drawable/icon_address" />
-
-                <TextView
-                    android:id="@+id/propertyAddress_verification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cabarroguis St. District 4, Bayombong NV."
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:ellipsize="end"
-                    android:maxLines="1"/>
-
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,8 +66,32 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Classification: "
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/classification_verification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New"
+                    android:textSize="12sp"
+                    android:textColor="@color/espasyo_green_200"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Date Submitted: "
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -100,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="October 1, 2021 at 8:12 AM"
-                    android:textSize="11sp"/>
+                    android:textSize="12sp"/>
 
 
             </LinearLayout>
@@ -115,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date Verified: "
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -123,13 +122,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="-- -- --"
-                    android:textSize="11sp"/>
-
+                    android:textSize="12sp"/>
 
             </LinearLayout>
-
         </LinearLayout>
-
     </LinearLayout>
 
     <ImageView
@@ -142,22 +138,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:padding="4dp">
+        android:padding="4dp"/>
 
-        <TextView
-            android:id="@+id/propertyType_verification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
-            android:text="Apartment"
-            android:textAlignment="textEnd"
-            android:textColor="#ffffff"
-            android:textSize="14dp" />
-
-    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

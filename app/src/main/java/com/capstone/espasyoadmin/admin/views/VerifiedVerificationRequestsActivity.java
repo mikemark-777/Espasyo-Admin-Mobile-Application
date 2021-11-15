@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class VerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener {
+public class VerifiedVerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
@@ -35,7 +35,7 @@ public class VerificationRequestsActivity extends AppCompatActivity implements V
     private VerificationRequestRecyclerView verificationRequestsRecyclerView;
     private View verificationRequestsRecyclerViewEmptyState;
     private VerificationRequestAdapter verificationRequestAdapter;
-    private ArrayList<VerificationRequest> ownedPropertyVerifications;
+    private ArrayList<VerificationRequest> verifiedVerifications;
 
     private ExtendedFloatingActionButton composeVerificationRequestFAB;
     private SwipeRefreshLayout verificationRequestRVSwipeRefresh;
@@ -44,13 +44,13 @@ public class VerificationRequestsActivity extends AppCompatActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_verification_requests);
+        setContentView(R.layout.admin_activity_verified_verification_requests);
 
         //Initialize
         firebaseConnection = FirebaseConnection.getInstance();
         database = firebaseConnection.getFirebaseFirestoreInstance();
         fAuth = firebaseConnection.getFirebaseAuthInstance();
-        ownedPropertyVerifications = new ArrayList<>();
+        verifiedVerifications = new ArrayList<>();
 
         initVerificationRequest();
 
@@ -82,32 +82,33 @@ public class VerificationRequestsActivity extends AppCompatActivity implements V
 
     public void initVerificationRequest() {
         // initialize verificationRequestRecyclerView, layoutManager and verificationRequestAdapter
-        verificationRequestsRecyclerViewEmptyState = findViewById(R.id.empty_verification_request_state_verifFragment);
+        verificationRequestsRecyclerViewEmptyState = findViewById(R.id.empty_verified_request_state);
         verificationRequestsRecyclerView = (VerificationRequestRecyclerView) findViewById(R.id.verificationRequestRecyclerView);
         verificationRequestsRecyclerView.showIfEmpty(verificationRequestsRecyclerViewEmptyState);
         verificationRequestsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager verificationRequestLayoutManager = new LinearLayoutManager(VerificationRequestsActivity.this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager verificationRequestLayoutManager = new LinearLayoutManager(VerifiedVerificationRequestsActivity.this, LinearLayoutManager.VERTICAL, false);
         verificationRequestsRecyclerView.setLayoutManager(verificationRequestLayoutManager);
-        verificationRequestAdapter = new VerificationRequestAdapter(VerificationRequestsActivity.this, ownedPropertyVerifications, this);
+        verificationRequestAdapter = new VerificationRequestAdapter(VerifiedVerificationRequestsActivity.this, verifiedVerifications, this);
         verificationRequestsRecyclerView.setAdapter(verificationRequestAdapter);
         verificationRequestRVSwipeRefresh = findViewById(R.id.verificationRequestSwipeRefresh);
 
         //initialize custom progress dialog
         composeVerificationRequestFAB = findViewById(R.id.composeVerificationRequestFAB);
-        progressDialog = new CustomProgressDialog(VerificationRequestsActivity.this);
+        progressDialog = new CustomProgressDialog(VerifiedVerificationRequestsActivity.this);
     }
 
     public void fetchVerificationRequest() {
         //get the all the issued a verification request
         CollectionReference verificationRequestCollection = database.collection("verificationRequests");
-        verificationRequestCollection.get()
+        verificationRequestCollection.whereEqualTo("status", "verified")
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        ownedPropertyVerifications.clear();
+                        verifiedVerifications.clear();
                         for(QueryDocumentSnapshot verification : queryDocumentSnapshots) {
                             VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
-                            ownedPropertyVerifications.add(verificationRequestObject);
+                            verifiedVerifications.add(verificationRequestObject);
                         }
                         verificationRequestAdapter.notifyDataSetChanged();
                     }
@@ -117,8 +118,8 @@ public class VerificationRequestsActivity extends AppCompatActivity implements V
     @Override
     public void onVerificationRequestClick(int position) {
         // get the position of the clicked verification request
-        Intent intent = new Intent(VerificationRequestsActivity.this, VerificationRequestDetailsActivity.class);
-        intent.putExtra("chosenVerificationRequest", ownedPropertyVerifications.get(position));
+        Intent intent = new Intent(VerifiedVerificationRequestsActivity.this, VerificationRequestDetailsActivity.class);
+        intent.putExtra("chosenVerificationRequest", verifiedVerifications.get(position));
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
