@@ -27,7 +27,7 @@
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_requests.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verification_requests_on_their_status.xml" value="0.4602203182374541" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_activity_verified_verification_requests.xml" value="0.26129256428075054" />
-        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_declined_request_recyclerview.xml" value="0.67" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_declined_request_recyclerview.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_property_recyclerview.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_unverified_request_recyclerview.xml" value="0.5" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_empty_verification_request_recyclerview.xml" value="0.5" />
@@ -36,7 +36,7 @@
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_sign_up.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_fragment_update_email.xml" value="0.33" />
-        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_verification_request_item.xml" value="0.25" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/admin_verification_request_item.xml" value="0.5" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/auth_fragment_login.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/auth_fragment_update_email.xml" value="0.5" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/landlord_empty_property_recyclerview.xml" value="0.19583333333333333" />
