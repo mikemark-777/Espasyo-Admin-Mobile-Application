@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.views.DeclineVerificationRequestActivity">
+    tools:context=".admin.views.ProvideReasonDeclinedVerificationActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -84,13 +84,7 @@
                 android:id="@+id/declinedReason4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Business Permit image is blurred" />
-
-            <CheckBox
-                android:id="@+id/declinedReason5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Busineses Permit image is cut" />
+                android:text="Business Permit image is blurred or distorted" />
 
             <LinearLayout
                 android:layout_width="match_parent"

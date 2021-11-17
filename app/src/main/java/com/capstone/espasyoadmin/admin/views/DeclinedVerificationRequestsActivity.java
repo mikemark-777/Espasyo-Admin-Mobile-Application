@@ -119,4 +119,10 @@ public class DeclinedVerificationRequestsActivity extends AppCompatActivity impl
     public void onVerificationRequestClick(int position) {
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fetchVerificationRequest();
+    }
 }

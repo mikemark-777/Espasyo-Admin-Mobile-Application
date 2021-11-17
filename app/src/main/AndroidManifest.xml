@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
-            android:name=".admin.views.DeclineVerificationRequestActivity"
+            android:name=".admin.views.ProvideReasonDeclinedVerificationActivity"
             android:exported="true" />
         <activity
             android:name=".admin.views.AdminProfileActivity"

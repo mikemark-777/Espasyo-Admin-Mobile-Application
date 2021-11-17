@@ -239,7 +239,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
     }
 
     public void getDeclineRequestDescription() {
-        Intent intent = new Intent(CheckVerificationRequestActivity.this, DeclineVerificationRequestActivity.class);
+        Intent intent = new Intent(CheckVerificationRequestActivity.this, ProvideReasonDeclinedVerificationActivity.class);
         DeclineVerificationActivityResultLauncher.launch(intent);
     }
 

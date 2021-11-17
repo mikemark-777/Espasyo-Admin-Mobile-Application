@@ -12,14 +12,13 @@ import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 
-public class DeclineVerificationRequestActivity extends AppCompatActivity {
+public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity {
 
 
     private CheckBox reason1CheckBox,
             reason2CheckBox,
             reason3CheckBox,
-            reason4CheckBox,
-            reason5CheckBox;
+            reason4CheckBox;
 
     private EditText editTextOtherReason;
 
@@ -30,14 +29,14 @@ public class DeclineVerificationRequestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_decline_verification_request);
+        setContentView(R.layout.admin_activity_provide_reason_declined_verification);
 
         initializeViews();
         btnConfirmDeclineVerificaiton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(areReasonsBlank()) {
-                    Toast.makeText(DeclineVerificationRequestActivity.this, "Reasons Blank", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProvideReasonDeclinedVerificationActivity.this, "Reasons Blank", Toast.LENGTH_SHORT).show();
                 } else {
                     confirmDeclineVerification();
                 }
@@ -51,7 +50,6 @@ public class DeclineVerificationRequestActivity extends AppCompatActivity {
         reason2CheckBox = findViewById(R.id.declinedReason2);
         reason3CheckBox = findViewById(R.id.declinedReason3);
         reason4CheckBox = findViewById(R.id.declinedReason4);
-        reason5CheckBox = findViewById(R.id.declinedReason5);
 
         //edit text for other decline reasons
         editTextOtherReason = findViewById(R.id.editTextOtherReasonDecline);
@@ -78,10 +76,6 @@ public class DeclineVerificationRequestActivity extends AppCompatActivity {
 
         if(reason4CheckBox.isChecked()) {
             reason += reason4CheckBox.getText().toString() + "\n";
-        }
-
-        if(reason5CheckBox.isChecked()) {
-            reason += reason5CheckBox.getText().toString() + "\n";
         }
 
         String otherReason = editTextOtherReason.getText().toString();

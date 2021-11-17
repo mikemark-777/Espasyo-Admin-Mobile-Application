@@ -124,4 +124,10 @@ public class UnverifiedVerificationRequestsActivity extends AppCompatActivity im
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fetchVerificationRequest();
+    }
 }
