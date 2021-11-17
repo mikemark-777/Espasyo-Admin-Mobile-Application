@@ -1,8 +1,13 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +31,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class VerificationRequestDetailsActivity extends AppCompatActivity {
+public class CheckVerificationRequestActivity extends AppCompatActivity {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseFirestore database;
@@ -52,6 +57,8 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
     private Button btnVerifyVerificationRequest,
                    btnDeclineVerificationRequest;
 
+    private ActivityResultLauncher<Intent> DeclineVerificationActivityResultLauncher;
+
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
     private final String DECLINED = "Declined";
@@ -63,7 +70,7 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_verification_request_details);
+        setContentView(R.layout.admin_activity_check_verification_request);
 
         firebaseConnection = FirebaseConnection.getInstance();
         database = firebaseConnection.getFirebaseFirestoreInstance();
@@ -73,11 +80,26 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
         getDataFromIntent(intent);
         getPropertyFromDatabase();
 
+        //will handle all the data from the DeclineVerificationRequestActivity
+        DeclineVerificationActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                          String reason = result.getData().getStringExtra("reason");
+                            setDeclinedVerificationDescription(reason);
+                        } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+                            Toast.makeText(CheckVerificationRequestActivity.this, "Declined Unsuccessful", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
         displayBusinessPermit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String municipalBPUrl = verificationRequest.getMunicipalBusinessPermitImageURL();
-                Intent intent = new Intent(VerificationRequestDetailsActivity.this, PreviewImageActivity.class);
+                Intent intent = new Intent(CheckVerificationRequestActivity.this, PreviewImageActivity.class);
                 intent.putExtra("previewImage", municipalBPUrl);
                 startActivity(intent);
             }
@@ -87,6 +109,13 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 verifyRequest();
+            }
+        });
+
+        btnDeclineVerificationRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDeclineRequestDescription();
             }
         });
     }
@@ -129,7 +158,7 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(VerificationRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -201,7 +230,7 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
                         propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(VerificationRequestDetailsActivity.this, "Verification Request has been verified", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CheckVerificationRequestActivity.this, "Verification Request has been verified", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         });
@@ -209,8 +238,34 @@ public class VerificationRequestDetailsActivity extends AppCompatActivity {
                 });
     }
 
+    public void getDeclineRequestDescription() {
+        Intent intent = new Intent(CheckVerificationRequestActivity.this, DeclineVerificationRequestActivity.class);
+        DeclineVerificationActivityResultLauncher.launch(intent);
+    }
+
     public String getDateVerified() {
         Date currentDate = Calendar.getInstance().getTime();
         return DateFormat.getDateInstance(DateFormat.FULL).format(currentDate);
+    }
+
+    public void setDeclinedVerificationDescription(String reason) {
+        String verificationRequestID = verificationRequest.getVerificationRequestID();
+        DocumentReference verificationRequestDocRef = database.collection("verificationRequests").document(verificationRequestID);
+
+        verificationRequest.setStatus("declined");
+        verificationRequest.setDeclinedVerificationDescription(reason);
+
+        verificationRequestDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(CheckVerificationRequestActivity.this, "Verification Request is declined", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.DeclineVerificationRequestActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.AdminProfileActivity"
             android:exported="true" />
         <activity
@@ -30,7 +33,7 @@
             android:name=".admin.views.VerificationRequestsOnTheirStatus"
             android:exported="true" />
         <activity
-            android:name=".admin.views.VerificationRequestDetailsActivity"
+            android:name=".admin.views.CheckVerificationRequestActivity"
             android:exported="true" />
         <activity
             android:name=".admin.views.VerifiedVerificationRequestsActivity"
