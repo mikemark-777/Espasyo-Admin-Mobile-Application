@@ -84,7 +84,7 @@
                 android:id="@+id/declinedReason4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Business Permit image is blurred or distorted" />
+                android:text="Business Permit image is unrecognizable" />
 
             <LinearLayout
                 android:layout_width="match_parent"

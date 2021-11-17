@@ -63,26 +63,26 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
     public String getReasons() {
         String reason = "";
         if(reason1CheckBox.isChecked()) {
-            reason += reason1CheckBox.getText().toString() + "\n";
+            reason += "- " + reason1CheckBox.getText().toString() + "\n";
         }
 
         if(reason2CheckBox.isChecked()) {
-            reason += reason2CheckBox.getText().toString() + "\n";
+            reason += "- " + reason2CheckBox.getText().toString() + "\n";
         }
 
         if(reason3CheckBox.isChecked()) {
-            reason += reason3CheckBox.getText().toString() + "\n";
+            reason += "- " + reason3CheckBox.getText().toString() + "\n";
         }
 
         if(reason4CheckBox.isChecked()) {
-            reason += reason4CheckBox.getText().toString() + "\n";
+            reason += "- " + reason4CheckBox.getText().toString() + "\n";
         }
 
         String otherReason = editTextOtherReason.getText().toString();
         if(otherReason.equals("")) {
             return reason;
         } else {
-            return reason + otherReason + "\n";
+            return reason +  "- " + otherReason + "\n";
         }
     }
 
