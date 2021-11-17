@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
+import com.capstone.espasyoadmin.admin.views.AdminProfileActivity;
 import com.capstone.espasyoadmin.admin.views.PropertiesOnMapActivity;
 import com.capstone.espasyoadmin.admin.views.PropertyMasterListActivity;
 import com.capstone.espasyoadmin.admin.views.VerificationRequestsOnTheirStatus;
@@ -91,6 +92,14 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         });
 
+        btnIconGotoProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoAdminProfile();
+            }
+        });
+
+
     }
 
     public void initializeViews() {
@@ -111,24 +120,6 @@ public class AdminMainActivity extends AppCompatActivity {
         progressDialog = new CustomProgressDialog(AdminMainActivity.this);
     }
 
-    public void gotoPropertyMasterList() {
-        Intent intent = new Intent(AdminMainActivity.this, PropertyMasterListActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void gotoPropertiesOnMap() {
-        Intent intent = new Intent(AdminMainActivity.this, PropertiesOnMapActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    public void gotoVerificationRequests() {
-        Intent intent = new Intent(AdminMainActivity.this, VerificationRequestsOnTheirStatus.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
     public void fetchProperties() {
         CollectionReference propertiesCollectionRef = database.collection("properties");
 
@@ -137,6 +128,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        propertyMasterList.clear();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             Property property = snapshot.toObject(Property.class);
                             propertyMasterList.add(property);
@@ -149,6 +141,31 @@ public class AdminMainActivity extends AppCompatActivity {
                 Toast.makeText(AdminMainActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void gotoPropertyMasterList() {
+        Intent intent = new Intent(AdminMainActivity.this, PropertyMasterListActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoPropertiesOnMap() {
+        Intent intent = new Intent(AdminMainActivity.this, PropertiesOnMapActivity.class);
+        intent.putExtra("propertyMasterlist", propertyMasterList);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoVerificationRequests() {
+        Intent intent = new Intent(AdminMainActivity.this, VerificationRequestsOnTheirStatus.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoAdminProfile() {
+        Intent intent = new Intent(AdminMainActivity.this, AdminProfileActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public int countTotalApartment() {
@@ -188,5 +205,11 @@ public class AdminMainActivity extends AppCompatActivity {
         apartmentCountDisplay.setText(String.valueOf(countTotalApartment()));
         boardingHouseCountDisplay.setText(String.valueOf(countTotalBoardingHouse()));
         dormitoryCountDisplay.setText(String.valueOf(countTotalDormitory()));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fetchProperties();
     }
 }

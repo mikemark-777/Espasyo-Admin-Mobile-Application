@@ -3,6 +3,7 @@ package com.capstone.espasyoadmin.admin.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,9 +15,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMapReadyCallback {
 
@@ -29,12 +33,7 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
 
     private GoogleMap gMap;
 
-    private Property chosenProperty;
-
-    private String propertyName;
-    private String propertyAddress;
-    private double propertyLatitude,
-            propertyLongitude;
+    private ArrayList<Property> propertyMasterlist;
 
     private FloatingActionButton FABChangeMapType;
 
@@ -44,6 +43,10 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
         setContentView(R.layout.admin_activity_properties_on_map);
 
         initializeViews();
+        Intent intent = getIntent();
+        getDataFromIntent(intent);
+
+
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment_propertiesOnMap);
         mapFragment.getMapAsync(this);
@@ -54,6 +57,8 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
                 if (gMap.getMapType() == GoogleMap.MAP_TYPE_NORMAL) {
                     gMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 } else if (gMap.getMapType() == GoogleMap.MAP_TYPE_SATELLITE) {
+                    gMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                } else if (gMap.getMapType() == GoogleMap.MAP_TYPE_TERRAIN) {
                     gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 }
             }
@@ -68,6 +73,10 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
         LatLng BayombongDefault = new LatLng(16.4845001, 121.1563895);
         gMap.addMarker(new MarkerOptions().position(BayombongDefault).title("Bayombong")).showInfoWindow();
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BayombongDefault, 16.0f));
+        if(propertyMasterlist != null) {
+            displayPropertiesOnMap();
+        }
+
 
 /*        LatLng previousLocation = new LatLng(propertyLatitude, propertyLongitude);
         gMap.addMarker(new MarkerOptions().position(previousLocation)
@@ -78,5 +87,28 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
 
     public void initializeViews() {
         FABChangeMapType = findViewById(R.id.FABChangeMapType);
+    }
+
+    public void getDataFromIntent(Intent intent) {
+        propertyMasterlist = intent.getParcelableArrayListExtra("propertyMasterlist");
+    }
+
+    //will get all data
+    public void displayPropertiesOnMap() {
+        for(Property propertyObj : propertyMasterlist) {
+            //get data from property
+            String propertyName = propertyObj.getName();
+            String address = propertyObj.getAddress();
+            double latitude = propertyObj.getLatitude();
+            double longitude = propertyObj.getLongitude();
+
+            LatLng property = new LatLng(latitude, longitude);
+            gMap.addMarker(new MarkerOptions()
+                    .position(property)
+                    .title(propertyName)
+                    .snippet(address)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+                    .showInfoWindow();;
+        }
     }
 }
