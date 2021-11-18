@@ -91,8 +91,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                           String reason = result.getData().getStringExtra("reason");
                             setDeclinedVerificationDescription(reason);
-                        } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
-                            Toast.makeText(CheckVerificationRequestActivity.this, "Declined Unsuccessful", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -48,12 +48,6 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                app:cardElevation="6dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -343,9 +337,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
         </LinearLayout>
     </ScrollView>
 

@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.DeclinedRequestDetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.VerifiedRequestDetailsActivity"
             android:exported="true" />
         <activity
