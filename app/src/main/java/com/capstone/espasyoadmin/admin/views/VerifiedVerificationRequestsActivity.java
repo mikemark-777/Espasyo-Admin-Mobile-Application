@@ -118,7 +118,7 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
     @Override
     public void onVerificationRequestClick(int position) {
         // get the position of the clicked verification request
-        Intent intent = new Intent(VerifiedVerificationRequestsActivity.this, CheckVerificationRequestActivity.class);
+        Intent intent = new Intent(VerifiedVerificationRequestsActivity.this, VerifiedRequestDetailsActivity.class);
         intent.putExtra("verificationRequest", verifiedVerifications.get(position));
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

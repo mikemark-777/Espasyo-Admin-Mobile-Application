@@ -5,11 +5,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -108,7 +110,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         btnVerifyVerificationRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyRequest();
+                showConfirmVerify();
             }
         });
 
@@ -206,6 +208,36 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                 .load(businessPermitImageURL)
                 .placeholder(R.drawable.img_unverified_verification_requests)
                 .into(displayBusinessPermit);
+    }
+
+    public void showConfirmVerify() {
+        LayoutInflater inflater = LayoutInflater.from(CheckVerificationRequestActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_verify_request, null);
+
+        Button btnConfirmVerify = view.findViewById(R.id.btnConfirmVerify);
+        Button btnCancelVerify = view.findViewById(R.id.btnCancelVerify);
+
+        AlertDialog confirmVerify = new AlertDialog.Builder(CheckVerificationRequestActivity.this)
+                .setView(view)
+                .create();
+
+        btnConfirmVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verifyRequest();
+                confirmVerify.dismiss();
+            }
+        });
+
+        btnCancelVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmVerify.dismiss();
+            }
+        });
+
+
+        confirmVerify.show();
     }
 
     public void verifyRequest() {

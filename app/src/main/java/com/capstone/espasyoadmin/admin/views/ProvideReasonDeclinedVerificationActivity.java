@@ -36,7 +36,7 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(areReasonsBlank()) {
-                    Toast.makeText(ProvideReasonDeclinedVerificationActivity.this, "Reasons Blank", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProvideReasonDeclinedVerificationActivity.this, "Please choose a reason", Toast.LENGTH_SHORT).show();
                 } else {
                     confirmDeclineVerification();
                 }
