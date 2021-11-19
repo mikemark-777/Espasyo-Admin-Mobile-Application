@@ -11,8 +11,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,19 +36,17 @@
                     android:id="@+id/imageView5"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="96dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="24dp"
                     android:src="@drawable/icon_declined"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView2"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="Declined"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -54,7 +54,17 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.485" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_menu_dots"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -81,7 +91,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/displayStatus_verified"
+                        android:id="@+id/displayStatus_declined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -104,7 +114,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/displayClassification_verified"
+                        android:id="@+id/displayClassification_declined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
@@ -127,7 +137,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/displayDateSubmitted_verified"
+                        android:id="@+id/displayDateSubmitted_declined"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wednesday, December 15, 2021"
@@ -171,7 +181,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Declined verification description:"
+                            android:text="Reason why this request was declined:"
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -184,8 +194,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/displayReason_declined"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="22dp"
                             android:layout_marginTop="8dp"
                             android:text="Reason Here" />
 
@@ -244,7 +256,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/displayPropertyName_verified"
+                                android:id="@+id/displayPropertyName_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -268,7 +280,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/displayPropertyType_verified"
+                                android:id="@+id/displayPropertyType_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -292,7 +304,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/displayPropertyAddress_verified"
+                                android:id="@+id/displayPropertyAddress_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -316,7 +328,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/displayProprietorName_verified"
+                                android:id="@+id/displayProprietorName_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -340,7 +352,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/displayLandlordName_verified"
+                                android:id="@+id/displayLandlordName_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -370,7 +382,7 @@
                                 android:textSize="13sp" />
 
                             <TextView
-                                android:id="@+id/displayLandlordPhoneNumber_verified"
+                                android:id="@+id/displayLandlordPhoneNumber_declined"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
@@ -394,12 +406,11 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/displayBusinessPermitImageView_verified"
-                    android:layout_width="match_parent"
+                    android:id="@+id/displayBusinessPermitImageView_declined"
+                    android:layout_width="250dp"
                     android:layout_height="220dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/img_verified_verification_requests" />
-
-                <!--here cardview-->
 
             </LinearLayout>
         </LinearLayout>

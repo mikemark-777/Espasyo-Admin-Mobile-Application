@@ -57,7 +57,8 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
     private ImageView displayBusinessPermit;
 
     private Button btnVerifyVerificationRequest,
-                   btnDeclineVerificationRequest;
+                   btnDeclineVerificationRequest,
+                   btnViewProperty;
 
     private ActivityResultLauncher<Intent> DeclineVerificationActivityResultLauncher;
 
@@ -118,6 +119,17 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                 getDeclineRequestDescription();
             }
         });
+
+        btnViewProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckVerificationRequestActivity.this, PropertyDetailsActivity.class);
+                intent.putExtra("property", property);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
     }
 
     public void initializeViews() {
@@ -138,6 +150,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         //buttons
         btnVerifyVerificationRequest = findViewById(R.id.btnVerifyVerificationRequest);
         btnDeclineVerificationRequest = findViewById(R.id.btnDeclineVerificationRequest);
+        btnViewProperty = findViewById(R.id.btnViewProperty_checkVerification);
     }
 
     public void getDataFromIntent(Intent intent) {

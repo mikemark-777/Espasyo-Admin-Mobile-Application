@@ -99,6 +99,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         Intent intent = new Intent(PropertyMasterListActivity.this, PropertyDetailsActivity.class);
         intent.putExtra("property", chosenProperty);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
     }
 }
