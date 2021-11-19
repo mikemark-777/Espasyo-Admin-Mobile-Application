@@ -47,7 +47,6 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
         getDataFromIntent(intent);
 
 
-
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment_propertiesOnMap);
         mapFragment.getMapAsync(this);
 
