@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="4dp"
+    app:cardBackgroundColor="@color/espasyo_blue_700">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:layout_marginStart="12dp">
+
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/img_room_door"
+            android:scaleType="fitStart"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room "
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/roomName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Room Name"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Php "
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/roomPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1000.00"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Available"
+                android:textSize="16sp"
+                android:textColor="@color/espasyo_green_200"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/icon_number_of_persons"/>
+
+                <TextView
+                    android:id="@+id/numberOfPersons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="16dp"/>
+
+                <ImageView
+                    android:id="@+id/icon_hasBathroom_roomItem"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="1dp"
+                    android:src="@drawable/icon_bathroom"
+                    android:layout_marginRight="16dp"/>
+
+                <ImageView
+                    android:id="@+id/icon_hasKitchen_roomItem"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="3dp"
+                    android:src="@drawable/icon_kitchen"/>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

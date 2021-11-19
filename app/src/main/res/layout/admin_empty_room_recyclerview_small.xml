@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="232dp"
         android:layout_height="wrap_content"
-        android:text="Your added rooms will appear here"
+        android:text="Rooms of this property will appear here"
         android:textSize="12sp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -24,9 +24,9 @@
         app:layout_constraintVertical_bias="0.588" />
 
     <TextView
-        android:layout_width="232dp"
-        android:layout_height="wrap_content"
-        android:text="Your added rooms will appear here"
+        android:layout_width="248dp"
+        android:layout_height="35dp"
+        android:text="Rooms of this property will appear here"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

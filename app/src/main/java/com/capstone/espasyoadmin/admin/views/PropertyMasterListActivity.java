@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -91,6 +92,13 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
 
     @Override
     public void onPropertyClick(int position) {
+
+        //get the property clicked
+        Property chosenProperty = propertyMasterList.get(position);
+
+        Intent intent = new Intent(PropertyMasterListActivity.this, PropertyDetailsActivity.class);
+        intent.putExtra("property", chosenProperty);
+        startActivity(intent);
 
     }
 }
