@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -117,7 +118,11 @@ public class DeclinedVerificationRequestsActivity extends AppCompatActivity impl
 
     @Override
     public void onVerificationRequestClick(int position) {
-
+        // get the position of the clicked verification request
+        Intent intent = new Intent(DeclinedVerificationRequestsActivity.this, DeclinedRequestDetailsActivity.class);
+        intent.putExtra("verificationRequest", declinedVerifications.get(position));
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
