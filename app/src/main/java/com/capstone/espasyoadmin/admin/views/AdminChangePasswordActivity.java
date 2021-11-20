@@ -40,13 +40,10 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
 
-    private TextInputLayout textInputEmailLayout, textInputCurrentPasswordLayout, textInputNewPasswordLayout;
-    private TextInputEditText textInputEmail, textInputCurrentPassword, textInputNewPassword;
+    private TextInputLayout textInputCurrentPasswordLayout, textInputNewPasswordLayout, textInputConfirmPasswordLayout;
+    private TextInputEditText textInputCurrentPassword, textInputNewPassword, textInputConfirmPassword;
     private Button btnChangePassword, btnCancelChangePassword;
     private ProgressBar changePasswordProgressBar;
-
-
-    private boolean currentEmailExists = false;
 
     private Admin admin;
 
@@ -66,29 +63,14 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = textInputEmail.getText().toString();
+                //get email from current admin
+                String email = admin.getEmail();
                 String currentPassword = textInputCurrentPassword.getText().toString();
                 String newPassword = textInputNewPassword.getText().toString();
+                String confirmPassword = textInputConfirmPassword.getText().toString();
 
-                if(areInputsValid(email, currentPassword, newPassword)) {
-                    checkIfEmailExist(email);
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (currentEmailExists) {
-                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            showConfirmationDialog(email, currentPassword, newPassword);
-                                        }
-                                    }, 4000);
-                            } else {
-                                textInputEmailLayout.setError("Email do not exist");
-                            }
-                        }
-                    }, 5000);
-                } else {
-
+                if(arePasswordsValid(currentPassword, newPassword, confirmPassword)) {
+                    showConfirmationDialog(email, currentPassword, newPassword);
                 }
             }
         });
@@ -97,14 +79,14 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
 
     public void initializeViews() {
         //textInputLayouts
-        textInputEmailLayout = findViewById(R.id.text_input_email_layout_changePassword);
         textInputCurrentPasswordLayout = findViewById(R.id.text_input_currentPassword_layout_changePassword);
         textInputNewPasswordLayout = findViewById(R.id.text_input_newPassword_layout_changePassword);
+        textInputConfirmPasswordLayout = findViewById(R.id.text_input_confirmPassword_layout_changePassword);
 
         //textInputEditText
-        textInputEmail = findViewById(R.id.text_input_email_changePassword);
         textInputCurrentPassword= findViewById(R.id.text_input_currentPassword_changePassword);
         textInputNewPassword = findViewById(R.id.text_input_newPassword_changePassword);
+        textInputConfirmPassword = findViewById(R.id.text_input_confirmPassword_changePassword);
 
         //button
         btnChangePassword = findViewById(R.id.btnChangePassword);
@@ -120,17 +102,6 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
 
     // Functions
     // ------ input validations -------------------------------
-
-    private boolean isEmailAddressEmpty(String email) {
-        if(email.isEmpty()) {
-            textInputEmailLayout.setError("Email Address field cannot be empty");
-            return false;
-        } else {
-            textInputEmailLayout.setError(null);
-            return true;
-        }
-    }
-
 
     private boolean isCurrentPasswordValid(String currentPassword) {
         if(currentPassword.isEmpty()) {
@@ -152,12 +123,57 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         }
     }
 
-    private boolean areInputsValid(String emailAddress, String currentPassword, String newPassword) {
-        boolean mailAddressResult = isEmailAddressEmpty(emailAddress);
+    /* Check if password1 and password2 are not empty and match*/
+    private Boolean arePasswordsValid(String currentPassword, String newPassword, String confirmPassword) {
+
+        if(areInputsValid(currentPassword, newPassword, confirmPassword)) {
+            if(newPassword.length() > 5 && confirmPassword.length() > 5) {
+
+                if(matchPassword(newPassword, confirmPassword)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                textInputNewPasswordLayout.setError("Password must be 6-15 characters");
+                textInputConfirmPasswordLayout.setError("Password must be 6-15 characters");
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+    }
+
+    /* Check if password1 and password2 are match*/
+    private Boolean matchPassword(String password, String confirmPassword) {
+
+        if(password.equals(confirmPassword)) {
+            return true;
+        } else {
+            textInputNewPasswordLayout.setError("Password Not Match");
+            textInputConfirmPasswordLayout.setError("Password Not Match");
+            return false;
+        }
+    }
+
+
+    private boolean isConfirmPasswordValid(String confirmPassword) {
+        if(confirmPassword.isEmpty()) {
+            textInputConfirmPasswordLayout.setError("Confirm Password field cannot be empty");
+            return false;
+        } else {
+            textInputConfirmPasswordLayout.setError(null);
+            return true;
+        }
+    }
+
+    private boolean areInputsValid(String currentPassword, String newPassword, String confirmPassword) {
         boolean currentPasswordResult = isCurrentPasswordValid(currentPassword);
         boolean newPasswordResult = isNewPasswordValid(newPassword);
+        boolean confirmPasswordResult = isConfirmPasswordValid(confirmPassword);
 
-        if(mailAddressResult == true && currentPasswordResult == true && newPasswordResult == true) {
+        if(currentPasswordResult == true && newPasswordResult == true && confirmPasswordResult== true) {
             return true;
         } else {
             return false;
@@ -181,27 +197,6 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
             }
         }).create().show();
     }
-
-    public void checkIfEmailExist(String email) {
-        //check if newEmail already exists
-        firebaseAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-            @Override
-            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                if (task.isSuccessful()) {
-                    if (task.getResult().getSignInMethods().size() == 0) {
-                        currentEmailExists = false;
-                    } else {
-                        currentEmailExists = true;
-                        //textInputCurrentEmailLayout.setError("Email already exists");
-                    }
-                } else {
-                    Toast.makeText(AdminChangePasswordActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-    }
-
 
     public void updatePassword(String email, String currentPassword, String newPassword ) {
         changePasswordProgressBar.setVisibility(View.VISIBLE);
