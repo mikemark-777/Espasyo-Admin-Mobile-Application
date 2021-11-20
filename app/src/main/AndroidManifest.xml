@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.AdminChangeEmailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.views.AdminChangeNameActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.RoomDetailsActivity"
             android:exported="true" />
         <activity
@@ -30,7 +36,7 @@
             android:name=".admin.views.ProvideReasonDeclinedVerificationActivity"
             android:exported="true" />
         <activity
-            android:name=".admin.views.AdminProfileActivity"
+            android:name=".admin.views.AdminAccountActivity"
             android:exported="true" />
         <activity
             android:name=".admin.views.PreviewImageActivity"

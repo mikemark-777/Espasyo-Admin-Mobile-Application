@@ -1,6 +1,9 @@
 package com.capstone.espasyoadmin.models;
 
-public class Admin {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Admin implements Parcelable {
     private String adminID;
     private String firstName;
     private String lastName;
@@ -20,6 +23,27 @@ public class Admin {
         this.password = password;
         this.userRole = userRole;
     }
+
+    protected Admin(Parcel in) {
+        adminID = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        password = in.readString();
+        userRole = in.readInt();
+    }
+
+    public static final Creator<Admin> CREATOR = new Creator<Admin>() {
+        @Override
+        public Admin createFromParcel(Parcel in) {
+            return new Admin(in);
+        }
+
+        @Override
+        public Admin[] newArray(int size) {
+            return new Admin[size];
+        }
+    };
 
     public String getAdminID() {
         return adminID;
@@ -67,5 +91,20 @@ public class Admin {
 
     public void setUserRole(int userRole) {
         this.userRole = userRole;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(adminID);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeInt(userRole);
     }
 }
