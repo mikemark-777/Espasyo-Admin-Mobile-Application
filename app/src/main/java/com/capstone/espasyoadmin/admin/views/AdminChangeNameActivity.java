@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
@@ -33,7 +34,7 @@ public class AdminChangeNameActivity extends AppCompatActivity {
     private TextInputLayout textInputFirstNameLayout, textInputLastNameLayout;
     private TextInputEditText textInputFirstName, textInputLastName;
     private Button btnChangeName, btnCancelChangeName;
-    private CustomProgressDialog progressDialog;
+    private ProgressBar changeNameProgressBar;
 
     //admin object
     private Admin admin;
@@ -68,7 +69,8 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                         admin.setLastName(lName);
                         updateName(admin);
                     } else {
-                        Toast.makeText(AdminChangeNameActivity.this, "Name is not changed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminChangeNameActivity.this, "Nothing to change", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                 } else {
@@ -91,8 +93,8 @@ public class AdminChangeNameActivity extends AppCompatActivity {
         btnChangeName = findViewById(R.id.btnChangeName);
         btnCancelChangeName = findViewById(R.id.btnCancelChangeName);
 
-        //custom dialog
-        progressDialog = new CustomProgressDialog(AdminChangeNameActivity.this);
+        //progress bar
+        changeNameProgressBar = findViewById(R.id.changeNameProgressBar);
     }
 
     public void getDataFromIntent(Intent intent) {
@@ -157,8 +159,7 @@ public class AdminChangeNameActivity extends AppCompatActivity {
     }
 
     public void updateName(Admin updatedAdmin) {
-        progressDialog.showProgressDialog("Updating Name...", false);
-
+        changeNameProgressBar.setVisibility(View.VISIBLE);
         String adminID = admin.getAdminID();
         DocumentReference userDocRef = database.collection("users").document(adminID);
         DocumentReference adminDocRef = database.collection("admins").document(adminID);
@@ -174,11 +175,9 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (progressDialog.isShowing()) {
-                                    progressDialog.dismissProgressDialog();
+                                    changeNameProgressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
                                     finish();
-                                }
                             }
                         }, 3000);
                     }

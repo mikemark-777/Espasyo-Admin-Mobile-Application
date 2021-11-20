@@ -147,57 +147,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnChangeEmail_account"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="1dp"
-            android:elevation="1dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/emailIcon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/icon_email"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.52" />
-
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:text="Change Email"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/arrow2"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/emailIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/arrow2"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/icon_arrow_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnChangePassword_account"

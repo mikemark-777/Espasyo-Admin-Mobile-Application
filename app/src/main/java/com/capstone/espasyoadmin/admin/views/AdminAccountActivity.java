@@ -34,7 +34,6 @@ public class AdminAccountActivity extends AppCompatActivity {
             displayAdminEmail;
 
     private CardView btnChangeName,
-            btnChangeEmail,
             btnChangePassword,
             btnLogout,
             btnDeleteAccount;
@@ -61,17 +60,12 @@ public class AdminAccountActivity extends AppCompatActivity {
             }
         });
 
-        btnChangeEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AdminAccountActivity.this, "Change Email", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminAccountActivity.this, "Change Password", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminAccountActivity.this, AdminChangePasswordActivity.class);
+                intent.putExtra("admin", admin);
+                startActivity(intent);
             }
         });
 
@@ -106,7 +100,6 @@ public class AdminAccountActivity extends AppCompatActivity {
 
         //cardviews
         btnChangeName = findViewById(R.id.btnChangeName_account);
-        btnChangeEmail = findViewById(R.id.btnChangeEmail_account);
         btnChangePassword = findViewById(R.id.btnChangePassword_account);
         btnLogout = findViewById(R.id.btnLogout_account);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount_account);
