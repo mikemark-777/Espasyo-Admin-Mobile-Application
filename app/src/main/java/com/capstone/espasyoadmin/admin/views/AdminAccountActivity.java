@@ -37,14 +37,14 @@ public class AdminAccountActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
 
+    private Admin admin;
+
     private AuthViewModel viewModel;
     public static final String SHARED_PREFS = "sharedPrefsAdmin";
     public static final String USER_ROLE = "userRole";
 
-    private Admin admin;
-
     private ImageView exitAdminAccountPage;
-    private TextView displayAdminName,displayAdminEmail;
+    private TextView displayAdminName, displayAdminEmail;
     private CardView btnChangeName, btnChangePassword, btnLogout, btnDeleteAccount;
     private CustomProgressDialog progressDialog;
 
@@ -86,11 +86,11 @@ public class AdminAccountActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.showProgressDialog("Logging out..." , false);
+                progressDialog.showProgressDialog("Logging out...", false);
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(progressDialog.isShowing()) {
+                        if (progressDialog.isShowing()) {
                             removeUserRolePreference();
                             viewModel.signOut();
                             Intent intent = new Intent(AdminAccountActivity.this, MainActivity.class);

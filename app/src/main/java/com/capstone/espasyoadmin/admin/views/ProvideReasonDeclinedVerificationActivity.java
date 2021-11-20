@@ -15,16 +15,9 @@ import com.capstone.espasyoadmin.R;
 public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity {
 
 
-    private CheckBox reason1CheckBox,
-            reason2CheckBox,
-            reason3CheckBox,
-            reason4CheckBox;
-
+    private CheckBox reason1CheckBox, reason2CheckBox, reason3CheckBox, reason4CheckBox;
     private EditText editTextOtherReason;
-
-    private Button btnConfirmDeclineVerificaiton,
-            btnCancelDeclineVerification;
-
+    private Button btnConfirmDeclineVerificaiton, btnCancelDeclineVerification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +28,7 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
         btnConfirmDeclineVerificaiton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(areReasonsBlank()) {
+                if (areReasonsBlank()) {
                     Toast.makeText(ProvideReasonDeclinedVerificationActivity.this, "Please choose a reason", Toast.LENGTH_SHORT).show();
                 } else {
                     confirmDeclineVerification();
@@ -70,33 +63,33 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
 
     public String getReasons() {
         String reason = "";
-        if(reason1CheckBox.isChecked()) {
+        if (reason1CheckBox.isChecked()) {
             reason += "- " + reason1CheckBox.getText().toString() + "\n";
         }
 
-        if(reason2CheckBox.isChecked()) {
+        if (reason2CheckBox.isChecked()) {
             reason += "- " + reason2CheckBox.getText().toString() + "\n";
         }
 
-        if(reason3CheckBox.isChecked()) {
+        if (reason3CheckBox.isChecked()) {
             reason += "- " + reason3CheckBox.getText().toString() + "\n";
         }
 
-        if(reason4CheckBox.isChecked()) {
+        if (reason4CheckBox.isChecked()) {
             reason += "- " + reason4CheckBox.getText().toString() + "\n";
         }
 
         String otherReason = editTextOtherReason.getText().toString();
-        if(otherReason.equals("")) {
+        if (otherReason.equals("")) {
             return reason;
         } else {
-            return reason +  "- " + otherReason + "\n";
+            return reason + "- " + otherReason + "\n";
         }
     }
 
     public boolean areReasonsBlank() {
         String reasons = getReasons();
-        if(reasons.equals("")) {
+        if (reasons.equals("")) {
             return true;
         } else {
             return false;

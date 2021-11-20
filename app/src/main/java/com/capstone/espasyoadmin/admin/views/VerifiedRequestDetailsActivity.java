@@ -30,23 +30,15 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
     //property id and object
     private String propertyID;
     private Property property;
-    private TextView displayStatus,
-            displayClassification,
-            displayDateSubmitted,
-            displayDateVerified,
-            displayPropertyName,
-            displayPropertyType,
-            displayPropertyAddress,
-            displayProprietorName,
-            displayLandlordName,
-            displayLandlordPhoneNumber;
 
+    private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayPropertyName, displayPropertyType, displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView displayBusinessPermit;
 
+    //verificaiton status
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
     private final String DECLINED = "Declined";
-
+    //verification classification
     private final String NEW = "New";
     private final String RENEW = "Renew";
 
@@ -87,6 +79,7 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
 /*        btnVerifyVerificationRequest = findViewById(R.id.btnVerifyVerificationRequest);
         btnDeclineVerificationRequest = findViewById(R.id.btnDeclineVerificationRequest);*/
     }
+
     public void getDataFromIntent(Intent intent) {
         verificationRequest = intent.getParcelableExtra("verificationRequest");
     }
@@ -127,7 +120,7 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
         String landlordName = property.getLandlordName();
         String landlordPhoneNumber = property.getLandlordPhoneNumber();
 
-        if(status.equals("verified")){
+        if (status.equals("verified")) {
             displayStatus.setText(VERIFIED);
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_green_200));
         } else if (status.equals("unverified")) {
@@ -135,9 +128,9 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_200));
         }
 
-        if(classification.equals("new")) {
+        if (classification.equals("new")) {
             displayClassification.setText(NEW);
-        } else if(classification.equals("renew")) {
+        } else if (classification.equals("renew")) {
             displayClassification.setText(RENEW);
         }
 

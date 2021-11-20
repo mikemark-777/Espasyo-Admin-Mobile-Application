@@ -44,31 +44,22 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
     private String propertyID;
     private Property property;
 
-    private TextView displayStatus,
-            displayClassification,
-            displayDateSubmitted,
-            displayPropertyName,
-            displayPropertyType,
-            displayPropertyAddress,
-            displayProprietorName,
-            displayLandlordName,
-            displayLandlordPhoneNumber;
-
+    private TextView displayStatus, displayClassification, displayDateSubmitted, displayPropertyName, displayPropertyType,
+            displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView displayBusinessPermit;
 
-    private Button btnVerifyVerificationRequest,
-                   btnDeclineVerificationRequest,
-                   btnViewProperty;
+    private Button btnVerifyVerificationRequest, btnDeclineVerificationRequest, btnViewProperty;
 
     private ActivityResultLauncher<Intent> DeclineVerificationActivityResultLauncher;
 
+    //verificaiton status
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
     private final String DECLINED = "Declined";
-    
+
+    //verificaiton classification
     private final String NEW = "New";
     private final String RENEW = "Renew";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +81,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                          String reason = result.getData().getStringExtra("reason");
+                            String reason = result.getData().getStringExtra("reason");
                             setDeclinedVerificationDescription(reason);
                         }
                     }
@@ -169,11 +160,11 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                         displayVerificationDetails();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void displayVerificationDetails() {
@@ -192,7 +183,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         String landlordName = property.getLandlordName();
         String landlordPhoneNumber = property.getLandlordPhoneNumber();
 
-        if(status.equals("verified")){
+        if (status.equals("verified")) {
             displayStatus.setText(VERIFIED);
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_green_200));
         } else if (status.equals("unverified")) {
@@ -200,9 +191,9 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_200));
         }
 
-        if(classification.equals("new")) {
+        if (classification.equals("new")) {
             displayClassification.setText(NEW);
-        } else if(classification.equals("renew")) {
+        } else if (classification.equals("renew")) {
             displayClassification.setText(RENEW);
         }
 

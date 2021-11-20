@@ -23,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ShowAllRoomsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener{
+public class ShowAllRoomsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
@@ -93,7 +93,7 @@ public class ShowAllRoomsActivity extends AppCompatActivity implements RoomAdapt
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         allRooms.clear();
-                        for(QueryDocumentSnapshot room : queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot room : queryDocumentSnapshots) {
                             Room roomObj = room.toObject(Room.class);
                             allRooms.add(roomObj);
                         }

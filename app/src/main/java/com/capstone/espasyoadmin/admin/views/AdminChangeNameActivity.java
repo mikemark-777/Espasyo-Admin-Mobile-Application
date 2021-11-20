@@ -31,16 +31,16 @@ public class AdminChangeNameActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
 
-    private TextInputLayout textInputFirstNameLayout, textInputLastNameLayout;
-    private TextInputEditText textInputFirstName, textInputLastName;
-    private Button btnChangeName, btnCancelChangeName;
-    private ProgressBar changeNameProgressBar;
-
     //admin object
     private Admin admin;
     //admin current firstName and lastName
     private String firstName;
     private String lastName;
+
+    private TextInputLayout textInputFirstNameLayout, textInputLastNameLayout;
+    private TextInputEditText textInputFirstName, textInputLastName;
+    private Button btnChangeName, btnCancelChangeName;
+    private ProgressBar changeNameProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,9 +175,9 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                    changeNameProgressBar.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
-                                    finish();
+                                changeNameProgressBar.setVisibility(View.INVISIBLE);
+                                Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }, 3000);
                     }

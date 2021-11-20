@@ -40,12 +40,13 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
 
+    //admin object
+    private Admin admin;
+
     private TextInputLayout textInputCurrentPasswordLayout, textInputNewPasswordLayout, textInputConfirmPasswordLayout;
     private TextInputEditText textInputCurrentPassword, textInputNewPassword, textInputConfirmPassword;
     private Button btnChangePassword, btnCancelChangePassword;
     private ProgressBar changePasswordProgressBar;
-
-    private Admin admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
                 String newPassword = textInputNewPassword.getText().toString();
                 String confirmPassword = textInputConfirmPassword.getText().toString();
 
-                if(arePasswordsValid(currentPassword, newPassword, confirmPassword)) {
+                if (arePasswordsValid(currentPassword, newPassword, confirmPassword)) {
                     showConfirmationDialog(email, currentPassword, newPassword);
                 }
             }
@@ -84,7 +85,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         textInputConfirmPasswordLayout = findViewById(R.id.text_input_confirmPassword_layout_changePassword);
 
         //textInputEditText
-        textInputCurrentPassword= findViewById(R.id.text_input_currentPassword_changePassword);
+        textInputCurrentPassword = findViewById(R.id.text_input_currentPassword_changePassword);
         textInputNewPassword = findViewById(R.id.text_input_newPassword_changePassword);
         textInputConfirmPassword = findViewById(R.id.text_input_confirmPassword_changePassword);
 
@@ -104,7 +105,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     // ------ input validations -------------------------------
 
     private boolean isCurrentPasswordValid(String currentPassword) {
-        if(currentPassword.isEmpty()) {
+        if (currentPassword.isEmpty()) {
             textInputCurrentPasswordLayout.setError("Current Password field cannot be empty");
             return false;
         } else {
@@ -114,7 +115,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     }
 
     private boolean isNewPasswordValid(String newPassword) {
-        if(newPassword.isEmpty()) {
+        if (newPassword.isEmpty()) {
             textInputNewPasswordLayout.setError("New Password field cannot be empty");
             return false;
         } else {
@@ -126,10 +127,10 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     /* Check if password1 and password2 are not empty and match*/
     private Boolean arePasswordsValid(String currentPassword, String newPassword, String confirmPassword) {
 
-        if(areInputsValid(currentPassword, newPassword, confirmPassword)) {
-            if(newPassword.length() > 5 && confirmPassword.length() > 5) {
+        if (areInputsValid(currentPassword, newPassword, confirmPassword)) {
+            if (newPassword.length() > 5 && confirmPassword.length() > 5) {
 
-                if(matchPassword(newPassword, confirmPassword)) {
+                if (matchPassword(newPassword, confirmPassword)) {
                     return true;
                 } else {
                     return false;
@@ -148,7 +149,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     /* Check if password1 and password2 are match*/
     private Boolean matchPassword(String password, String confirmPassword) {
 
-        if(password.equals(confirmPassword)) {
+        if (password.equals(confirmPassword)) {
             return true;
         } else {
             textInputNewPasswordLayout.setError("Password Not Match");
@@ -159,7 +160,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
 
 
     private boolean isConfirmPasswordValid(String confirmPassword) {
-        if(confirmPassword.isEmpty()) {
+        if (confirmPassword.isEmpty()) {
             textInputConfirmPasswordLayout.setError("Confirm Password field cannot be empty");
             return false;
         } else {
@@ -173,7 +174,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         boolean newPasswordResult = isNewPasswordValid(newPassword);
         boolean confirmPasswordResult = isConfirmPasswordValid(confirmPassword);
 
-        if(currentPasswordResult == true && newPasswordResult == true && confirmPasswordResult== true) {
+        if (currentPasswordResult == true && newPasswordResult == true && confirmPasswordResult == true) {
             return true;
         } else {
             return false;
@@ -198,7 +199,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         }).create().show();
     }
 
-    public void updatePassword(String email, String currentPassword, String newPassword ) {
+    public void updatePassword(String email, String currentPassword, String newPassword) {
         changePasswordProgressBar.setVisibility(View.VISIBLE);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(email, currentPassword);
@@ -207,13 +208,13 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                  //set new password to admin Object
-                                  admin.setPassword(newPassword);
-                                  updatePasswordOnDatabase(admin, newPassword);
+                                    //set new password to admin Object
+                                    admin.setPassword(newPassword);
+                                    updatePasswordOnDatabase(admin, newPassword);
                                 }
                             });
                         } else {

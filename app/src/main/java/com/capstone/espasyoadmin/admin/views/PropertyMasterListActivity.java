@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PropertyMasterListActivity extends AppCompatActivity implements PropertyAdapter.OnPropertyListener{
+public class PropertyMasterListActivity extends AppCompatActivity implements PropertyAdapter.OnPropertyListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseFirestore database;
@@ -46,10 +46,8 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         database = firebaseConnection.getFirebaseFirestoreInstance();
         propertyMasterList = new ArrayList<>();
 
-
         initPropertyRecyclerView();
         fetchUserProperties();
-
     }
 
     public void initPropertyRecyclerView() {
@@ -92,7 +90,6 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
 
     @Override
     public void onPropertyClick(int position) {
-
         //get the property clicked
         Property chosenProperty = propertyMasterList.get(position);
 
@@ -100,6 +97,5 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         intent.putExtra("property", chosenProperty);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
     }
 }

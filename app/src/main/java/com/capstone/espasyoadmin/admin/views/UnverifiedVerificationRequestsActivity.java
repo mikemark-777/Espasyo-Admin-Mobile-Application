@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class UnverifiedVerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener  {
+public class UnverifiedVerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
@@ -59,7 +59,7 @@ public class UnverifiedVerificationRequestsActivity extends AppCompatActivity im
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(progressDialog.isShowing()) {
+                if (progressDialog.isShowing()) {
                     progressDialog.dismissProgressDialog();
                 }
             }
@@ -107,7 +107,7 @@ public class UnverifiedVerificationRequestsActivity extends AppCompatActivity im
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         unverifiedVerifications.clear();
-                        for(QueryDocumentSnapshot verification : queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
                             VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
                             unverifiedVerifications.add(verificationRequestObject);
                         }

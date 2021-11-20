@@ -22,8 +22,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMapReadyCallback {
+public class PropertiesOnMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private GoogleMap gMap;
     private SupportMapFragment mapFragment;
 
     private int LOCATION_PERMISSION_CODE = 1;
@@ -31,10 +32,7 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
     private NetworkInfo mobileConnection;
     private NetworkInfo wifiConnection;
 
-    private GoogleMap gMap;
-
     private ArrayList<Property> propertyMasterlist;
-
     private FloatingActionButton FABChangeMapType;
 
     @Override
@@ -45,7 +43,6 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
         initializeViews();
         Intent intent = getIntent();
         getDataFromIntent(intent);
-
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment_propertiesOnMap);
         mapFragment.getMapAsync(this);
@@ -72,16 +69,9 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
         LatLng BayombongDefault = new LatLng(16.4845001, 121.1563895);
         gMap.addMarker(new MarkerOptions().position(BayombongDefault).title("Bayombong")).showInfoWindow();
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BayombongDefault, 16.0f));
-        if(propertyMasterlist != null) {
+        if (propertyMasterlist != null) {
             displayPropertiesOnMap();
         }
-
-
-/*        LatLng previousLocation = new LatLng(propertyLatitude, propertyLongitude);
-        gMap.addMarker(new MarkerOptions().position(previousLocation)
-                .title(propertyName)
-                .snippet(propertyAddress)).showInfoWindow();
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(previousLocation, gMap.getMaxZoomLevel()));*/
     }
 
     public void initializeViews() {
@@ -94,7 +84,7 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
 
     //will get all data
     public void displayPropertiesOnMap() {
-        for(Property propertyObj : propertyMasterlist) {
+        for (Property propertyObj : propertyMasterlist) {
             //get data from property
             String propertyName = propertyObj.getName();
             String address = propertyObj.getAddress();
@@ -107,7 +97,8 @@ public class PropertiesOnMapActivity extends AppCompatActivity  implements OnMap
                     .title(propertyName)
                     .snippet(address)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
-                    .showInfoWindow();;
+                    .showInfoWindow();
+            ;
         }
     }
 }

@@ -22,13 +22,10 @@ public class PreviewImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         previewImageView = findViewById(R.id.previewImageView);
         displayBusinessPermit(intent);
-
     }
 
     public void displayBusinessPermit(Intent intent) {
-
         String previewImageURL = intent.getStringExtra("previewImage");
-
         Picasso.get()
                 .load(previewImageURL)
                 .placeholder(R.drawable.img_gallery)

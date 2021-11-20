@@ -27,21 +27,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PropertyDetailsActivity extends AppCompatActivity  implements RoomAdapter.OnRoomListener{
+public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
     private FirebaseFirestore database;
 
+    //property id and object
+    private String propertyID;
+    private Property property;
+
     private RoomRecyclerView roomRecyclerView;
-    private View roomRecylerViewEmptyState;
     private RoomAdapter roomAdapter;
     private ArrayList<Room> propertyRooms;
-
-    private Property property;
+    private View roomRecylerViewEmptyState;
     private View showAllRooms;
-    private String propertyID;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,16 +105,16 @@ public class PropertyDetailsActivity extends AppCompatActivity  implements RoomA
         ImageView internetImageView = findViewById(R.id.icon_internet);
         ImageView garbageCollectionImageView = findViewById(R.id.icon_garbage);
 
-        if(!isElectricityIncluded) {
+        if (!isElectricityIncluded) {
             electricityImageView.setImageResource(R.drawable.icon_no_electricity);
         }
-        if(!isWaterIncluded) {
+        if (!isWaterIncluded) {
             waterImageView.setImageResource(R.drawable.icon_no_water);
         }
-        if(!isInternetIncluded) {
+        if (!isInternetIncluded) {
             internetImageView.setImageResource(R.drawable.icon_no_internet);
         }
-        if(!isGarbageCollectionIncluded) {
+        if (!isGarbageCollectionIncluded) {
             garbageCollectionImageView.setImageResource(R.drawable.icon_no_garbage);
         }
 
@@ -153,7 +155,7 @@ public class PropertyDetailsActivity extends AppCompatActivity  implements RoomA
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         propertyRooms.clear();
-                        for(QueryDocumentSnapshot room : queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot room : queryDocumentSnapshots) {
                             Room roomObj = room.toObject(Room.class);
                             propertyRooms.add(roomObj);
                         }

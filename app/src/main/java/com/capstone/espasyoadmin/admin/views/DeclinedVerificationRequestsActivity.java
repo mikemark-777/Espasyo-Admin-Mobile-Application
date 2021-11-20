@@ -59,7 +59,7 @@ public class DeclinedVerificationRequestsActivity extends AppCompatActivity impl
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(progressDialog.isShowing()) {
+                if (progressDialog.isShowing()) {
                     progressDialog.dismissProgressDialog();
                 }
             }
@@ -107,7 +107,7 @@ public class DeclinedVerificationRequestsActivity extends AppCompatActivity impl
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         declinedVerifications.clear();
-                        for(QueryDocumentSnapshot verification : queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
                             VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
                             declinedVerifications.add(verificationRequestObject);
                         }

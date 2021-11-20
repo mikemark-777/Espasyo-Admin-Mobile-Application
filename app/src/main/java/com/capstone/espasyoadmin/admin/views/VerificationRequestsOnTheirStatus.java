@@ -11,9 +11,7 @@ import com.capstone.espasyoadmin.R;
 
 public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
 
-    private CardView btnGotoVerifiedRequests,
-            btnGotoUnverifiedRequests,
-            btnGotoDeclinedRequests;
+    private CardView btnGotoVerifiedRequests, btnGotoUnverifiedRequests, btnGotoDeclinedRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +47,6 @@ public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
         btnGotoVerifiedRequests = findViewById(R.id.btnGotoVerifiedRequests);
         btnGotoUnverifiedRequests = findViewById(R.id.btnGotoUnverifiedRequests);
         btnGotoDeclinedRequests = findViewById(R.id.btnGotoDeclinedRequests);
-
-
     }
 
     public void gotoVerifiedRequests() {
