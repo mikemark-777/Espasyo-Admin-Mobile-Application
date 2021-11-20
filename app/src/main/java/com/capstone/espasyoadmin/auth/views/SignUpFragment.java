@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.auth.viewmodels.AuthViewModel;
 import com.capstone.espasyoadmin.models.Admin;
 import com.capstone.espasyoadmin.models.User;
@@ -39,7 +40,8 @@ import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class SignUpFragment extends Fragment {
 
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private FirebaseConnection firebaseConnection;
+    private FirebaseAuth firebaseAuth;
     private AuthViewModel viewModel;
     private NavController navController;
 
@@ -67,6 +69,10 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebaseConnection = FirebaseConnection.getInstance();
+        firebaseAuth = firebaseConnection.getFirebaseAuthInstance();
+
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getActivity().getApplication())).get(AuthViewModel.class);
 
@@ -75,7 +81,6 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) {
-
                     if (firebaseUser.isEmailVerified()) {
                         //TODO:must include logout user for them to try login in their verified credentials
                         viewModel.signOut();

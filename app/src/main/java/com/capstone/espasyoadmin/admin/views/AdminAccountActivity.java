@@ -3,20 +3,30 @@ package com.capstone.espasyoadmin.admin.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.capstone.espasyoadmin.MainActivity;
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
+import com.capstone.espasyoadmin.auth.viewmodels.AuthViewModel;
 import com.capstone.espasyoadmin.models.Admin;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,22 +36,24 @@ public class AdminAccountActivity extends AppCompatActivity {
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
+
+    private AuthViewModel viewModel;
+    public static final String SHARED_PREFS = "sharedPrefsAdmin";
+    public static final String USER_ROLE = "userRole";
+
     private Admin admin;
 
     private ImageView exitAdminAccountPage;
-
-    private TextView displayAdminName,
-            displayAdminEmail;
-
-    private CardView btnChangeName,
-            btnChangePassword,
-            btnLogout,
-            btnDeleteAccount;
+    private TextView displayAdminName,displayAdminEmail;
+    private CardView btnChangeName, btnChangePassword, btnLogout, btnDeleteAccount;
+    private CustomProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_activity_admin_account);
+
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         //initialize firebase
         firebaseConnection = FirebaseConnection.getInstance();
@@ -50,6 +62,8 @@ public class AdminAccountActivity extends AppCompatActivity {
 
         initializeViews();
         getAdminAccountData();
+
+        Toast.makeText(AdminAccountActivity.this, "User Role: " + getUserRole(), Toast.LENGTH_SHORT).show();
 
         btnChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +86,19 @@ public class AdminAccountActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminAccountActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                progressDialog.showProgressDialog("Logging out..." , false);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(progressDialog.isShowing()) {
+                            removeUserRolePreference();
+                            viewModel.signOut();
+                            Intent intent = new Intent(AdminAccountActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                }, 3000);
             }
         });
 
@@ -103,6 +129,9 @@ public class AdminAccountActivity extends AppCompatActivity {
         btnChangePassword = findViewById(R.id.btnChangePassword_account);
         btnLogout = findViewById(R.id.btnLogout_account);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount_account);
+
+        //progress bars
+        progressDialog = new CustomProgressDialog(AdminAccountActivity.this);
     }
 
     public void getAdminAccountData() {
@@ -129,6 +158,22 @@ public class AdminAccountActivity extends AppCompatActivity {
 
         displayAdminName.setText(adminName);
         displayAdminEmail.setText(adminEmail);
+    }
+
+    //remove USER_ROLE in sharedPreferences
+    public void removeUserRolePreference() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.remove(USER_ROLE);
+        editor.apply();
+    }
+
+    public int getUserRole() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        int userRole = sharedPreferences.getInt(USER_ROLE, 0);
+
+        return userRole;
     }
 
     @Override

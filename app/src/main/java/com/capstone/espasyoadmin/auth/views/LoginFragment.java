@@ -48,7 +48,7 @@ public class LoginFragment extends Fragment {
     private TextInputLayout textInputEmailLayout, textInputPasswordLayout;
     private TextInputEditText textInputEmail, textInputPassword;
     private Button btnLogin;
-    private TextView gotoSignUp;
+    private TextView gotoSignUp, btnForgotPassword;
     private ProgressBar loginProgressBar;
 
     private AuthViewModel viewModel;
@@ -136,24 +136,21 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TextInputLayouts
-        textInputEmailLayout = view.findViewById(R.id.text_input_email_layout_login);
-        textInputPasswordLayout = view.findViewById(R.id.text_input_password_layout_login);
-
-        //TextInputEditTexts
-        textInputEmail = view.findViewById(R.id.text_input_email_login);
-        textInputPassword = view.findViewById(R.id.text_input_password_login);
-
-        gotoSignUp = view.findViewById(R.id.gotoSignUp);
-        btnLogin = view.findViewById(R.id.btnLogin);
-        navController = Navigation.findNavController(view);
-        loginProgressBar = view.findViewById(R.id.loginProgressBar);
+        //initialize views
+        initializeViews(view);
 
         //Navigate to Signup Fragment
         gotoSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_loginFragment_to_signUpFragment);
+            }
+        });
+
+        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
             }
         });
 
@@ -224,6 +221,22 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    public void initializeViews(View view) {
+        // TextInputLayouts
+        textInputEmailLayout = view.findViewById(R.id.text_input_email_layout_login);
+        textInputPasswordLayout = view.findViewById(R.id.text_input_password_layout_login);
+
+        //TextInputEditTexts
+        textInputEmail = view.findViewById(R.id.text_input_email_login);
+        textInputPassword = view.findViewById(R.id.text_input_password_login);
+
+        gotoSignUp = view.findViewById(R.id.gotoSignUp);
+        btnForgotPassword = view.findViewById(R.id.btnForgotPassword);
+        btnLogin = view.findViewById(R.id.btnLogin);
+        navController = Navigation.findNavController(view);
+        loginProgressBar = view.findViewById(R.id.loginProgressBar);
+    }
+
     public void resetUserRole() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -246,5 +259,4 @@ public class LoginFragment extends Fragment {
 
         return userRole;
     }
-
 }
