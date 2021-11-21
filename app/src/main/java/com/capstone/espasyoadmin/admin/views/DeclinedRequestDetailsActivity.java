@@ -177,7 +177,7 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
         String landlordPhoneNumber = landlord.getPhoneNumber();
 
         displayLandlordName.setText(landlordName);
-        displayLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
+        displayLandlordPhoneNumber.setText(landlordPhoneNumber);
     }
 
 }

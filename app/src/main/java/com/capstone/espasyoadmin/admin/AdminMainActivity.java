@@ -3,6 +3,8 @@ package com.capstone.espasyoadmin.admin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.capstone.espasyoadmin.MainActivity;
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
@@ -20,9 +23,11 @@ import com.capstone.espasyoadmin.admin.views.AdminAccountActivity;
 import com.capstone.espasyoadmin.admin.views.PropertiesOnMapActivity;
 import com.capstone.espasyoadmin.admin.views.PropertyMasterListActivity;
 import com.capstone.espasyoadmin.admin.views.VerificationRequestsOnTheirStatus;
+import com.capstone.espasyoadmin.auth.viewmodels.AuthViewModel;
 import com.capstone.espasyoadmin.models.Property;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

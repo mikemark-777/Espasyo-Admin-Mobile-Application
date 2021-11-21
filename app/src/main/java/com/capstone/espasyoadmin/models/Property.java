@@ -3,6 +3,19 @@ package com.capstone.espasyoadmin.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
 public class Property implements Parcelable{
 
     private String propertyID;
@@ -50,8 +63,6 @@ public class Property implements Parcelable{
         this.isGarbageCollectionIncluded = isGarbageCollectionIncluded;
     }*/
 
-    //setters
-
     protected Property(Parcel in) {
         propertyID = in.readString();
         owner = in.readString();
@@ -84,6 +95,7 @@ public class Property implements Parcelable{
         }
     };
 
+    //setters
     public void setPropertyID(String propertyID) {
         this.propertyID = propertyID;
     }
@@ -100,11 +112,11 @@ public class Property implements Parcelable{
         this.longitude = longitude;
     }
 
-    public void setIsVerified(boolean verified) {
+    public void setVerified(boolean verified) {
         isVerified = verified;
     }
 
-    public void setIsLocked(boolean locked) {
+    public void setLocked(boolean locked) {
         isLocked = locked;
     }
 
@@ -136,25 +148,28 @@ public class Property implements Parcelable{
         this.maximumPrice = maximumPrice;
     }
 
-    public void setIsElectricityIncluded(boolean electricityIncluded) {
+    public void setElectricityIncluded(boolean electricityIncluded) {
         isElectricityIncluded = electricityIncluded;
     }
 
-    public void setIsWaterIncluded(boolean waterIncluded) {
+    public void setWaterIncluded(boolean waterIncluded) {
         isWaterIncluded = waterIncluded;
     }
 
-    public void setIsInternetIncluded(boolean internetIncluded) {
+    public void setInternetIncluded(boolean internetIncluded) {
         isInternetIncluded = internetIncluded;
     }
 
-    public void setIsGarbageCollectionIncluded(boolean garbageCollectionIncluded) {
+    public void setGarbageCollectionIncluded(boolean garbageCollectionIncluded) {
         isGarbageCollectionIncluded = garbageCollectionIncluded;
     }
 
     //getters
 
-    public String getPropertyID() { return propertyID; }
+
+    public String getPropertyID() {
+        return propertyID;
+    }
 
     public String getOwner() {
         return owner;
@@ -168,7 +183,7 @@ public class Property implements Parcelable{
         return longitude;
     }
 
-    public boolean getIsVerified() {
+    public boolean isVerified() {
         return isVerified;
     }
 
@@ -204,19 +219,19 @@ public class Property implements Parcelable{
         return maximumPrice;
     }
 
-    public boolean getIsElectricityIncluded() {
+    public boolean isElectricityIncluded() {
         return isElectricityIncluded;
     }
 
-    public boolean getIsWaterIncluded() {
+    public boolean isWaterIncluded() {
         return isWaterIncluded;
     }
 
-    public boolean getIsInternetIncluded() {
+    public boolean isInternetIncluded() {
         return isInternetIncluded;
     }
 
-    public boolean getIsGarbageCollectionIncluded() {
+    public boolean isGarbageCollectionIncluded() {
         return isGarbageCollectionIncluded;
     }
 

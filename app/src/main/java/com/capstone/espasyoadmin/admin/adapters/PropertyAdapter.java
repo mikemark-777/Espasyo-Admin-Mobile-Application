@@ -44,7 +44,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
         holder.maximumPrice.setText(String.valueOf(property.getMaximumPrice()));
 
 
-        if(property.getIsVerified()) {
+        if(property.isVerified()) {
             holder.verifiedIcon.setImageResource(R.drawable.icon_verified);
         } else {
             holder.verifiedIcon.setImageResource(R.drawable.icon_unverified);

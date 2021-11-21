@@ -63,8 +63,6 @@ public class AdminAccountActivity extends AppCompatActivity {
         initializeViews();
         getAdminAccountData();
 
-        Toast.makeText(AdminAccountActivity.this, "User Role: " + getUserRole(), Toast.LENGTH_SHORT).show();
-
         btnChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +92,7 @@ public class AdminAccountActivity extends AppCompatActivity {
                             removeUserRolePreference();
                             viewModel.signOut();
                             Intent intent = new Intent(AdminAccountActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }

@@ -250,7 +250,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         //set important data of verification request and property
         verificationRequest.setDateVerified(dateVerified);
         verificationRequest.setStatus("verified");
-        property.setIsVerified(true);
+        property.setVerified(true);
 
         String verificationID = verificationRequest.getVerificationRequestID();
         String propertyID = verificationRequest.getPropertyID();
@@ -325,6 +325,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         String landlordPhoneNumber = landlord.getPhoneNumber();
 
         displayLandlordName.setText(landlordName);
-        displayLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
+        displayLandlordPhoneNumber.setText(landlordPhoneNumber);
     }
 }

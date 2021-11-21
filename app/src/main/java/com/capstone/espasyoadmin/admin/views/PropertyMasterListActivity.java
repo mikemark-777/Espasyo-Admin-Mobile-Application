@@ -69,7 +69,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         //retrieve the verified properties in the Properties Collection
         CollectionReference propertiesCollectionRef = database.collection("properties");
 
-        propertiesCollectionRef.whereEqualTo("isVerified", true)
+        propertiesCollectionRef.whereEqualTo("verified", true)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

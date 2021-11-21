@@ -85,7 +85,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
         propertyID = property.getPropertyID();
         String landlordID = property.getOwner();
-        boolean isVerified = property.getIsVerified();
+        boolean isVerified = property.isVerified();
         boolean isLocked = property.isLocked();
 
         //get landlord data
@@ -96,10 +96,10 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         String address = property.getAddress();
         int minimumPrice = property.getMinimumPrice();
         int maximumPrice = property.getMaximumPrice();
-        boolean isElectricityIncluded = property.getIsElectricityIncluded();
-        boolean isWaterIncluded = property.getIsWaterIncluded();
-        boolean isInternetIncluded = property.getIsInternetIncluded();
-        boolean isGarbageCollectionIncluded = property.getIsGarbageCollectionIncluded();
+        boolean isElectricityIncluded = property.isElectricityIncluded();
+        boolean isWaterIncluded = property.isWaterIncluded();
+        boolean isInternetIncluded = property.isInternetIncluded();
+        boolean isGarbageCollectionIncluded = property.isGarbageCollectionIncluded();
 
         TextView propName = findViewById(R.id.propertyNameDisplay);
         TextView propType = findViewById(R.id.propertyTypeDisplay);
