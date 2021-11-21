@@ -157,6 +157,9 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                btnLogin.setEnabled(false);
+
                 String txtEmail = textInputEmail.getText().toString().trim();
                 String txtPassword = textInputPassword.getText().toString().trim();
 
@@ -166,12 +169,14 @@ public class LoginFragment extends Fragment {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            btnLogin.setEnabled(true);
                             loginProgressBar.setVisibility(View.INVISIBLE);
                             viewModel.signIn(txtEmail, txtPassword);
                         }
                     }, 4000);
 
                 } else {
+                    btnLogin.setEnabled(true);
                     Toast.makeText(getActivity(), "Please fill out everything", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -166,27 +166,20 @@ public class AdminChangeNameActivity extends AppCompatActivity {
     public void updateName(Admin updatedAdmin) {
         changeNameProgressBar.setVisibility(View.VISIBLE);
         String adminID = admin.getAdminID();
-        DocumentReference userDocRef = database.collection("users").document(adminID);
         DocumentReference adminDocRef = database.collection("admins").document(adminID);
 
         //update name in  users collection
-        userDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
+        adminDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                //update name in admin collection
-                adminDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                changeNameProgressBar.setVisibility(View.INVISIBLE);
-                                Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        }, 3000);
+                    public void run() {
+                        changeNameProgressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                });
+                }, 3000);
             }
         });
     }

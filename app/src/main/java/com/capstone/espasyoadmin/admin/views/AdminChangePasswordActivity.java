@@ -76,6 +76,13 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
             }
         });
 
+        btnCancelChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     public void initializeViews() {
@@ -214,27 +221,27 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     //set new password to admin Object
                                     admin.setPassword(newPassword);
-                                    updatePasswordOnDatabase(admin, newPassword);
+                                    updatePasswordOnDatabase(admin);
                                 }
                             });
                         } else {
-                            Toast.makeText(AdminChangePasswordActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            textInputCurrentPasswordLayout.setError("Invalid Password");
                             changePasswordProgressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
     }
 
-    public void updatePasswordOnDatabase(Admin updatedAdmin, String newPassword) {
+    public void updatePasswordOnDatabase(Admin updatedAdmin) {
         String adminID = updatedAdmin.getAdminID();
         //update admin password on users and admins collection
         DocumentReference usersDocRef = database.collection("users").document(adminID);
         DocumentReference adminDocRef = database.collection("admins").document(adminID);
 
-        usersDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
+        adminDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                adminDocRef.set(updatedAdmin).addOnSuccessListener(new OnSuccessListener<Void>() {
+                usersDocRef.update("password", updatedAdmin.getPassword()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         changePasswordProgressBar.setVisibility(View.INVISIBLE);
