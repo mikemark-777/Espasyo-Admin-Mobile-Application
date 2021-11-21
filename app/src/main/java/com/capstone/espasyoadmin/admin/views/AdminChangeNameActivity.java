@@ -78,6 +78,13 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnCancelChangeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initializeViews() {
