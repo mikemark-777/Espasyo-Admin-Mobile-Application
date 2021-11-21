@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
+import com.capstone.espasyoadmin.models.Landlord;
 import com.capstone.espasyoadmin.models.Property;
 import com.capstone.espasyoadmin.models.VerificationRequest;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -180,8 +181,10 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         String propertyType = property.getPropertyType();
         String propertyAddress = property.getAddress();
         String proprietorName = property.getProprietorName();
-        String landlordName = property.getLandlordName();
-        String landlordPhoneNumber = property.getLandlordPhoneNumber();
+        String landlordID = property.getOwner();
+
+        //display all data
+        getLandlord(landlordID);
 
         if (status.equals("verified")) {
             displayStatus.setText(VERIFIED);
@@ -202,8 +205,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);
         displayProprietorName.setText(proprietorName);
-        displayLandlordName.setText(landlordName);
-        displayLandlordPhoneNumber.setText(landlordPhoneNumber);
 
         //will display the image of municipal business permit based on the newly picked municipal business permit image
         Picasso.get()
@@ -301,5 +302,29 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                 Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void getLandlord(String landlordID) {
+        DocumentReference landlordDocRef = database.collection("landlords").document(landlordID);
+        landlordDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Landlord landlord = documentSnapshot.toObject(Landlord.class);
+                displayLandlordDetails(landlord);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CheckVerificationRequestActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void displayLandlordDetails(Landlord landlord) {
+        String landlordName = landlord.getFirstName() + " " + landlord.getLastName();
+        String landlordPhoneNumber = landlord.getPhoneNumber();
+
+        displayLandlordName.setText(landlordName);
+        displayLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
     }
 }

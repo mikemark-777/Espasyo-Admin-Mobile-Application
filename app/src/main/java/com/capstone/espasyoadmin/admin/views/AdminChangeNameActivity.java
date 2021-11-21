@@ -112,8 +112,6 @@ public class AdminChangeNameActivity extends AppCompatActivity {
     // ------ input validations -------------------------------
     public final String TAG = "TESTING";
 
-    //TODO: Check logic errors on isEmpty validations
-
     /* Check if firstName is empty */
     private Boolean isFirstNameValid(String firstName) {
         if (!firstName.isEmpty()) {

@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Room implements Parcelable{
-    //TODO: Must include Room ID
+
     private String propertyID;
     private String roomID;
     private String roomName;

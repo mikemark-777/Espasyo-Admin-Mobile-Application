@@ -191,7 +191,6 @@ public class AuthenticationRepository {
     }
 
     public void updateAdminEmail(String adminID, String newEmail) {
-        //todo: update admin's document if the admin changes email
         DocumentReference adminDocRef = database.collection("admins").document(adminID);
         adminDocRef.update("email", newEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

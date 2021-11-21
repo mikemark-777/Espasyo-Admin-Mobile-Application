@@ -1,5 +1,6 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -10,16 +11,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.adapters.RoomAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.RoomRecyclerView;
+import com.capstone.espasyoadmin.models.Landlord;
 import com.capstone.espasyoadmin.models.Property;
 import com.capstone.espasyoadmin.models.Room;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -78,13 +84,16 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         property = intent.getParcelableExtra("property");
 
         propertyID = property.getPropertyID();
+        String landlordID = property.getOwner();
         boolean isVerified = property.getIsVerified();
         boolean isLocked = property.isLocked();
+
+        //get landlord data
+        getLandlord(landlordID);
+
         String name = property.getName();
         String propertyType = property.getPropertyType();
         String address = property.getAddress();
-        String landlordName = property.getLandlordName();
-        String landlordPhoneNumber = property.getLandlordPhoneNumber();
         int minimumPrice = property.getMinimumPrice();
         int maximumPrice = property.getMaximumPrice();
         boolean isElectricityIncluded = property.getIsElectricityIncluded();
@@ -121,8 +130,6 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         propName.setText(name);
         propType.setText(propertyType);
         propAddress.setText(address);
-        propLandlordName.setText(landlordName);
-        propLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
         propMinimumPrice.setText(Integer.toString(minimumPrice));
         propMaximumPrice.setText(Integer.toString(maximumPrice));
 
@@ -162,6 +169,34 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
                         roomAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    public void getLandlord(String landlordID) {
+        DocumentReference landlordDocRef = database.collection("landlords").document(landlordID);
+        landlordDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Landlord landlord = documentSnapshot.toObject(Landlord.class);
+                displayLandlordDetails(landlord);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(PropertyDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void displayLandlordDetails(Landlord landlord) {
+        TextView propLandlordName = findViewById(R.id.propertyLandlordNameDisplay);
+        TextView propLandlordPhoneNumber = findViewById(R.id.propertyLandlordPhoneNumberDisplay);
+
+        String landlordName = landlord.getFirstName() + " " + landlord.getLastName();
+        String landlordPhoneNumber = landlord.getPhoneNumber();
+
+        propLandlordName.setText(landlordName);
+        propLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
     }
 
     //propertyDetailActivity Lifecycle -------------------------------------------------------------

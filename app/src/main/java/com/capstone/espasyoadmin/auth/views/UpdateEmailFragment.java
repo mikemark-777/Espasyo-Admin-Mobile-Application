@@ -181,7 +181,6 @@ public class UpdateEmailFragment extends Fragment {
     }
 
     private boolean isNewEmailAddressEmpty(String email) {
-        //TODO: Must include validations if email exist in firebase auth and database
         if (email.isEmpty()) {
             textInputNewEmailLayout.setError("New Email Address field cannot be empty");
             Log.d(TAG, "NEW EMAIL: EMPTY");
@@ -194,7 +193,6 @@ public class UpdateEmailFragment extends Fragment {
     }
 
     private boolean validatePassword(String password) {
-        //TODO: Must include validations if password is the password of the real account being updated
         if (password.isEmpty()) {
             textInputPasswordLayout.setError("Password field cannot be empty");
             Log.d(TAG, "PASSWORD: EMPTY");

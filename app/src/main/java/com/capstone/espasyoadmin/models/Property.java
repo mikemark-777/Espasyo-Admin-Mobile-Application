@@ -16,8 +16,6 @@ public class Property implements Parcelable{
     private String name;
     private String address;
     private String proprietorName;
-    private String landlordName;
-    private String landlordPhoneNumber;
     private int minimumPrice;
     private int maximumPrice;
     private boolean isElectricityIncluded;
@@ -52,6 +50,8 @@ public class Property implements Parcelable{
         this.isGarbageCollectionIncluded = isGarbageCollectionIncluded;
     }*/
 
+    //setters
+
     protected Property(Parcel in) {
         propertyID = in.readString();
         owner = in.readString();
@@ -64,8 +64,6 @@ public class Property implements Parcelable{
         name = in.readString();
         address = in.readString();
         proprietorName = in.readString();
-        landlordName = in.readString();
-        landlordPhoneNumber = in.readString();
         minimumPrice = in.readInt();
         maximumPrice = in.readInt();
         isElectricityIncluded = in.readByte() != 0;
@@ -85,8 +83,6 @@ public class Property implements Parcelable{
             return new Property[size];
         }
     };
-
-    //setters
 
     public void setPropertyID(String propertyID) {
         this.propertyID = propertyID;
@@ -130,14 +126,6 @@ public class Property implements Parcelable{
 
     public void setProprietorName(String proprietorName) {
         this.proprietorName = proprietorName;
-    }
-
-    public void setLandlordName(String landlordName) {
-        this.landlordName = landlordName;
-    }
-
-    public void setLandlordPhoneNumber(String landlordPhoneNumber) {
-        this.landlordPhoneNumber = landlordPhoneNumber;
     }
 
     public void setMinimumPrice(int minimumPrice) {
@@ -208,14 +196,6 @@ public class Property implements Parcelable{
         return proprietorName;
     }
 
-    public String getLandlordName() {
-        return landlordName;
-    }
-
-    public String getLandlordPhoneNumber() {
-        return landlordPhoneNumber;
-    }
-
     public int getMinimumPrice() {
         return minimumPrice;
     }
@@ -258,8 +238,6 @@ public class Property implements Parcelable{
         dest.writeString(name);
         dest.writeString(address);
         dest.writeString(proprietorName);
-        dest.writeString(landlordName);
-        dest.writeString(landlordPhoneNumber);
         dest.writeInt(minimumPrice);
         dest.writeInt(maximumPrice);
         dest.writeByte((byte) (isElectricityIncluded ? 1 : 0));

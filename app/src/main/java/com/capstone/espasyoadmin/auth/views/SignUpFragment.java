@@ -82,7 +82,6 @@ public class SignUpFragment extends Fragment {
             public void onChanged(FirebaseUser firebaseUser) {
                 if (firebaseUser != null) {
                     if (firebaseUser.isEmailVerified()) {
-                        //TODO:must include logout user for them to try login in their verified credentials
                         viewModel.signOut();
                         navController.navigate(R.id.action_emailVerificationFragment_to_loginFragment);
                     } else {
@@ -168,7 +167,6 @@ public class SignUpFragment extends Fragment {
                                 if (task.getResult().getSignInMethods().size() == 0) {
 
                                     int userRole = 1;
-                                    //todo: must include set a code that only the admin knows to be able to create a new account
                                     Admin newAdmin = new Admin("", firstName, lastName, email, password, userRole);
                                     signUpProgressBar.setVisibility(View.VISIBLE);
                                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
@@ -198,7 +196,6 @@ public class SignUpFragment extends Fragment {
     // ------ input validations -------------------------------
     public final String TAG = "TESTING";
 
-    //TODO: Check logic errors on isEmpty validations
 
     /* Check if firstName is empty */
     private Boolean isFirstNameValid(String firstName) {
@@ -228,7 +225,6 @@ public class SignUpFragment extends Fragment {
 
     /* Check if email is empty */
     private Boolean isEmailValid(String email) {
-        //TODO: Must include validations if email exist in firebase auth and database
         if (!email.isEmpty()) {
             textInputEmailLayout.setError(null);
             Log.d(TAG, "EMAIL: NOT EMPTY");
