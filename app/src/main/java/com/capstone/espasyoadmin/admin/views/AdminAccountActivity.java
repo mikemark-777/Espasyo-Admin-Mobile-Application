@@ -33,7 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AdminAccountActivity extends AppCompatActivity {
 
-    //GUMAGANA NGA
+    //TINANGGAL KO NA
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth firebaseAuth;
