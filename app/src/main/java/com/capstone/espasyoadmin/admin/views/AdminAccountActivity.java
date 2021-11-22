@@ -33,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AdminAccountActivity extends AppCompatActivity {
 
+    //GUMAGANA NGA
+
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore database;
