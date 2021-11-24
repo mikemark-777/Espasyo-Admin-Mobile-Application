@@ -103,8 +103,6 @@ public class AdminMainActivity extends AppCompatActivity {
                 gotoAdminProfile();
             }
         });
-
-
     }
 
     public void initializeViews() {
@@ -128,7 +126,7 @@ public class AdminMainActivity extends AppCompatActivity {
     public void fetchProperties() {
         CollectionReference propertiesCollectionRef = database.collection("properties");
 
-        propertiesCollectionRef.whereEqualTo("isVerified", true)
+        propertiesCollectionRef.whereEqualTo("verified", true)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
