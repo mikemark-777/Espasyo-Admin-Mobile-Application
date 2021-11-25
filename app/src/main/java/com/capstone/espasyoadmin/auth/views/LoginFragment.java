@@ -62,8 +62,6 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toast.makeText(getActivity(), "Resets Password: " + getDidUserResetsPassword(), Toast.LENGTH_SHORT).show();
-
         database = FirebaseFirestore.getInstance();
 
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory
