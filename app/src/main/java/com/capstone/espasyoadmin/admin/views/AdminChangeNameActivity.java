@@ -58,12 +58,12 @@ public class AdminChangeNameActivity extends AppCompatActivity {
         btnChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String fName = textInputFirstName.getText().toString();
                 String lName = textInputLastName.getText().toString();
                 if (areInputsValid(fName, lName)) {
                     //check if has the same input as before
                     if (isNameChanged(firstName, lastName, fName, lName)) {
+                        btnChangeName.setEnabled(false);
                         //updated name in admin object
                         admin.setFirstName(fName);
                         admin.setLastName(lName);
@@ -176,12 +176,19 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btnChangeName.setEnabled(true);
                         changeNameProgressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
                     }
                 }, 3000);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                btnChangeName.setEnabled(true);
+                Toast.makeText(AdminChangeNameActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
