@@ -79,6 +79,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
         btnCancelChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -132,7 +133,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     }
 
     /* Check if password1 and password2 are not empty and match*/
-    private Boolean arePasswordsValid(String currentPassword, String newPassword, String confirmPassword) {
+    private boolean arePasswordsValid(String currentPassword, String newPassword, String confirmPassword) {
 
         if (areInputsValid(currentPassword, newPassword, confirmPassword)) {
             if (newPassword.length() > 5 && confirmPassword.length() > 5) {
@@ -154,7 +155,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
     }
 
     /* Check if password1 and password2 are match*/
-    private Boolean matchPassword(String password, String confirmPassword) {
+    private boolean matchPassword(String password, String confirmPassword) {
 
         if (password.equals(confirmPassword)) {
             return true;
@@ -246,6 +247,7 @@ public class AdminChangePasswordActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         changePasswordProgressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(AdminChangePasswordActivity.this, "Password Successfully Updated", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
                         finish();
                     }
                 });

@@ -1,11 +1,16 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +38,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AdminAccountActivity extends AppCompatActivity {
 
-    //TINANGGAL KO NA
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth firebaseAuth;
@@ -47,8 +51,11 @@ public class AdminAccountActivity extends AppCompatActivity {
 
     private ImageView exitAdminAccountPage;
     private TextView displayAdminName, displayAdminEmail;
-    private CardView btnChangeName, btnChangePassword, btnLogout, btnDeleteAccount;
+    private CardView btnChangeName, btnChangePassword, btnLogout;
     private CustomProgressDialog progressDialog;
+
+    private ActivityResultLauncher<Intent> ChangeNameActivityResultLauncher;
+    private ActivityResultLauncher<Intent> ChangePasswordActivityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,19 +101,12 @@ public class AdminAccountActivity extends AppCompatActivity {
                             removeUserRolePreference();
                             viewModel.signOut();
                             Intent intent = new Intent(AdminAccountActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();
                         }
                     }
                 }, 3000);
-            }
-        });
-
-        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(AdminAccountActivity.this, "Delete Account", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -116,6 +116,30 @@ public class AdminAccountActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        //will handle the result if the admin has reset his name or not
+        ChangeNameActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            getAdminAccountData();
+                        }
+                    }
+                });
+
+        //will handle the result if the admin has reset his password or not
+        ChangePasswordActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            getAdminAccountData();
+                        }
+                    }
+                });
     }
 
     public void initializeViews() {
@@ -129,7 +153,6 @@ public class AdminAccountActivity extends AppCompatActivity {
         btnChangeName = findViewById(R.id.btnChangeName_account);
         btnChangePassword = findViewById(R.id.btnChangePassword_account);
         btnLogout = findViewById(R.id.btnLogout_account);
-        btnDeleteAccount = findViewById(R.id.btnDeleteAccount_account);
 
         //progress bars
         progressDialog = new CustomProgressDialog(AdminAccountActivity.this);

@@ -82,6 +82,7 @@ public class AdminChangeNameActivity extends AppCompatActivity {
         btnCancelChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
@@ -177,6 +178,7 @@ public class AdminChangeNameActivity extends AppCompatActivity {
                     public void run() {
                         changeNameProgressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(AdminChangeNameActivity.this, "Name Successfully Updated", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
                         finish();
                     }
                 }, 3000);
