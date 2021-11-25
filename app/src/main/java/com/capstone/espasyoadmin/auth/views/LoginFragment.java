@@ -41,6 +41,7 @@ public class LoginFragment extends Fragment {
 
     public static final String SHARED_PREFS = "sharedPrefsAdmin";
     public static final String USER_ROLE = "userRole";
+    public static final String ADMIN_RESET_PASSWORD = "adminResetPassword";
     private int userRole;
 
     private final int ADMIN_CODE = 1;
@@ -61,6 +62,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Toast.makeText(getActivity(), "Resets Password: " + getDidUserResetsPassword(), Toast.LENGTH_SHORT).show();
 
         database = FirebaseFirestore.getInstance();
 
@@ -126,8 +128,7 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.auth_fragment_login, container, false);
     }
@@ -164,16 +165,29 @@ public class LoginFragment extends Fragment {
                 String txtPassword = textInputPassword.getText().toString().trim();
 
                 if (areInputsValid(txtEmail, txtPassword)) {
-
-                    loginProgressBar.setVisibility(View.VISIBLE);
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btnLogin.setEnabled(true);
-                            loginProgressBar.setVisibility(View.INVISIBLE);
-                            viewModel.signIn(txtEmail, txtPassword);
-                        }
-                    }, 4000);
+                    if(getDidUserResetsPassword()) {
+                        //login with newly reset password
+                        loginProgressBar.setVisibility(View.VISIBLE);
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnLogin.setEnabled(true);
+                                loginProgressBar.setVisibility(View.INVISIBLE);
+                                viewModel.loginNewlySetPassword(txtEmail, txtPassword);
+                            }
+                        }, 4000);
+                    } else {
+                        //normal login
+                        loginProgressBar.setVisibility(View.VISIBLE);
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnLogin.setEnabled(true);
+                                loginProgressBar.setVisibility(View.INVISIBLE);
+                                viewModel.login(txtEmail, txtPassword);
+                            }
+                        }, 4000);
+                    }
 
                 } else {
                     btnLogin.setEnabled(true);
@@ -263,5 +277,12 @@ public class LoginFragment extends Fragment {
         int userRole = sharedPreferences.getInt(USER_ROLE, 0);
 
         return userRole;
+    }
+
+    public boolean getDidUserResetsPassword() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        boolean didReset = sharedPreferences.getBoolean(ADMIN_RESET_PASSWORD, false);
+
+        return didReset;
     }
 }

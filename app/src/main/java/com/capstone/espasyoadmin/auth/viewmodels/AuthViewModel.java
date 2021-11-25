@@ -40,8 +40,12 @@ public class AuthViewModel extends AndroidViewModel {
         repository.registerAdmin(newAdmin);
     }
 
-    public void signIn(String email, String password) {
+    public void login(String email, String password) {
         repository.login(email, password);
+    }
+
+    public void loginNewlySetPassword(String email, String password) {
+        repository.loginNewlySetPassword(email, password);
     }
 
     public void signOut() {
@@ -50,6 +54,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public void updateEmailAddress(FirebaseUser currentUser,String currentEmail, String newEmail, String password) {
         repository.updateEmailAddress(currentUser, currentEmail, newEmail, password);
+    }
+
+    public void sendResetPasswordLink(String email) {
+        repository.sendResetPasswordLink(email);
     }
 
 }
