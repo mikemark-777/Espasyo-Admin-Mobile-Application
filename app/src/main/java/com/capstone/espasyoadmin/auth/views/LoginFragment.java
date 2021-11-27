@@ -265,7 +265,6 @@ public class LoginFragment extends Fragment {
     public void saveUserRole(int userRole) {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Toast.makeText(getActivity(), "Saved User Role: " + userRole, Toast.LENGTH_SHORT).show();
         editor.putInt(USER_ROLE, userRole);
         editor.apply();
     }
