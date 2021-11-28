@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,12 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.adapters.RoomAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.RoomRecyclerView;
+import com.capstone.espasyoadmin.models.ImageFolder;
 import com.capstone.espasyoadmin.models.Landlord;
 import com.capstone.espasyoadmin.models.Property;
 import com.capstone.espasyoadmin.models.Room;
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +56,14 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     private View roomRecylerViewEmptyState;
     private View showAllRooms;
 
+    //for property image
+    private ImageFolder propertyImageFolder;
+    private ImageSlider propertyImageSlider;
+    private CustomProgressDialog progressDialog;
+    private ArrayList<String> downloadedURLs = new ArrayList<>();
+    private ImageView btnZoomImage;
+    private int imageIndex = 0;
+    private ImageView emptyImagesDisplay;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +90,24 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             }
         });
 
+        propertyImageSlider.setItemChangeListener(new ItemChangeListener() {
+            @Override
+            public void onItemChanged(int i) {
+                imageIndex = i;
+            }
+        });
+
+        btnZoomImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (downloadedURLs.size() > 0) {
+                    Intent intent = new Intent(PropertyDetailsActivity.this, PreviewImageActivity.class);
+                    intent.putExtra("previewImage", downloadedURLs.get(imageIndex));
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
     //Load Property Details
@@ -82,6 +115,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         //get data from intent
         Intent intent = getIntent();
         property = intent.getParcelableExtra("property");
+        getImageFolderOf(property);
 
         propertyID = property.getPropertyID();
         String landlordID = property.getOwner();
@@ -104,8 +138,6 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         TextView propName = findViewById(R.id.propertyNameDisplay);
         TextView propType = findViewById(R.id.propertyTypeDisplay);
         TextView propAddress = findViewById(R.id.propertyAddressDisplay);
-        TextView propLandlordName = findViewById(R.id.propertyLandlordNameDisplay);
-        TextView propLandlordPhoneNumber = findViewById(R.id.propertyLandlordPhoneNumberDisplay);
         TextView propMinimumPrice = findViewById(R.id.propertyMinimumPriceDisplay);
         TextView propMaximumPrice = findViewById(R.id.propertyMaximumPriceDisplay);
 
@@ -147,6 +179,11 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         roomRecyclerView.setLayoutManager(roomLayoutManager);
         roomAdapter = new RoomAdapter(PropertyDetailsActivity.this, propertyRooms, this);
         roomRecyclerView.setAdapter(roomAdapter);
+
+        //initialize views except from recyclerview
+        btnZoomImage = findViewById(R.id.btnZoomImage_admin);
+        propertyImageSlider = findViewById(R.id.image_slider_propertyDetails);
+        progressDialog = new CustomProgressDialog(this);
 
     }
 
@@ -199,6 +236,53 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         propLandlordPhoneNumber.setText("+63" + landlordPhoneNumber);
     }
 
+    //fetch the imageFolder from the property
+    public void getImageFolderOf(Property property) {
+        String imageFolderID = property.getImageFolder();
+        //will check if the property has imageFolder, if not create an imageFolder
+        if (imageFolderID != null) {
+            DocumentReference imageFolderDocRef = database.collection("imageFolders").document(imageFolderID);
+            progressDialog.showProgressDialog("Loading images...", false);
+            imageFolderDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    propertyImageFolder = documentSnapshot.toObject(ImageFolder.class);
+                    displayImagesFrom(propertyImageFolder);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(PropertyDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(PropertyDetailsActivity.this, "imageFolder of property is null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //will display images from imageFolder of the property
+    public void displayImagesFrom(ImageFolder imageFolder) {
+        ArrayList<SlideModel> imageSlides = new ArrayList<>();
+        propertyImageSlider.setImageList(imageSlides);
+        if (imageFolder != null) {
+            downloadedURLs = imageFolder.getImages();
+
+            if (!downloadedURLs.isEmpty()) {
+                //emptyImagesDisplay.setVisibility(View.GONE);
+                for (String url : downloadedURLs) {
+                    imageSlides.add(new SlideModel(url, ScaleTypes.CENTER_INSIDE));
+                }
+                propertyImageSlider.setImageList(imageSlides);
+                progressDialog.dismissProgressDialog();
+            } else {
+                //emptyImagesDisplay.setVisibility(View.VISIBLE);
+                progressDialog.dismissProgressDialog();
+            }
+        } else {
+            Toast.makeText(PropertyDetailsActivity.this, "NULL", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     //propertyDetailActivity Lifecycle -------------------------------------------------------------
 
     @Override
@@ -215,6 +299,8 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
     @Override
     public void onRoomClick(int position) {
-
+        Intent intent = new Intent(PropertyDetailsActivity.this, RoomDetailsActivity.class);
+        intent.putExtra("chosenRoom", propertyRooms.get(position));
+        startActivity(intent);
     }
 }
