@@ -55,6 +55,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     private ArrayList<Room> propertyRooms;
     private View roomRecylerViewEmptyState;
     private View showAllRooms;
+    private ImageView imageButtonViewPropertyOnMap;
 
     //for property image
     private ImageFolder propertyImageFolder;
@@ -85,6 +86,16 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             public void onClick(View v) {
                 Intent intent = new Intent(PropertyDetailsActivity.this, ShowAllRoomsActivity.class);
                 intent.putExtra("propertyID", propertyID);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        imageButtonViewPropertyOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PropertyDetailsActivity.this, ViewPropertyOnMapActivity.class);
+                intent.putExtra("chosenProperty", property);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
@@ -184,6 +195,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         btnZoomImage = findViewById(R.id.btnZoomImage_admin);
         propertyImageSlider = findViewById(R.id.image_slider_propertyDetails);
         progressDialog = new CustomProgressDialog(this);
+        imageButtonViewPropertyOnMap =findViewById(R.id.imageButtonViewPropertyOnMap);
 
     }
 

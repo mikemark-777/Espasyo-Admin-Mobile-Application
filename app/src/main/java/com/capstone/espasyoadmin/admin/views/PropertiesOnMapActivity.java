@@ -63,20 +63,6 @@ public class PropertiesOnMapActivity extends AppCompatActivity implements OnMapR
         });
     }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        gMap = googleMap;
-        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        setPolyLineOfMap(gMap);
-
-        LatLng SaintMarysUniversity = new LatLng(16.483022, 121.155538);
-        gMap.addMarker(new MarkerOptions().position(SaintMarysUniversity).title("Saint Mary's University")).showInfoWindow();
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SaintMarysUniversity, 16.0f));
-        if (propertyMasterlist != null) {
-            displayPropertiesOnMap();
-        }
-    }
-
     public void initializeViews() {
         FABChangeMapType = findViewById(R.id.FABChangeMapType);
     }
@@ -84,6 +70,21 @@ public class PropertiesOnMapActivity extends AppCompatActivity implements OnMapR
     public void getDataFromIntent(Intent intent) {
         propertyMasterlist = intent.getParcelableArrayListExtra("propertyMasterlist");
     }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        gMap = googleMap;
+        gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        setPolyLineOfMap(gMap);
+
+        LatLng SaintMarysUniversity = new LatLng(16.483022, 121.155538);
+        gMap.addMarker(new MarkerOptions().position(SaintMarysUniversity).title("Saint Mary's University").icon(BitmapDescriptorFactory.fromResource(R.drawable.img_university))).showInfoWindow();
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SaintMarysUniversity, 16.0f));
+        if (propertyMasterlist != null) {
+            displayPropertiesOnMap();
+        }
+    }
+
 
     //will get all data
     public void displayPropertiesOnMap() {
@@ -101,7 +102,7 @@ public class PropertiesOnMapActivity extends AppCompatActivity implements OnMapR
                     .snippet(address)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
                     .showInfoWindow();
-            ;
+
         }
     }
 
@@ -120,4 +121,5 @@ public class PropertiesOnMapActivity extends AppCompatActivity implements OnMapR
                 new LatLng(16.4826408, 121.1531345),
                 new LatLng(16.4814312, 121.1542103)
         ));
-    }}
+    }
+}

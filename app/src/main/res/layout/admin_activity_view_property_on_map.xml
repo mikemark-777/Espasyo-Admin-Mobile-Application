@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.views.PropertiesOnMapActivity">
+    tools:context=".admin.views.ViewPropertyOnMapActivity">
 
     <fragment
-        android:id="@+id/mapFragment_propertiesOnMap"
+        android:id="@+id/mapFragment_viewPropertyOnMap"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,12 +19,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/FABChangeMapType"
+        android:id="@+id/changeMapTypeStudent_propertyDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="75dp"
+        android:backgroundTint="@color/espasyo_blue_200"
         android:contentDescription="get user location"
         android:src="@drawable/icon_map_type"
         android:textAllCaps="false"

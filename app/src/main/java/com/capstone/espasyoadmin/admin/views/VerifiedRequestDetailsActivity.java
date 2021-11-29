@@ -55,9 +55,6 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         getDataFromIntent(intent);
         getPropertyFromDatabase();
-
-        Toast.makeText(VerifiedRequestDetailsActivity.this, "Verified Property: " + verificationRequest.getPropertyName(), Toast.LENGTH_SHORT).show();
-
     }
 
     public void initializeViews() {
@@ -148,7 +145,7 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
         //will display the image of municipal business permit based on the newly picked municipal business permit image
         Picasso.get()
                 .load(businessPermitImageURL)
-                .placeholder(R.drawable.img_unverified_verification_requests)
+                .placeholder(R.drawable.img_verified_verification_requests)
                 .into(displayBusinessPermit);
     }
 
