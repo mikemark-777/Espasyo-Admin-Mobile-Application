@@ -22,6 +22,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class DeclinedRequestDetailsActivity extends AppCompatActivity {
 
     private FirebaseConnection firebaseConnection;
@@ -115,7 +117,7 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
         String status = verificationRequest.getStatus();
         String classification = verificationRequest.getClassification();
         String dateSubmitted = verificationRequest.getDateSubmitted();
-        String reason = verificationRequest.getDeclinedVerificationDescription();
+        ArrayList<String> reasons = verificationRequest.getDeclinedVerificationDescription();
         String businessPermitImageURL = verificationRequest.getMunicipalBusinessPermitImageURL();
 
         //data from property
@@ -143,7 +145,13 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
         }
 
         displayDateSubmitted.setText(dateSubmitted);
-        displayReason.setText(reason);
+        //display list of reasons
+        String concatenatedReason = "";
+        for(String reason : reasons) {
+            concatenatedReason += reason + "\n";
+        }
+        displayReason.setText(concatenatedReason);
+
         displayPropertyName.setText(propertyName);
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);

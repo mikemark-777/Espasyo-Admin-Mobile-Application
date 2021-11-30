@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.CustomDialogs.SetInappropriateContentDetailsDialog;
 
-public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity implements SetInappropriateContentDetailsDialog.ConfirmSetInappropriateContentDetailsListener {
 
 
     private CheckBox reason1CheckBox, reason2CheckBox, reason3CheckBox, reason4CheckBox;
@@ -43,6 +47,15 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
                 finish();
             }
         });
+
+        reason2CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    showSetInappropriateContentDetailsDialog();
+                }
+            }
+        });
     }
 
     public void initializeViews() {
@@ -61,35 +74,43 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
 
     }
 
-    public String getReasons() {
+    public ArrayList<String> getReasons() {
+
+        ArrayList<String> reasons = new ArrayList<>();
+
         String reason = "";
         if (reason1CheckBox.isChecked()) {
-            reason += "- " + reason1CheckBox.getText().toString() + "\n";
+            reasons.add(reason1CheckBox.getText().toString());
+            //reason += "- " + reason1CheckBox.getText().toString() + "\n";
         }
 
         if (reason2CheckBox.isChecked()) {
-            reason += "- " + reason2CheckBox.getText().toString() + "\n";
+            reasons.add(reason2CheckBox.getText().toString());
+            // += "- " + reason2CheckBox.getText().toString() + "\n";
         }
 
         if (reason3CheckBox.isChecked()) {
-            reason += "- " + reason3CheckBox.getText().toString() + "\n";
+            reasons.add(reason3CheckBox.getText().toString());
+            //reason += "- " + reason3CheckBox.getText().toString() + "\n";
         }
 
         if (reason4CheckBox.isChecked()) {
-            reason += "- " + reason4CheckBox.getText().toString() + "\n";
+            reasons.add(reason4CheckBox.getText().toString());
+           // reason += "- " + reason4CheckBox.getText().toString() + "\n";
         }
 
         String otherReason = editTextOtherReason.getText().toString();
         if (otherReason.equals("")) {
-            return reason;
+            return reasons;
         } else {
-            return reason + "- " + otherReason + "\n";
+            reasons.add(otherReason);
+            return reasons;
         }
     }
 
     public boolean areReasonsBlank() {
-        String reasons = getReasons();
-        if (reasons.equals("")) {
+        ArrayList<String> reasons = getReasons();
+        if (reasons.isEmpty()) {
             return true;
         } else {
             return false;
@@ -98,10 +119,25 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
 
     public void confirmDeclineVerification() {
         Intent intent = new Intent();
-        intent.putExtra("reason", getReasons());
+        intent.putExtra("reasons", getReasons());
         setResult(RESULT_OK, intent);
         finish();
     }
 
+    public void showSetInappropriateContentDetailsDialog() {
+        SetInappropriateContentDetailsDialog setInappropriateContentDetailsDialog = new SetInappropriateContentDetailsDialog();
+        setInappropriateContentDetailsDialog.show(getSupportFragmentManager(), "setInappropriateContentDetailsDialog");
+    }
 
+
+    @Override
+    public void getConfirmedInappropriateContentDetails(String inappropriateContentDetails) {
+        
+    }
+
+    @Override
+    public void cancelSetInappropriateContentDetails() {
+        Toast.makeText(ProvideReasonDeclinedVerificationActivity.this, "Cancelled Set Inappropriate Content Details", Toast.LENGTH_SHORT).show();
+        reason2CheckBox.setChecked(false);
+    }
 }

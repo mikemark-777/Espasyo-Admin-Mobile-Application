@@ -31,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -82,8 +83,8 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            String reason = result.getData().getStringExtra("reason");
-                            setDeclinedVerificationDescription(reason);
+                            ArrayList<String>  reasons = result.getData().getStringArrayListExtra("reasons");
+                            setDeclinedVerificationDescription(reasons);
                         }
                     }
                 });
@@ -283,12 +284,12 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         return DateFormat.getDateInstance(DateFormat.FULL).format(currentDate);
     }
 
-    public void setDeclinedVerificationDescription(String reason) {
+    public void setDeclinedVerificationDescription(ArrayList<String> reasons) {
         String verificationRequestID = verificationRequest.getVerificationRequestID();
         DocumentReference verificationRequestDocRef = database.collection("verificationRequests").document(verificationRequestID);
 
         verificationRequest.setStatus("declined");
-        verificationRequest.setDeclinedVerificationDescription(reason);
+        verificationRequest.setDeclinedVerificationDescription(reasons);
 
         verificationRequestDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
