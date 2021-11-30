@@ -196,6 +196,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         propertyImageSlider = findViewById(R.id.image_slider_propertyDetails);
         progressDialog = new CustomProgressDialog(this);
         imageButtonViewPropertyOnMap =findViewById(R.id.imageButtonViewPropertyOnMap);
+        emptyImagesDisplay = findViewById(R.id.emptyImagesDisplay_adminPropertyDetails);
 
     }
 
@@ -280,14 +281,14 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             downloadedURLs = imageFolder.getImages();
 
             if (!downloadedURLs.isEmpty()) {
-                //emptyImagesDisplay.setVisibility(View.GONE);
+                emptyImagesDisplay.setVisibility(View.GONE);
                 for (String url : downloadedURLs) {
                     imageSlides.add(new SlideModel(url, ScaleTypes.CENTER_INSIDE));
                 }
                 propertyImageSlider.setImageList(imageSlides);
                 progressDialog.dismissProgressDialog();
             } else {
-                //emptyImagesDisplay.setVisibility(View.VISIBLE);
+                emptyImagesDisplay.setVisibility(View.VISIBLE);
                 progressDialog.dismissProgressDialog();
             }
         } else {

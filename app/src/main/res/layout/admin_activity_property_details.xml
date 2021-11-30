@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".admin.views.PropertyDetailsActivity">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,7 +34,6 @@
                     android:src="@drawable/default_image" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -412,20 +410,6 @@
 
                 </LinearLayout>
 
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/image_slider_propertyDetails"
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    app:iss_selected_dot="@drawable/selected_dot_selector"
-                    app:iss_unselected_dot="@drawable/unselected_dot_selector"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.95">
-
-                </com.denzcoskun.imageslider.ImageSlider>
-
                 <ImageView
                     android:id="@+id/btnZoomImage_admin"
                     android:layout_width="35dp"
@@ -438,13 +422,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout17" />
 
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/image_slider_propertyDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    app:iss_selected_dot="@drawable/selected_dot_selector"
+                    app:iss_unselected_dot="@drawable/unselected_dot_selector"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.95"/>
+
+                <ImageView
+                    android:id="@+id/emptyImagesDisplay_adminPropertyDetails"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/img_no_images"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-
-        <!--  Rooms below -->
-
-
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
