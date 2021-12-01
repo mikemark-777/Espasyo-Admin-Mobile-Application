@@ -1,16 +1,26 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.models.Landlord;
 import com.capstone.espasyoadmin.models.Property;
@@ -22,7 +32,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-public class VerifiedRequestDetailsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class VerifiedRequestDetailsActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseFirestore database;
@@ -34,7 +46,12 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
     private Property property;
 
     private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayPropertyName, displayPropertyType, displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
+    private ImageView verifiedRequestMenuOption;
     private ImageView displayBusinessPermit;
+
+    private CustomProgressDialog progressDialog;
+
+    private ActivityResultLauncher<Intent> MoveToDeclinedRequestsActivityResultLauncher;
 
     //verificaiton status
     private final String VERIFIED = "Verified";
@@ -57,12 +74,37 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
         getDataFromIntent(intent);
         getPropertyFromDatabase();
 
+        //will handle all the data from the DeclineVerificationRequestActivity
+        MoveToDeclinedRequestsActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            ArrayList<String> reasons = result.getData().getStringArrayListExtra("reasons");
+                            showConfirmMoveToDeclinedRequests(reasons);
+                        } else if(result.getResultCode() == Activity.RESULT_CANCELED) {
+                            Toast.makeText(VerifiedRequestDetailsActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
         displayBusinessPermit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VerifiedRequestDetailsActivity.this, PreviewImageActivity.class);
-                intent.putExtra("previewImage",verificationRequest.getMunicipalBusinessPermitImageURL());
+                intent.putExtra("previewImage", verificationRequest.getMunicipalBusinessPermitImageURL());
                 startActivity(intent);
+            }
+        });
+
+        verifiedRequestMenuOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(VerifiedRequestDetailsActivity.this, v);
+                popupMenu.setOnMenuItemClickListener(VerifiedRequestDetailsActivity.this);
+                popupMenu.inflate(R.menu.verified_menu_option);
+                popupMenu.show();
             }
         });
     }
@@ -82,6 +124,10 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
 
         //imageviews
         displayBusinessPermit = findViewById(R.id.displayBusinessPermitImageView_verified);
+        verifiedRequestMenuOption = findViewById(R.id.verifiedRequestMenuOption);
+
+        //progress dialog
+        progressDialog = new CustomProgressDialog(this);
 
         //buttons
 /*        btnVerifyVerificationRequest = findViewById(R.id.btnVerifyVerificationRequest);
@@ -181,6 +227,137 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity {
 
         displayLandlordName.setText(landlordName);
         displayLandlordPhoneNumber.setText(landlordPhoneNumber);
+    }
+
+    public void moveRequestToUnverified() {
+        progressDialog.showProgressDialog("Moving...", false);
+        //first is to change status of this verification request to unverified, make date verified to null
+        verificationRequest.setStatus("unverified");
+        verificationRequest.setDateVerified(null);
+
+        String verificationRequestID = verificationRequest.getVerificationRequestID();
+        String propertyID = property.getPropertyID();
+        DocumentReference verificationDocRef = database.collection("verificationRequests").document(verificationRequestID);
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+        verificationDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //second is to change isVerified and isLocked of property linked to this to false
+                property.setVerified(false);
+                property.setLocked(false);
+                propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        finish();
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(VerifiedRequestDetailsActivity.this, "Request successfully moved", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(VerifiedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(VerifiedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void moveRequestToDeclined(ArrayList<String> declinedVerificaitonDescription) {
+        progressDialog.showProgressDialog("Moving...", false);
+        //first is to set the declinedVerificationDescription of the Verification request, change status of this verification request to unverified, make date verified to null
+        verificationRequest.setDeclinedVerificationDescription(declinedVerificaitonDescription);
+        verificationRequest.setStatus("declined");
+        verificationRequest.setDateVerified(null);
+
+        String verificationRequestID = verificationRequest.getVerificationRequestID();
+        String propertyID = property.getPropertyID();
+        DocumentReference verificationDocRef = database.collection("verificationRequests").document(verificationRequestID);
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+        verificationDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //second is to change isVerified and isLocked of property linked to this to false
+                property.setVerified(false);
+                property.setLocked(false);
+                propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        finish();
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(VerifiedRequestDetailsActivity.this, "Request successfully moved", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(VerifiedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(VerifiedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void showConfirmMoveToUnverifiedRequests() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm to Move")
+                .setMessage("Are you sure you want to move this request to Unverified Requests?")
+                .setPositiveButton("Move", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moveRequestToUnverified();
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+    public void showConfirmMoveToDeclinedRequests(ArrayList<String> declinedVerificationDescription) {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm to Move")
+                .setMessage("Are you sure you want to move this request to Declined Requests?")
+                .setPositiveButton("Move", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moveRequestToDeclined(declinedVerificationDescription);
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.menuMoveToUnverifiedRequest) {
+            showConfirmMoveToUnverifiedRequests();
+        } else if (item.getItemId() == R.id.menuMoveToDeclinedRequest) {
+            //showConfirmMoveToDeclinedRequests();
+            Intent intent = new Intent(VerifiedRequestDetailsActivity.this, ProvideReasonDeclinedVerificationActivity.class);
+            MoveToDeclinedRequestsActivityResultLauncher.launch(intent);
+        }
+        return false;
     }
 
 }
