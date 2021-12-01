@@ -116,7 +116,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         btnViewProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CheckVerificationRequestActivity.this, PropertyDetailsActivity.class);
+                Intent intent = new Intent(CheckVerificationRequestActivity.this, ViewPropertyDetailsActivity.class);
                 intent.putExtra("property", property);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -239,7 +239,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
                 confirmVerify.dismiss();
             }
         });
-
 
         confirmVerify.show();
     }

@@ -6,60 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".admin.views.PropertyDetailsActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lockPropertyLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:background="@color/espasyo_blue_700"
-        android:gravity="center_vertical"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".08"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/lockedImageDisplay"
-            android:layout_width="25dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/icon_locked"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/lockPropertySwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:text="Lock Property  "
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:thumb="@drawable/custom_thumb"
-            app:track="@drawable/custom_track"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".92"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lockPropertyLinearLayout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,12 +46,12 @@
                     android:id="@+id/propertyNameDisplay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:text="Ferdan's Apartment"
                     android:textColor="@color/black"
                     android:textSize="24dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -109,7 +64,7 @@
                         android:text="Php "
                         android:textColor="@color/espasyo_gray_500"
                         android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/propertyMinimumPriceDisplay"
@@ -153,8 +108,8 @@
                         android:id="@+id/imageView"
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
-                        android:layout_marginEnd="4dp"
-                        app:srcCompat="@drawable/icon_house" />
+                        app:srcCompat="@drawable/icon_house"
+                        android:layout_marginEnd="4dp"/>
 
                     <TextView
                         android:id="@+id/propertyTypeDisplay"
@@ -162,7 +117,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="Apartment"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -174,19 +129,19 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginEnd="4dp"
-                        android:src="@drawable/icon_address" />
+                        android:src="@drawable/icon_address"
+                        android:layout_marginEnd="4dp"/>
 
                     <TextView
                         android:id="@+id/propertyAddressDisplay"
                         android:layout_width="230dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:maxLines="1"
                         android:text="Don Mariano Marcos, Bayombong, NV"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_weight="1"/>
 
                     <ImageButton
                         android:id="@+id/imageButtonViewPropertyOnMap"
@@ -194,8 +149,8 @@
                         android:layout_height="20dp"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:clickable="true"
-                        android:src="@drawable/icon_arrow_right" />
+                        android:src="@drawable/icon_arrow_right"
+                        android:clickable="true"/>
 
                 </LinearLayout>
 
@@ -375,9 +330,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:background="#EDEDED"
                 android:orientation="vertical"
+                android:layout_marginTop="12dp"
                 android:padding="16dp">
 
                 <LinearLayout
@@ -389,10 +344,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Rooms"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 
@@ -412,9 +367,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingTop="8dp"
                     android:orientation="vertical"
-                    android:paddingTop="8dp">
+                    android:gravity="center_vertical|center_horizontal">
 
                     <TextView
                         android:id="@+id/showAllRooms_propertyDetails"
@@ -422,7 +377,7 @@
                         android:layout_height="wrap_content"
                         android:text="Show all rooms"
                         android:textColor="@color/espasyo_blue_700"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -477,7 +432,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.95" />
+                    app:layout_constraintVertical_bias="0.95"/>
 
                 <ImageView
                     android:id="@+id/emptyImagesDisplay_adminPropertyDetails"

@@ -269,10 +269,10 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity implements
         });
     }
 
-    public void moveRequestToDeclined(ArrayList<String> declinedVerificaitonDescription) {
+    public void moveRequestToDeclined(ArrayList<String> declinedVerificationDescription) {
         progressDialog.showProgressDialog("Moving...", false);
         //first is to set the declinedVerificationDescription of the Verification request, change status of this verification request to unverified, make date verified to null
-        verificationRequest.setDeclinedVerificationDescription(declinedVerificaitonDescription);
+        verificationRequest.setDeclinedVerificationDescription(declinedVerificationDescription);
         verificationRequest.setStatus("declined");
         verificationRequest.setDateVerified(null);
 
@@ -309,7 +309,6 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity implements
             }
         });
     }
-
 
     public void showConfirmMoveToUnverifiedRequests() {
         new AlertDialog.Builder(this)
