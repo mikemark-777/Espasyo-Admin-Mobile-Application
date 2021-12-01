@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="12dp"
@@ -28,7 +28,7 @@
                 android:layout_width="30dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/icon_inappropriate" />
+                android:src="@drawable/icon_locked" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="What's Inappropriate?"
+                        android:text="Lock Property"
                         android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -60,7 +60,7 @@
                         android:id="@+id/selectedPropertyLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Specify inappropriate content of property"
+                        android:text="Specify reason why Property will be locked"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -76,13 +76,19 @@
             android:padding="8dp">
 
             <CheckBox
-                android:id="@+id/inappropriateDetail1"
+                android:id="@+id/lockedReason1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Displays inappropriate images" />
 
             <CheckBox
-                android:id="@+id/inappropriateDetail2"
+                android:id="@+id/lockedReason2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Provides inaccurate information" />
+
+            <CheckBox
+                android:id="@+id/lockedReason3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Stated inaccurate price" />
@@ -101,7 +107,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/editTextOtherInappropriateDetails"
+                    android:id="@+id/editTextOtherLockedReason"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -122,7 +128,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/cancelSetInappropriateContentDetails"
+            android:id="@+id/btnCancelSetReasonLockProperty"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -132,7 +138,7 @@
             android:textColor="@color/black" />
 
         <Button
-            android:id="@+id/btnConfirmSetInappropriateContentDetails"
+            android:id="@+id/btnConfirmSetReasonLockProperty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"

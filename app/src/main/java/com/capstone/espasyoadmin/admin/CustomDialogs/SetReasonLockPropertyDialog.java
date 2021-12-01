@@ -17,13 +17,13 @@ import androidx.fragment.app.DialogFragment;
 
 import com.capstone.espasyoadmin.R;
 
-public class SetInappropriateContentDetailsDialog extends DialogFragment {
+public class SetReasonLockPropertyDialog extends DialogFragment{
 
-    private ConfirmSetInappropriateContentDetailsListener listener;
+    private ConfirmSetReasonLockPropertyListener listener;
     private LayoutInflater inflater;
 
-    private CheckBox inappropriateDetail1, inappropriateDetail2;
-    private EditText editTextOtherInappropriateDetails;
+    private CheckBox lockedReason1, lockedReason2, lockedReason3;
+    private EditText editTextOtherlockedReason;
 
     //for buttons of the dialog
     private Button btnCancel, btnConfirm;
@@ -32,47 +32,50 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.admin_set_inappropriate_content_details_dialog, null);
+        View view = inflater.inflate(R.layout.admin_set_reason_lock_property_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         initializeDialogUI(view);
 
 
-        AlertDialog createdSetInappropriateContentDetailsDialog = builder.create();
-        createdSetInappropriateContentDetailsDialog.setView(view);
+        AlertDialog createdSetReasonLockPropertyDialog = builder.create();
+        createdSetReasonLockPropertyDialog.setView(view);
 
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String contentDetails = getInappropriateContentDetails();
+                Toast.makeText(getActivity(), "btn Confirm", Toast.LENGTH_SHORT).show();
+                /*String contentDetails = getInappropriateContentDetails();
                 if(!isInputEmpty(contentDetails)) {
-                    listener.getConfirmedInappropriateContentDetails(contentDetails);
-                    createdSetInappropriateContentDetailsDialog.dismiss();
+                    listener.getConfirmedReasonLockProperty(contentDetails);
+                    createdSetReasonLockPropertyDialog.dismiss();
                 } else {
-                    Toast.makeText(getActivity(), "Please specify inappropriate content details", Toast.LENGTH_SHORT).show();
-                }
+                    Toast.makeText(getActivity(), "Please specify reason why this property will be locked", Toast.LENGTH_SHORT).show();
+                }*/
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createdSetInappropriateContentDetailsDialog.dismiss();
-                listener.cancelSetInappropriateContentDetails();
+                createdSetReasonLockPropertyDialog.dismiss();
+                Toast.makeText(getActivity(), "btn Cancel", Toast.LENGTH_SHORT).show();
+                //listener.cancelSetReasonLockProperty();
             }
         });
-        return createdSetInappropriateContentDetailsDialog;
+        return createdSetReasonLockPropertyDialog;
     }
 
     public void initializeDialogUI(View view) {
 
         //checkboxes
-        inappropriateDetail1 = view.findViewById(R.id.inappropriateDetail1);
-        inappropriateDetail2 = view.findViewById(R.id.inappropriateDetail2);
-        editTextOtherInappropriateDetails = view.findViewById(R.id.editTextOtherInappropriateDetails);
+        lockedReason1 = view.findViewById(R.id.lockedReason1);
+        lockedReason2 = view.findViewById(R.id.lockedReason2);
+        lockedReason3 = view.findViewById(R.id.lockedReason3);
+        editTextOtherlockedReason= view.findViewById(R.id.editTextOtherLockedReason);
         //buttons
-        btnConfirm = view.findViewById(R.id.btnConfirmSetInappropriateContentDetails);
-        btnCancel = view.findViewById(R.id.cancelSetInappropriateContentDetails);
+        btnConfirm = view.findViewById(R.id.btnConfirmSetReasonLockProperty);
+        btnCancel = view.findViewById(R.id.btnCancelSetReasonLockProperty);
     }
 
     // input validations
@@ -85,7 +88,7 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
         }
     }
 
-    public String getInappropriateContentDetails() {
+   /* public String getInappropriateContentDetails() {
         String inappropriateContentDetails = "";
         if(inappropriateDetail1.isChecked()) {
             inappropriateContentDetails += "- \t" + inappropriateDetail1.getText().toString() + "\n";
@@ -100,21 +103,21 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
         } else {
             return inappropriateContentDetails;
         }
-    }
+    }*/
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            listener = (ConfirmSetInappropriateContentDetailsListener) context;
+            listener = (ConfirmSetReasonLockPropertyListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()+
             "must implement ConfirmedLocationDialogListener");
         }
     }
 
-    public interface ConfirmSetInappropriateContentDetailsListener {
-        void getConfirmedInappropriateContentDetails(String inappropriateContentDetails);
-        void cancelSetInappropriateContentDetails();
+    public interface ConfirmSetReasonLockPropertyListener {
+        void getConfirmedReasonLockProperty(String inappropriateContentDetails);
+        void cancelSetReasonLockProperty();
     }
 }

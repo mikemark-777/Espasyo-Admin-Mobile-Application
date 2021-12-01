@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
+import com.capstone.espasyoadmin.admin.CustomDialogs.SetInappropriateContentDetailsDialog;
+import com.capstone.espasyoadmin.admin.CustomDialogs.SetReasonLockPropertyDialog;
 import com.capstone.espasyoadmin.admin.adapters.RoomAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.RoomRecyclerView;
@@ -43,7 +45,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener {
+public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener, SetReasonLockPropertyDialog.ConfirmSetReasonLockPropertyListener {
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
@@ -132,6 +134,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
+                    showSetInappropriateContentDetailsDialog();
                     lockPropertySwitch.setText("Unlock Property  ");
                     lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_red_200));
                     lockedImageDisplay.setVisibility(View.VISIBLE);
@@ -325,6 +328,11 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         }
     }
 
+    public void showSetInappropriateContentDetailsDialog() {
+        SetReasonLockPropertyDialog setReasonLockPropertyDialog = new SetReasonLockPropertyDialog();
+        setReasonLockPropertyDialog.show(getSupportFragmentManager(), "setReasonLockPropertyDialog");
+    }
+
     //propertyDetailActivity Lifecycle -------------------------------------------------------------
 
     @Override
@@ -344,5 +352,15 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         Intent intent = new Intent(PropertyDetailsActivity.this, RoomDetailsActivity.class);
         intent.putExtra("chosenRoom", propertyRooms.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public void getConfirmedReasonLockProperty(String inappropriateContentDetails) {
+
+    }
+
+    @Override
+    public void cancelSetReasonLockProperty() {
+
     }
 }
