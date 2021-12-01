@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
@@ -20,8 +21,11 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
 
 
     private CheckBox reason1CheckBox, reason2CheckBox, reason3CheckBox, reason4CheckBox;
+    private TextView displayInappropriateDetails;
     private EditText editTextOtherReason;
     private Button btnConfirmDeclineVerificaiton, btnCancelDeclineVerification;
+
+    private String inappropriateContentDetails = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     showSetInappropriateContentDetailsDialog();
+                } else {
+                    displayInappropriateDetails.setText("");
+                    displayInappropriateDetails.setVisibility(View.GONE);
                 }
             }
         });
@@ -64,6 +71,9 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
         reason2CheckBox = findViewById(R.id.declinedReason2);
         reason3CheckBox = findViewById(R.id.declinedReason3);
         reason4CheckBox = findViewById(R.id.declinedReason4);
+
+        //for textview
+        displayInappropriateDetails = findViewById(R.id.displayInappropriateDetails);
 
         //edit text for other decline reasons
         editTextOtherReason = findViewById(R.id.editTextOtherReasonDecline);
@@ -85,7 +95,7 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
         }
 
         if (reason2CheckBox.isChecked()) {
-            reasons.add(reason2CheckBox.getText().toString());
+            reasons.add(reason2CheckBox.getText().toString() + "\n" +inappropriateContentDetails);
             // += "- " + reason2CheckBox.getText().toString() + "\n";
         }
 
@@ -124,6 +134,11 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
         finish();
     }
 
+    public void showInappropriateContentDetails(String details) {
+        displayInappropriateDetails.setVisibility(View.VISIBLE);
+        displayInappropriateDetails.setText(details);
+    }
+
     public void showSetInappropriateContentDetailsDialog() {
         SetInappropriateContentDetailsDialog setInappropriateContentDetailsDialog = new SetInappropriateContentDetailsDialog();
         setInappropriateContentDetailsDialog.show(getSupportFragmentManager(), "setInappropriateContentDetailsDialog");
@@ -132,7 +147,8 @@ public class ProvideReasonDeclinedVerificationActivity extends AppCompatActivity
 
     @Override
     public void getConfirmedInappropriateContentDetails(String inappropriateContentDetails) {
-        
+        this.inappropriateContentDetails = inappropriateContentDetails;
+       showInappropriateContentDetails(inappropriateContentDetails);
     }
 
     @Override

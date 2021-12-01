@@ -74,6 +74,14 @@
                 android:layout_height="wrap_content"
                 android:text="Inappropriate content of Property" />
 
+            <TextView
+                android:id="@+id/displayInappropriateDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Inappropriate Content Details ..."
+                android:visibility="gone"
+                android:layout_marginStart="30dp"/>
+
             <CheckBox
                 android:id="@+id/declinedReason3"
                 android:layout_width="match_parent"

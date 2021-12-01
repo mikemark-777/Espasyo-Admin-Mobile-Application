@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +44,13 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String contentDetails = getInappropriateContentDetails();
+                if(!isInputEmpty(contentDetails)) {
+                    listener.getConfirmedInappropriateContentDetails(contentDetails);
+                    createdSetInappropriateContentDetailsDialog.dismiss();
+                } else {
+                    Toast.makeText(getActivity(), "Please specify inappropriate content details", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -59,7 +66,10 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
 
     public void initializeDialogUI(View view) {
 
-
+        //checkboxes
+        inappropriateDetail1 = view.findViewById(R.id.inappropriateDetail1);
+        inappropriateDetail2 = view.findViewById(R.id.inappropriateDetail2);
+        editTextOtherInappropriateDetails = view.findViewById(R.id.editTextOtherInappropriateDetails);
         //buttons
         btnConfirm = view.findViewById(R.id.btnConfirmSetInappropriateContentDetails);
         btnCancel = view.findViewById(R.id.SetInappropriateContentDetails);
@@ -67,9 +77,30 @@ public class SetInappropriateContentDetailsDialog extends DialogFragment {
 
     // input validations
 
-   /* public String getInappropriateContentDetails() {
+    public boolean isInputEmpty(String inappropriateContentDetails) {
+        if(inappropriateContentDetails.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    }*/
+    public String getInappropriateContentDetails() {
+        String inappropriateContentDetails = "";
+        if(inappropriateDetail1.isChecked()) {
+            inappropriateContentDetails += "- \t" + inappropriateDetail1.getText().toString() + "\n";
+        }
+
+        if(inappropriateDetail2.isChecked()) {
+            inappropriateContentDetails += "- \t" +  inappropriateDetail2.getText().toString() + "\n";
+        }
+        String otherInappropriateContentDetails = editTextOtherInappropriateDetails.getText().toString();
+        if (!otherInappropriateContentDetails.equals("")) {
+            return inappropriateContentDetails += "- \t" +  otherInappropriateContentDetails;
+        } else {
+            return inappropriateContentDetails;
+        }
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
