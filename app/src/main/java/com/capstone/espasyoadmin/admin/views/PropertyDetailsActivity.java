@@ -74,6 +74,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     private ConstraintLayout lockPropertyLinearLayout;
     private SwitchCompat lockPropertySwitch;
     private ImageView lockedImageDisplay;
+    private TextView btnViewLockedDetails;
 
     private boolean willShowLockDialog = true;
     private boolean willShowUnlockDialog = true;
@@ -146,6 +147,16 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
                     }
                     displayUnlockedUI();
                 }
+            }
+        });
+
+        btnViewLockedDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PropertyDetailsActivity.this, ViewReasonLockedPropertyActivity.class);
+                intent.putExtra("property", property);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
@@ -238,7 +249,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         lockPropertyLinearLayout = findViewById(R.id.lockPropertyLinearLayout);
         lockPropertySwitch = findViewById(R.id.lockPropertySwitch);
         lockedImageDisplay = findViewById(R.id.lockedImageDisplay);
-
+        btnViewLockedDetails = findViewById(R.id.btnViewLockedDetails);
     }
 
     public void fetchPropertyRooms() {
@@ -453,14 +464,16 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         lockPropertySwitch.setChecked(true);
         lockPropertySwitch.setText("Unlock Property  ");
         lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_red_200));
-        lockedImageDisplay.setVisibility(View.VISIBLE);
+        lockedImageDisplay.setImageResource(R.drawable.icon_property_locked);
+        btnViewLockedDetails.setVisibility(View.VISIBLE);
     }
 
     public void displayUnlockedUI() {
         lockPropertySwitch.setChecked(false);
         lockPropertySwitch.setText("Lock Property  ");
         lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_blue_700));
-        lockedImageDisplay.setVisibility(View.INVISIBLE);
+        lockedImageDisplay.setImageResource(R.drawable.icon_property_unlocked);
+        btnViewLockedDetails.setVisibility(View.INVISIBLE);
     }
 
 
@@ -494,7 +507,6 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     public void cancelSetReasonLockProperty() {
         willShowUnlockDialog = false;
         displayUnlockedUI();
-        lockedImageDisplay.setVisibility(View.INVISIBLE);
     }
 
 }

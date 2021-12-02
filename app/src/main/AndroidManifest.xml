@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.ViewReasonLockedPropertyActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.AdminChangePasswordActivity"
             android:exported="true" />
         <activity

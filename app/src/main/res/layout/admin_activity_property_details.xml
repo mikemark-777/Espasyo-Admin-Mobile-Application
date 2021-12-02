@@ -10,9 +10,9 @@
         android:id="@+id/lockPropertyLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:background="@color/espasyo_blue_700"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".08"
@@ -24,34 +24,50 @@
             android:id="@+id/lockedImageDisplay"
             android:layout_width="25dp"
             android:layout_height="35dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/icon_property_locked"
-            android:visibility="invisible"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/icon_property_unlocked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.516" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/lockPropertySwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="Lock Property  "
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             android:thumb="@drawable/custom_thumb"
-            app:track="@drawable/custom_track"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/lockedImageDisplay"
+            app:layout_constraintTop_toTopOf="parent"
+            app:track="@drawable/custom_track" />
+
+        <TextView
+            android:id="@+id/btnViewLockedDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="View Details"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.974"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.51" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
