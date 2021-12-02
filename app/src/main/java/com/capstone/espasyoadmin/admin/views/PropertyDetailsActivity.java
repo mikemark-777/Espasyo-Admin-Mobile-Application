@@ -330,6 +330,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
     public void showSetInappropriateContentDetailsDialog() {
         SetReasonLockPropertyDialog setReasonLockPropertyDialog = new SetReasonLockPropertyDialog();
+        setReasonLockPropertyDialog.setCancelable(false);
         setReasonLockPropertyDialog.show(getSupportFragmentManager(), "setReasonLockPropertyDialog");
     }
 
@@ -361,6 +362,11 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
     @Override
     public void cancelSetReasonLockProperty() {
-
+        lockPropertySwitch.setText("Lock Property  ");
+        lockPropertySwitch.setChecked(false);
+        lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_blue_700));
+        lockedImageDisplay.setVisibility(View.INVISIBLE);
     }
+
+
 }

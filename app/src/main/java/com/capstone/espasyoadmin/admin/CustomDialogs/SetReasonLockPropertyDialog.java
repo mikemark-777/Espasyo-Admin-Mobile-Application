@@ -3,7 +3,9 @@ package com.capstone.espasyoadmin.admin.CustomDialogs;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +39,6 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
 
         initializeDialogUI(view);
 
-
         AlertDialog createdSetReasonLockPropertyDialog = builder.create();
         createdSetReasonLockPropertyDialog.setView(view);
 
@@ -60,9 +61,11 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
             public void onClick(View v) {
                 createdSetReasonLockPropertyDialog.dismiss();
                 Toast.makeText(getActivity(), "btn Cancel", Toast.LENGTH_SHORT).show();
-                //listener.cancelSetReasonLockProperty();
+                listener.cancelSetReasonLockProperty();
             }
         });
+
+
         return createdSetReasonLockPropertyDialog;
     }
 
@@ -120,4 +123,5 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
         void getConfirmedReasonLockProperty(String inappropriateContentDetails);
         void cancelSetReasonLockProperty();
     }
+
 }
