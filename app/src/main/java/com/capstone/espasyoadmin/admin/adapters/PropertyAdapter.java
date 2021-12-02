@@ -50,6 +50,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
             holder.verifiedIcon.setImageResource(R.drawable.icon_unverified);
         }
 
+        if(property.isLocked()) {
+            holder.lockedBanner.setVisibility(View.VISIBLE);
+        } else {
+            holder.lockedBanner.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -71,7 +77,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
     public static class PropertyViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView propertyName, propertyAddress, propertyType, minimumPrice, maximumPrice;
-        ImageView verifiedIcon;
+        ImageView verifiedIcon, lockedBanner;
         OnPropertyListener onPropertyListener;
 
         public PropertyViewHolder(@NonNull View itemView, OnPropertyListener onPropertyListener) {
@@ -82,6 +88,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
             minimumPrice = itemView.findViewById(R.id.minimumPrice_propertyItem);
             maximumPrice = itemView.findViewById(R.id.maximumPrice_propertyItem);
             verifiedIcon = itemView.findViewById(R.id.propertyItem_iconVerified);
+            lockedBanner = itemView.findViewById(R.id.lockedBanner);
             this.onPropertyListener = onPropertyListener;
 
             itemView.setOnClickListener(this);

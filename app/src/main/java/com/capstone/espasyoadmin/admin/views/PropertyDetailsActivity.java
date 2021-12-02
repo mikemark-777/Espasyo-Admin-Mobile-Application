@@ -7,22 +7,18 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
-import com.capstone.espasyoadmin.admin.CustomDialogs.SetInappropriateContentDetailsDialog;
 import com.capstone.espasyoadmin.admin.CustomDialogs.SetReasonLockPropertyDialog;
 import com.capstone.espasyoadmin.admin.adapters.RoomAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
@@ -46,7 +42,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener, SetReasonLockPropertyDialog.ConfirmSetReasonLockPropertyListener {
@@ -79,6 +74,9 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     private ConstraintLayout lockPropertyLinearLayout;
     private SwitchCompat lockPropertySwitch;
     private ImageView lockedImageDisplay;
+
+    private boolean willShowLockDialog = true;
+    private boolean willShowUnlockDialog = true;
 
     
     @Override
@@ -138,9 +136,14 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
-                    showSetInappropriateContentDetailsDialog();
+                    if(willShowLockDialog) {
+                        showSetInappropriateContentDetailsDialog();
+                    }
                     displayLockedUI();
                 } else {
+                    if(willShowUnlockDialog) {
+                        showConfirmUnlockPropertyDialog(property);
+                    }
                     displayUnlockedUI();
                 }
             }
@@ -334,10 +337,68 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         }
     }
 
+    //lock and unlock functions --------------------------------------------------------------------
+
     public void showSetInappropriateContentDetailsDialog() {
         SetReasonLockPropertyDialog setReasonLockPropertyDialog = new SetReasonLockPropertyDialog();
         setReasonLockPropertyDialog.setCancelable(false);
         setReasonLockPropertyDialog.show(getSupportFragmentManager(), "setReasonLockPropertyDialog");
+    }
+
+    public void showConfirmLockPropertyDialog(Property property ,ArrayList<String> reasonLocked) {
+        LayoutInflater inflater = LayoutInflater.from(PropertyDetailsActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_lock_property, null);
+
+        Button btnConfirmLockProperty = view.findViewById(R.id.btnConfirmLockProperty);
+        Button btnCancelLockProperty = view.findViewById(R.id.btnCancelLockProperty);
+
+        AlertDialog confirmLockDialog = new AlertDialog.Builder(PropertyDetailsActivity.this).setView(view).create();
+
+        btnConfirmLockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lockProperty(property, reasonLocked);
+                willShowUnlockDialog = true;
+                confirmLockDialog.dismiss();
+            }
+        });
+        btnCancelLockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                willShowUnlockDialog = false;
+                displayUnlockedUI();
+                confirmLockDialog.dismiss();
+            }
+        });
+        confirmLockDialog.show();
+    }
+
+    public void showConfirmUnlockPropertyDialog(Property property) {
+        LayoutInflater inflater = LayoutInflater.from(PropertyDetailsActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_unlock_property, null);
+
+        Button btnConfirmUnlockProperty = view.findViewById(R.id.btnConfirmUnlockProperty);
+        Button btnCancelUnlockProperty = view.findViewById(R.id.btnCancelUnlockProperty);
+
+        AlertDialog confirmUnlockDialog = new AlertDialog.Builder(PropertyDetailsActivity.this).setView(view).create();
+
+        btnConfirmUnlockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unlockProperty(property);
+                willShowLockDialog = true;
+                confirmUnlockDialog.dismiss();
+            }
+        });
+        btnCancelUnlockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                willShowLockDialog = false;
+                displayLockedUI();
+                confirmUnlockDialog.dismiss();
+            }
+        });
+        confirmUnlockDialog.show();
     }
 
     public void lockProperty(Property property, ArrayList<String> reasonLocked) {
@@ -364,34 +425,28 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         });
     }
 
-    public void showConfirmLockPropertyDialog(Property property ,ArrayList<String> reasonLocked) {
-        LayoutInflater inflater = LayoutInflater.from(PropertyDetailsActivity.this);
-        View view = inflater.inflate(R.layout.admin_confirm_lock_property, null);
+    public void unlockProperty(Property property) {
+        progressDialog.showProgressDialog("Unlocking Property...", false);
+        //lock the property and set the reason why property is locked
+        property.setLocked(false);
+        property.setReasonLocked(null);
 
-        Button btnConfirmLockProperty = view.findViewById(R.id.btnConfirmLockProperty);
-        Button btnCancelLockProperty = view.findViewById(R.id.btnCancelLockProperty);
+        String propertyID = property.getPropertyID();
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
 
-        AlertDialog confirmLock = new AlertDialog.Builder(PropertyDetailsActivity.this)
-                .setView(view)
-                .create();
-
-        btnConfirmLockProperty.setOnClickListener(new View.OnClickListener() {
+        propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onClick(View v) {
-                lockProperty(property, reasonLocked);
-                confirmLock.dismiss();
+            public void onSuccess(Void unused) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(PropertyDetailsActivity.this, "Property has been unlocked", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(PropertyDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        btnCancelLockProperty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayUnlockedUI();
-                confirmLock.dismiss();
-            }
-        });
-
-        confirmLock.show();
     }
 
     public void displayLockedUI() {
@@ -437,6 +492,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
     @Override
     public void cancelSetReasonLockProperty() {
+        willShowUnlockDialog = false;
         displayUnlockedUI();
         lockedImageDisplay.setVisibility(View.INVISIBLE);
     }

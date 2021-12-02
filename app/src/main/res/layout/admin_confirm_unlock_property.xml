@@ -30,58 +30,38 @@
             app:layout_constraintVertical_bias="0.034">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_horizontal"
-                android:background="@color/espasyo_blue_200">
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="8dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/icon_verified" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="Verifiying this request will:"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="8dp"
+                android:text="Unlocking this Property will enable students to view the Property including its contents."
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:padding="12dp"
-                android:text="- Include the property to the Masterlist\n- Enable students to view the Property including its contents\n- Certify that the property is safe for students"
+                android:layout_margin="16dp"
+                android:text="Do you want to continue?"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="16sp"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:paddingEnd="16dp"
-                android:paddingBottom="16dp"
+                android:paddingBottom="8dp"
+                android:background="@color/espasyo_blue_200"
                 android:gravity="end"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnCancelVerify"
+                    android:id="@+id/btnCancelUnlockProperty"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
@@ -89,17 +69,18 @@
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:text="Cancel"
                     android:textAllCaps="false"
-                    android:textColor="@color/espasyo_red_200"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <Button
-                    android:id="@+id/btnConfirmVerify"
+                    android:id="@+id/btnConfirmUnlockProperty"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginTop="5dp"
                     android:text="Confirm"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
+                    android:backgroundTint="@color/espasyo_green_200"
                     android:textSize="14sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

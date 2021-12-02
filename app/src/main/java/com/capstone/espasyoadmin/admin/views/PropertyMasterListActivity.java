@@ -50,6 +50,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         propertyMasterList = new ArrayList<>();
 
         initPropertyRecyclerView();
+        progressDialog.showProgressDialog("Loading Properties...", false);
         fetchVerifiedProperties();
 
         propertyMasterlistRVSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -97,10 +98,12 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
                             propertyMasterList.add(property);
                         }
                         propertyAdapter.notifyDataSetChanged();
+                        progressDialog.dismissProgressDialog();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
                 Toast.makeText(PropertyMasterListActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -115,5 +118,11 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         intent.putExtra("property", chosenProperty);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        fetchVerifiedProperties();
     }
 }

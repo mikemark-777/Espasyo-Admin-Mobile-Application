@@ -126,6 +126,13 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/lockedBanner"
+        android:layout_width="93dp"
+        android:layout_height="85dp"
+        android:layout_gravity="left"
+        android:src="@drawable/img_locked_banner" />
+
+    <ImageView
         android:id="@+id/propertyItem_iconVerified"
         android:layout_width="30dp"
         android:layout_height="30dp"
