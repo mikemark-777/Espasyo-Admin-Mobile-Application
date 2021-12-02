@@ -19,12 +19,15 @@ import androidx.fragment.app.DialogFragment;
 
 import com.capstone.espasyoadmin.R;
 
-public class SetReasonLockPropertyDialog extends DialogFragment{
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class SetReasonLockPropertyDialog extends DialogFragment {
 
     private ConfirmSetReasonLockPropertyListener listener;
     private LayoutInflater inflater;
 
-    private CheckBox lockedReason1, lockedReason2, lockedReason3;
+    private CheckBox lockedReason1, lockedReason2, lockedReason3, lockedReason4, lockedReason5;
     private EditText editTextOtherlockedReason;
 
     //for buttons of the dialog
@@ -45,14 +48,13 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "btn Confirm", Toast.LENGTH_SHORT).show();
-                /*String contentDetails = getInappropriateContentDetails();
-                if(!isInputEmpty(contentDetails)) {
-                    listener.getConfirmedReasonLockProperty(contentDetails);
+                ArrayList<String> reasonLocked = getReasonLockedProperty();
+                if(!reasonLocked.isEmpty()) {
+                    listener.getConfirmedReasonLockProperty(reasonLocked);
                     createdSetReasonLockPropertyDialog.dismiss();
                 } else {
                     Toast.makeText(getActivity(), "Please specify reason why this property will be locked", Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
 
@@ -60,11 +62,9 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
             @Override
             public void onClick(View v) {
                 createdSetReasonLockPropertyDialog.dismiss();
-                Toast.makeText(getActivity(), "btn Cancel", Toast.LENGTH_SHORT).show();
                 listener.cancelSetReasonLockProperty();
             }
         });
-
 
         return createdSetReasonLockPropertyDialog;
     }
@@ -75,38 +75,45 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
         lockedReason1 = view.findViewById(R.id.lockedReason1);
         lockedReason2 = view.findViewById(R.id.lockedReason2);
         lockedReason3 = view.findViewById(R.id.lockedReason3);
-        editTextOtherlockedReason= view.findViewById(R.id.editTextOtherLockedReason);
+        lockedReason4 = view.findViewById(R.id.lockedReason4);
+        lockedReason5 = view.findViewById(R.id.lockedReason5);
+
+        editTextOtherlockedReason = view.findViewById(R.id.editTextOtherLockedReason);
         //buttons
         btnConfirm = view.findViewById(R.id.btnConfirmSetReasonLockProperty);
         btnCancel = view.findViewById(R.id.btnCancelSetReasonLockProperty);
     }
 
-    // input validations
+    public ArrayList<String> getReasonLockedProperty() {
 
-    public boolean isInputEmpty(String inappropriateContentDetails) {
-        if(inappropriateContentDetails.equals("")) {
-            return true;
-        } else {
-            return false;
+        ArrayList<String> reasonLocked = new ArrayList<>();
+
+        if (lockedReason1.isChecked()) {
+            reasonLocked.add(lockedReason1.getText().toString());
         }
+
+        if (lockedReason2.isChecked()) {
+            reasonLocked.add(lockedReason2.getText().toString());
+        }
+
+        if (lockedReason3.isChecked()) {
+            reasonLocked.add(lockedReason3.getText().toString());
+        }
+
+        if (lockedReason4.isChecked()) {
+            reasonLocked.add(lockedReason4.getText().toString());
+        }
+
+        if (lockedReason5.isChecked()) {
+            reasonLocked.add(lockedReason5.getText().toString());
+        }
+        String otherLockedReason = editTextOtherlockedReason.getText().toString();
+        if (!otherLockedReason.equals("")) {
+            reasonLocked.add(otherLockedReason);
+        }
+
+        return reasonLocked;
     }
-
-   /* public String getInappropriateContentDetails() {
-        String inappropriateContentDetails = "";
-        if(inappropriateDetail1.isChecked()) {
-            inappropriateContentDetails += "- \t" + inappropriateDetail1.getText().toString() + "\n";
-        }
-
-        if(inappropriateDetail2.isChecked()) {
-            inappropriateContentDetails += "- \t" +  inappropriateDetail2.getText().toString() + "\n";
-        }
-        String otherInappropriateContentDetails = editTextOtherInappropriateDetails.getText().toString();
-        if (!otherInappropriateContentDetails.equals("")) {
-            return inappropriateContentDetails += "- \t" +  otherInappropriateContentDetails;
-        } else {
-            return inappropriateContentDetails;
-        }
-    }*/
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -114,13 +121,13 @@ public class SetReasonLockPropertyDialog extends DialogFragment{
         try {
             listener = (ConfirmSetReasonLockPropertyListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+
-            "must implement ConfirmedLocationDialogListener");
+            throw new ClassCastException(context.toString() +
+                    "must implement ConfirmedLocationDialogListener");
         }
     }
 
     public interface ConfirmSetReasonLockPropertyListener {
-        void getConfirmedReasonLockProperty(String inappropriateContentDetails);
+        void getConfirmedReasonLockProperty(ArrayList<String> reasonLocked);
         void cancelSetReasonLockProperty();
     }
 

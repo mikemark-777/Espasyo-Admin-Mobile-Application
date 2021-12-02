@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="370dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="12dp"
@@ -85,13 +85,25 @@
                 android:id="@+id/lockedReason2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Provides inaccurate information" />
+                android:text="Provided inaccurate room details" />
 
             <CheckBox
                 android:id="@+id/lockedReason3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Stated inaccurate price" />
+                android:text="Provided inaccurate rent inclusions" />
+
+            <CheckBox
+                android:id="@+id/lockedReason4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Provided inaccurate price" />
+
+            <CheckBox
+                android:id="@+id/lockedReason5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Provided incorrect property location" />
 
             <LinearLayout
                 android:layout_width="match_parent"

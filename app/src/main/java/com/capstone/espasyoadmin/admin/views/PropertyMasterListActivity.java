@@ -3,14 +3,16 @@ package com.capstone.espasyoadmin.admin.views;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
-import com.capstone.espasyoadmin.admin.AdminMainActivity;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.adapters.PropertyAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
@@ -35,6 +37,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
     private PropertyAdapter propertyAdapter;
     private ArrayList<Property> propertyMasterList;
 
+    private SwipeRefreshLayout propertyMasterlistRVSwipeRefresh;
     private CustomProgressDialog progressDialog;
 
     @Override
@@ -47,7 +50,20 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         propertyMasterList = new ArrayList<>();
 
         initPropertyRecyclerView();
-        fetchUserProperties();
+        fetchVerifiedProperties();
+
+        propertyMasterlistRVSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fetchVerifiedProperties();
+                        propertyMasterlistRVSwipeRefresh.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     public void initPropertyRecyclerView() {
@@ -62,10 +78,11 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         propertyRecyclerView.setAdapter(propertyAdapter);
 
         //initialize data aside from recyclerView
+        propertyMasterlistRVSwipeRefresh = findViewById(R.id.propertyMasterlistRVSwipeRefresh);
         progressDialog = new CustomProgressDialog(this);
     }
 
-    public void fetchUserProperties() {
+    public void fetchVerifiedProperties() {
         //retrieve the verified properties in the Properties Collection
         CollectionReference propertiesCollectionRef = database.collection("properties");
 
@@ -74,6 +91,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        propertyMasterList.clear();
                         for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
                             Property property = snapshot.toObject(Property.class);
                             propertyMasterList.add(property);

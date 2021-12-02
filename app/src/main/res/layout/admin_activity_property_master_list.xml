@@ -31,7 +31,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/dashboardSwipeRefresh"
+        android:id="@+id/propertyMasterlistRVSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,7 +59,7 @@
     <include
         android:id="@+id/empty_property_state_propertyMasterList"
         layout="@layout/admin_empty_property_recyclerview"
-        app:layout_constraintBottom_toBottomOf="@+id/dashboardSwipeRefresh"
+        app:layout_constraintBottom_toBottomOf="@+id/propertyMasterlistRVSwipeRefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

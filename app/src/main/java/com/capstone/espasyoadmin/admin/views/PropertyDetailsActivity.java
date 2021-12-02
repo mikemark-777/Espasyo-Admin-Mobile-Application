@@ -1,13 +1,16 @@
 package com.capstone.espasyoadmin.admin.views;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -43,6 +46,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener, SetReasonLockPropertyDialog.ConfirmSetReasonLockPropertyListener {
@@ -135,13 +139,9 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     showSetInappropriateContentDetailsDialog();
-                    lockPropertySwitch.setText("Unlock Property  ");
-                    lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_red_200));
-                    lockedImageDisplay.setVisibility(View.VISIBLE);
+                    displayLockedUI();
                 } else {
-                    lockPropertySwitch.setText("Lock Property  ");
-                    lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_blue_700));
-                    lockedImageDisplay.setVisibility(View.INVISIBLE);
+                    displayUnlockedUI();
                 }
             }
         });
@@ -183,6 +183,12 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         ImageView waterImageView = findViewById(R.id.icon_water);
         ImageView internetImageView = findViewById(R.id.icon_internet);
         ImageView garbageCollectionImageView = findViewById(R.id.icon_garbage);
+
+        if(isLocked) {
+            displayLockedUI();
+        } else {
+            displayUnlockedUI();
+        }
 
         if (!isElectricityIncluded) {
             electricityImageView.setImageResource(R.drawable.icon_no_electricity);
@@ -334,6 +340,75 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
         setReasonLockPropertyDialog.show(getSupportFragmentManager(), "setReasonLockPropertyDialog");
     }
 
+    public void lockProperty(Property property, ArrayList<String> reasonLocked) {
+        progressDialog.showProgressDialog("Locking Property...", false);
+        //lock the property and set the reason why property is locked
+        property.setLocked(true);
+        property.setReasonLocked(reasonLocked);
+
+        String propertyID = property.getPropertyID();
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+
+        propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(PropertyDetailsActivity.this, "Property has been locked", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(PropertyDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void showConfirmLockPropertyDialog(Property property ,ArrayList<String> reasonLocked) {
+        LayoutInflater inflater = LayoutInflater.from(PropertyDetailsActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_lock_property, null);
+
+        Button btnConfirmLockProperty = view.findViewById(R.id.btnConfirmLockProperty);
+        Button btnCancelLockProperty = view.findViewById(R.id.btnCancelLockProperty);
+
+        AlertDialog confirmLock = new AlertDialog.Builder(PropertyDetailsActivity.this)
+                .setView(view)
+                .create();
+
+        btnConfirmLockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lockProperty(property, reasonLocked);
+                confirmLock.dismiss();
+            }
+        });
+
+        btnCancelLockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayUnlockedUI();
+                confirmLock.dismiss();
+            }
+        });
+
+        confirmLock.show();
+    }
+
+    public void displayLockedUI() {
+        lockPropertySwitch.setChecked(true);
+        lockPropertySwitch.setText("Unlock Property  ");
+        lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_red_200));
+        lockedImageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    public void displayUnlockedUI() {
+        lockPropertySwitch.setChecked(false);
+        lockPropertySwitch.setText("Lock Property  ");
+        lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_blue_700));
+        lockedImageDisplay.setVisibility(View.INVISIBLE);
+    }
+
+
     //propertyDetailActivity Lifecycle -------------------------------------------------------------
 
     @Override
@@ -356,17 +431,14 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     }
 
     @Override
-    public void getConfirmedReasonLockProperty(String inappropriateContentDetails) {
-
+    public void getConfirmedReasonLockProperty(ArrayList<String> reasonLocked) {
+        showConfirmLockPropertyDialog(property, reasonLocked);
     }
 
     @Override
     public void cancelSetReasonLockProperty() {
-        lockPropertySwitch.setText("Lock Property  ");
-        lockPropertySwitch.setChecked(false);
-        lockPropertyLinearLayout.setBackgroundColor(getResources().getColor(R.color.espasyo_blue_700));
+        displayUnlockedUI();
         lockedImageDisplay.setVisibility(View.INVISIBLE);
     }
-
 
 }
