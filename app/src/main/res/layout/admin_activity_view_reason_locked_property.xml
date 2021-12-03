@@ -10,7 +10,7 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/espasyo_red_200"
+        android:background="@color/espasyo_blue_200"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.10"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/lockedImageDisplay"
-            android:layout_width="35dp"
+            android:id="@+id/backToPropertyDetails_locked"
+            android:layout_width="25dp"
             android:layout_height="35dp"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/icon_property_locked"
+            android:src="@drawable/icon_back_normal"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,76 +30,149 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="Locked Property Details"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/lockedImageDisplay"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.38"
+            app:layout_constraintStart_toEndOf="@+id/backToPropertyDetails_locked"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.49" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="16dp"
-        app:cardBackgroundColor="@color/espasyo_orange_200"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".90"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/espasyo_orange_200"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/lockedImageDisplay"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/icon_locked" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/icon_info" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Reason why this Property was locked:"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/displayReason_locked"
-                    android:layout_width="match_parent"
+                    android:id="@+id/displayPropertyName_locked"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Reason Here" />
+                    android:text="Property Name"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/displayPropertyAddress_locked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aglipay ST., Bayombong, NV."
+                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
             </LinearLayout>
+
+
+
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This property was locked because of either a violation, inappropriate contents or incorrect details. This property cannot be seen by students as of the moment."/>
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@color/espasyo_orange_200"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/espasyo_orange_200"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/icon_info" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reason(s) why this Property was locked:"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/displayReason_locked"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Reason Here" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

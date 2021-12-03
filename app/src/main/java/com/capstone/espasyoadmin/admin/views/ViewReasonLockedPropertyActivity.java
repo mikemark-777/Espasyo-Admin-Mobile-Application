@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.capstone.espasyoadmin.R;
@@ -15,6 +17,8 @@ public class ViewReasonLockedPropertyActivity extends AppCompatActivity {
 
     private Property property;
     private TextView displayReasonLocked;
+    private TextView displayPropertyName, displayPropertyAddress;
+    private ImageView backToPropertyDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +29,42 @@ public class ViewReasonLockedPropertyActivity extends AppCompatActivity {
         Intent intent = getIntent();
         getDataFromIntent(intent);
 
+        backToPropertyDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     public void initializeViews() {
         displayReasonLocked = findViewById(R.id.displayReason_locked);
+        displayPropertyName = findViewById(R.id.displayPropertyName_locked);
+        displayPropertyAddress = findViewById(R.id.displayPropertyAddress_locked);
+        backToPropertyDetails = findViewById(R.id.backToPropertyDetails_locked);
     }
 
     public void getDataFromIntent(Intent intent) {
         property = intent.getParcelableExtra("property");
-        ArrayList<String> reasonLocked = property.getReasonLocked();
-        displayReason(reasonLocked);
+        displayDetails(property);
     }
 
-    public void displayReason(ArrayList<String> reasonLocked) {
+    public void displayDetails(Property property) {
+        //extract property name, address and reasonLocked
+        ArrayList<String> reasonLocked = property.getReasonLocked();
+        String propertyName = property.getName();
+        String propertyAddress = property.getAddress();
+
+        //display property name and address
+        displayPropertyName.setText(propertyName);
+        displayPropertyAddress.setText(propertyAddress);
+
+        // display reason locked
         String concatReason = "";
         for(String reason : reasonLocked) {
             concatReason += "- " + reason + "\n";
         }
-
         displayReasonLocked.setText(concatReason);
     }
 }
