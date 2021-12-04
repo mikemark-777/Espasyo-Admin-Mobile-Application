@@ -89,11 +89,8 @@
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/property_item.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/room_item.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/layout/terms_and_conditions.xml" value="0.33" />
+        <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/menu/declined_menu_option.xml" value="0.33" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/menu/verified_menu_option.xml" value="0.25" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_property_details.xml" value="0.4466666666666667" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_provide_reason_declined_verification.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_view_reason_locked_property.xml" value="0.4466666666666667" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_set_reason_lock_property_dialog.xml" value="0.5" />
       </map>
     </option>
   </component>

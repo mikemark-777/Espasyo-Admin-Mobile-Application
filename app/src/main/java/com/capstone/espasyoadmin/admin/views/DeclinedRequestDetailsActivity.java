@@ -1,16 +1,22 @@
 package com.capstone.espasyoadmin.admin.views;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
+import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.models.Landlord;
 import com.capstone.espasyoadmin.models.Property;
@@ -22,9 +28,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
-public class DeclinedRequestDetailsActivity extends AppCompatActivity {
+public class DeclinedRequestDetailsActivity extends AppCompatActivity  implements PopupMenu.OnMenuItemClickListener{
 
     private FirebaseConnection firebaseConnection;
     private FirebaseFirestore database;
@@ -37,7 +46,10 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
 
     private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayReason, displayPropertyName, displayPropertyType,
             displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
+    private ImageView declinedRequestMenuOption;
     private ImageView displayBusinessPermit;
+
+    private CustomProgressDialog progressDialog;
 
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
@@ -69,6 +81,16 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
             }
         });
 
+        declinedRequestMenuOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(DeclinedRequestDetailsActivity.this, v);
+                popupMenu.setOnMenuItemClickListener(DeclinedRequestDetailsActivity.this);
+                popupMenu.inflate(R.menu.declined_menu_option);
+                popupMenu.show();
+            }
+        });
+
     }
 
     public void initializeViews() {
@@ -86,6 +108,9 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
 
         //imageviews
         displayBusinessPermit = findViewById(R.id.displayBusinessPermitImageView_declined);
+        declinedRequestMenuOption = findViewById(R.id.declinedRequestMenuOption);
+        //progress dialog
+        progressDialog = new CustomProgressDialog(this);
     }
 
     public void getDataFromIntent(Intent intent) {
@@ -188,4 +213,131 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity {
         displayLandlordPhoneNumber.setText(landlordPhoneNumber);
     }
 
+    public void moveRequestToVerified() {
+        progressDialog.showProgressDialog("Moving...", false);
+        //first is to change status of this verification request to unverified, make date verified to null
+        verificationRequest.setStatus("verified");
+        verificationRequest.setDeclinedVerificationDescription(null);
+        verificationRequest.setDateVerified(getDateVerified());
+
+        String verificationRequestID = verificationRequest.getVerificationRequestID();
+        String propertyID = property.getPropertyID();
+        DocumentReference verificationDocRef = database.collection("verificationRequests").document(verificationRequestID);
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+        verificationDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //second is to change isVerified and isLocked of property linked to this to false
+                property.setVerified(true);
+                property.setLocked(false);
+                propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        finish();
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(DeclinedRequestDetailsActivity.this, "Request successfully moved", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(DeclinedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(DeclinedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void moveRequestToUnverified() {
+        progressDialog.showProgressDialog("Moving...", false);
+        //first is to change status of this verification request to unverified, make date verified to null
+        verificationRequest.setStatus("unverified");
+        verificationRequest.setDateVerified(null);
+
+        String verificationRequestID = verificationRequest.getVerificationRequestID();
+        String propertyID = property.getPropertyID();
+        DocumentReference verificationDocRef = database.collection("verificationRequests").document(verificationRequestID);
+        DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+        verificationDocRef.set(verificationRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                //second is to change isVerified and isLocked of property linked to this to false
+                property.setVerified(false);
+                property.setLocked(false);
+                propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        finish();
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(DeclinedRequestDetailsActivity.this, "Request successfully moved", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismissProgressDialog();
+                        Toast.makeText(DeclinedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismissProgressDialog();
+                Toast.makeText(DeclinedRequestDetailsActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public String getDateVerified() {
+        Date currentDate = Calendar.getInstance().getTime();
+        return DateFormat.getDateInstance(DateFormat.FULL).format(currentDate);
+    }
+
+    public void showConfirmMoveToVerified() {
+        LayoutInflater inflater = LayoutInflater.from(DeclinedRequestDetailsActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_verify_request, null);
+
+        Button btnConfirmMoveToVerified = view.findViewById(R.id.btnConfirmVerify);
+        Button btnCancelMoveToVerified = view.findViewById(R.id.btnCancelVerify);
+
+        AlertDialog confirmMoveToVerified = new AlertDialog.Builder(DeclinedRequestDetailsActivity.this)
+                .setView(view)
+                .create();
+
+        btnConfirmMoveToVerified.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moveRequestToVerified();
+                confirmMoveToVerified.dismiss();
+            }
+        });
+
+        btnCancelMoveToVerified.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmMoveToVerified.dismiss();
+            }
+        });
+
+        confirmMoveToVerified.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.menuMoveToVerifiedRequest_declined) {
+            showConfirmMoveToVerified();
+        } else if (item.getItemId() ==  R.id.menuMoveToUnverifiedRequest_declined ) {
+            Toast.makeText(DeclinedRequestDetailsActivity.this, "Move to verified", Toast.LENGTH_SHORT).show();
+            //showConfirmMoveToDeclinedRequests();
+           // Intent intent = new Intent(VerifiedRequestDetailsActivity.this, ProvideReasonDeclinedVerificationActivity.class);
+           // MoveToDeclinedRequestsActivityResultLauncher.launch(intent);
+        }
+        return false;
+    }
 }

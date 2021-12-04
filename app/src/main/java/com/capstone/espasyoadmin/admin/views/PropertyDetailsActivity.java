@@ -89,6 +89,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
 
         //Initialize FirebaseConnection, FirebaseAuth and FirebaseFirestore
         firebaseConnection = FirebaseConnection.getInstance();
+
         fAuth = firebaseConnection.getFirebaseAuthInstance();
         database = firebaseConnection.getFirebaseFirestoreInstance();
         propertyRooms = new ArrayList<>();
@@ -485,6 +486,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
     protected void onRestart() {
         super.onRestart();
         fetchPropertyRooms();
+
     }
 
     @Override
