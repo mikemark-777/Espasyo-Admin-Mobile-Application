@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -259,6 +260,7 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         //first is to change status of this verification request to unverified, make date verified to null
         verificationRequest.setStatus("unverified");
         verificationRequest.setDateVerified(null);
+        verificationRequest.setDeclinedVerificationDescription(null);
 
         String verificationRequestID = verificationRequest.getVerificationRequestID();
         String propertyID = property.getPropertyID();
@@ -328,15 +330,30 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         confirmMoveToVerified.show();
     }
 
+    public void showConfirmMoveToUnverifiedRequests() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm to Move")
+                .setMessage("Are you sure you want to move this request to Unverified Requests?")
+                .setPositiveButton("Move", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        moveRequestToUnverified();
+                        dialog.dismiss();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).create().show();
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId() == R.id.menuMoveToVerifiedRequest_declined) {
             showConfirmMoveToVerified();
         } else if (item.getItemId() ==  R.id.menuMoveToUnverifiedRequest_declined ) {
-            Toast.makeText(DeclinedRequestDetailsActivity.this, "Move to verified", Toast.LENGTH_SHORT).show();
-            //showConfirmMoveToDeclinedRequests();
-           // Intent intent = new Intent(VerifiedRequestDetailsActivity.this, ProvideReasonDeclinedVerificationActivity.class);
-           // MoveToDeclinedRequestsActivityResultLauncher.launch(intent);
+            showConfirmMoveToUnverifiedRequests();
         }
         return false;
     }
