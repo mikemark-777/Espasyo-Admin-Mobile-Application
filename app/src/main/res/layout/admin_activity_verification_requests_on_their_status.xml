@@ -271,7 +271,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4dp"
                     android:contentDescription="property_verification_requests_image"
-                    android:src="@drawable/img_declined_verification_requests" />
+                    android:src="@drawable/img_expired_verification_requests" />
 
                 <LinearLayout
                     android:layout_width="180dp"

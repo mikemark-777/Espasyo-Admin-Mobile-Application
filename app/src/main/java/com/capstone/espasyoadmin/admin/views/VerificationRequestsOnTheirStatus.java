@@ -11,7 +11,7 @@ import com.capstone.espasyoadmin.R;
 
 public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
 
-    private CardView btnGotoVerifiedRequests, btnGotoUnverifiedRequests, btnGotoDeclinedRequests;
+    private CardView btnGotoVerifiedRequests, btnGotoUnverifiedRequests, btnGotoDeclinedRequests, btnGotoExpiredRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,13 @@ public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
                 gotoDeclinedRequests();
             }
         });
+
+        btnGotoExpiredRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoExpiredRequests();
+            }
+        });
     }
 
     public void initializeViews() {
@@ -47,6 +54,7 @@ public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
         btnGotoVerifiedRequests = findViewById(R.id.btnGotoVerifiedRequests);
         btnGotoUnverifiedRequests = findViewById(R.id.btnGotoUnverifiedRequests);
         btnGotoDeclinedRequests = findViewById(R.id.btnGotoDeclinedRequests);
+        btnGotoExpiredRequests = findViewById(R.id.btnGotoExpiredRequests);
     }
 
     public void gotoVerifiedRequests() {
@@ -64,6 +72,12 @@ public class VerificationRequestsOnTheirStatus extends AppCompatActivity {
     public void gotoDeclinedRequests() {
         Intent declinedListIntent = new Intent(VerificationRequestsOnTheirStatus.this, DeclinedVerificationRequestsActivity.class);
         startActivity(declinedListIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoExpiredRequests() {
+        Intent expiredListIntent = new Intent(VerificationRequestsOnTheirStatus.this, ExpiredVerificationRequestsActivity.class);
+        startActivity(expiredListIntent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 

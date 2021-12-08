@@ -48,6 +48,12 @@
             android:name=".admin.views.DeclinedVerificationRequestsActivity"
             android:exported="true" />
         <activity
+            android:name=".admin.views.ExpiredVerificationRequestsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".admin.views.ExpiredRequestDetailsActivity"
+            android:exported="true" />
+        <activity
             android:name=".admin.views.UnverifiedVerificationRequestsActivity"
             android:exported="true" />
         <activity

@@ -1,14 +1,14 @@
 package com.capstone.espasyoadmin.admin.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
@@ -17,8 +17,6 @@ import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.VerificationRequestRecyclerView;
 import com.capstone.espasyoadmin.models.VerificationRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -26,35 +24,32 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class VerifiedVerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener {
+public class ExpiredVerificationRequestsActivity extends AppCompatActivity implements VerificationRequestAdapter.OnVerificationRequestListener {
 
     private FirebaseConnection firebaseConnection;
-    private FirebaseAuth fAuth;
     private FirebaseFirestore database;
 
     private VerificationRequestRecyclerView verificationRequestsRecyclerView;
     private View verificationRequestsRecyclerViewEmptyState;
     private VerificationRequestAdapter verificationRequestAdapter;
-    private ArrayList<VerificationRequest> verifiedVerifications;
+    private ArrayList<VerificationRequest> expiredVerifications;
 
-    private ExtendedFloatingActionButton composeVerificationRequestFAB;
     private SwipeRefreshLayout verificationRequestRVSwipeRefresh;
     private CustomProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_activity_verified_verification_requests);
+        setContentView(R.layout.admin_activity_expired_verification_requests);
 
         //Initialize
         firebaseConnection = FirebaseConnection.getInstance();
         database = firebaseConnection.getFirebaseFirestoreInstance();
-        fAuth = firebaseConnection.getFirebaseAuthInstance();
-        verifiedVerifications = new ArrayList<>();
+        expiredVerifications = new ArrayList<>();
 
         initVerificationRequest();
 
-        progressDialog.showProgressDialog("Loading Verified Requests...", false);
+        progressDialog.showProgressDialog("Loading Expired Requests...", false);
         fetchVerificationRequest();
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -78,39 +73,37 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
 
             }
         });
+
     }
 
     public void initVerificationRequest() {
         // initialize verificationRequestRecyclerView, layoutManager and verificationRequestAdapter
-        verificationRequestsRecyclerViewEmptyState = findViewById(R.id.empty_verified_request_state);
-        verificationRequestsRecyclerView = (VerificationRequestRecyclerView) findViewById(R.id.verifiedRequestRecyclerView);
+        verificationRequestsRecyclerViewEmptyState = findViewById(R.id.empty_declined_request_state);
+        verificationRequestsRecyclerView = (VerificationRequestRecyclerView) findViewById(R.id.declinedRequestRecyclerView);
         verificationRequestsRecyclerView.showIfEmpty(verificationRequestsRecyclerViewEmptyState);
         verificationRequestsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager verificationRequestLayoutManager = new LinearLayoutManager(VerifiedVerificationRequestsActivity.this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager verificationRequestLayoutManager = new LinearLayoutManager(ExpiredVerificationRequestsActivity.this, LinearLayoutManager.VERTICAL, false);
         verificationRequestsRecyclerView.setLayoutManager(verificationRequestLayoutManager);
-        verificationRequestAdapter = new VerificationRequestAdapter(VerifiedVerificationRequestsActivity.this, verifiedVerifications, this);
+        verificationRequestAdapter = new VerificationRequestAdapter(ExpiredVerificationRequestsActivity.this, expiredVerifications, this);
         verificationRequestsRecyclerView.setAdapter(verificationRequestAdapter);
-        verificationRequestRVSwipeRefresh = findViewById(R.id.verifiedRequestSwipeRefresh);
+        verificationRequestRVSwipeRefresh = findViewById(R.id.declinedRequestSwipeRefresh);
 
         //initialize custom progress dialog
-        composeVerificationRequestFAB = findViewById(R.id.composeVerificationRequestFAB);
-        progressDialog = new CustomProgressDialog(VerifiedVerificationRequestsActivity.this);
+        progressDialog = new CustomProgressDialog(ExpiredVerificationRequestsActivity.this);
     }
 
     public void fetchVerificationRequest() {
         //get the all the issued a verification request
         CollectionReference verificationRequestCollection = database.collection("verificationRequests");
-        verificationRequestCollection.whereEqualTo("status", "verified")
+        verificationRequestCollection.whereEqualTo("expired", true)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        verifiedVerifications.clear();
+                        expiredVerifications.clear();
                         for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
                             VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
-                            if(!verificationRequestObject.isExpired()) {
-                                verifiedVerifications.add(verificationRequestObject);
-                            }
+                            expiredVerifications.add(verificationRequestObject);
                         }
                         verificationRequestAdapter.notifyDataSetChanged();
                     }
@@ -120,8 +113,8 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
     @Override
     public void onVerificationRequestClick(int position) {
         // get the position of the clicked verification request
-        Intent intent = new Intent(VerifiedVerificationRequestsActivity.this, VerifiedRequestDetailsActivity.class);
-        intent.putExtra("verificationRequest", verifiedVerifications.get(position));
+        Intent intent = new Intent(ExpiredVerificationRequestsActivity.this, ExpiredRequestDetailsActivity.class);
+        intent.putExtra("verificationRequest", expiredVerifications.get(position));
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
