@@ -53,10 +53,12 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
 
     private ActivityResultLauncher<Intent> MoveToDeclinedRequestsActivityResultLauncher;
 
-    //verificaiton status
+    //verification status
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
     private final String DECLINED = "Declined";
+    private final String EXPIRED = "Expired";
+
     //verification classification
     private final String NEW = "New";
     private final String RENEW = "Renew";
@@ -180,6 +182,12 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         } else if (status.equals("unverified")) {
             displayStatus.setText(UNVERIFIED);
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_200));
+        } else if (status.equals("declined")) {
+            displayStatus.setText(DECLINED);
+            displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_orange_200));
+        } else if(status.equals("expired")) {
+            displayStatus.setText(EXPIRED);
+            displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_500));
         }
 
         if (classification.equals("new")) {

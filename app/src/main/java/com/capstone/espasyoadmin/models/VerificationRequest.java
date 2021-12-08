@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class VerificationRequest implements Parcelable {
 
     private String verificationRequestID;
-    private boolean isExpired;
     private String status;
     private String classification;
     private String dateSubmitted;
@@ -29,7 +28,6 @@ public class VerificationRequest implements Parcelable {
 
     protected VerificationRequest(Parcel in) {
         verificationRequestID = in.readString();
-        isExpired = in.readByte() != 0;
         status = in.readString();
         classification = in.readString();
         dateSubmitted = in.readString();
@@ -56,10 +54,6 @@ public class VerificationRequest implements Parcelable {
 
     public void setVerificationRequestID(String verificationRequestID) {
         this.verificationRequestID = verificationRequestID;
-    }
-
-    public void setExpired(boolean expired) {
-        isExpired = expired;
     }
 
     public void setStatus(String status) {
@@ -104,10 +98,6 @@ public class VerificationRequest implements Parcelable {
 
     public String getVerificationRequestID() {
         return verificationRequestID;
-    }
-
-    public boolean isExpired() {
-        return isExpired;
     }
 
     public String getStatus() {
@@ -158,7 +148,6 @@ public class VerificationRequest implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(verificationRequestID);
-        dest.writeByte((byte) (isExpired ? 1 : 0));
         dest.writeString(status);
         dest.writeString(classification);
         dest.writeString(dateSubmitted);

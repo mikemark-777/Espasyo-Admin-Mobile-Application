@@ -384,6 +384,7 @@ public class PropertyDetailsActivity extends AppCompatActivity implements RoomAd
                 confirmLockDialog.dismiss();
             }
         });
+        confirmLockDialog.setCancelable(false);
         confirmLockDialog.show();
     }
 

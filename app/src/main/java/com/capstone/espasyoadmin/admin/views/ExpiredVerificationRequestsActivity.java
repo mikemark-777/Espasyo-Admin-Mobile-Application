@@ -95,7 +95,7 @@ public class ExpiredVerificationRequestsActivity extends AppCompatActivity imple
     public void fetchVerificationRequest() {
         //get the all the issued a verification request
         CollectionReference verificationRequestCollection = database.collection("verificationRequests");
-        verificationRequestCollection.whereEqualTo("expired", true)
+        verificationRequestCollection.whereEqualTo("status", "expired")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

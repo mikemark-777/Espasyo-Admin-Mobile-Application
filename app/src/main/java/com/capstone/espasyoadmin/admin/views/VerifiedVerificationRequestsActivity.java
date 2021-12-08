@@ -1,5 +1,6 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -8,13 +9,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.adapters.VerificationRequestAdapter;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.VerificationRequestRecyclerView;
+import com.capstone.espasyoadmin.models.Property;
 import com.capstone.espasyoadmin.models.VerificationRequest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -37,9 +42,9 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
     private VerificationRequestAdapter verificationRequestAdapter;
     private ArrayList<VerificationRequest> verifiedVerifications;
 
-    private ExtendedFloatingActionButton composeVerificationRequestFAB;
     private SwipeRefreshLayout verificationRequestRVSwipeRefresh;
     private CustomProgressDialog progressDialog;
+    private Button btnExpireAllVerifiedRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,13 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
 
             }
         });
+
+        btnExpireAllVerifiedRequests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showConfirmExpireAll();
+            }
+        });
     }
 
     public void initVerificationRequest() {
@@ -93,11 +105,54 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
         verificationRequestRVSwipeRefresh = findViewById(R.id.verifiedRequestSwipeRefresh);
 
         //initialize custom progress dialog
-        composeVerificationRequestFAB = findViewById(R.id.composeVerificationRequestFAB);
         progressDialog = new CustomProgressDialog(VerifiedVerificationRequestsActivity.this);
+        btnExpireAllVerifiedRequests = findViewById(R.id.btnExpireAllVerifiedRequests);
     }
 
     public void fetchVerificationRequest() {
+        //get the all the issued verification request that is verified
+        CollectionReference verificationRequestCollection = database.collection("verificationRequests");
+        verificationRequestCollection.whereEqualTo("status", "verified")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        verifiedVerifications.clear();
+                        for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
+                            VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
+                            verifiedVerifications.add(verificationRequestObject);
+                        }
+                        verificationRequestAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    public void showConfirmExpireAll() {
+        LayoutInflater inflater = LayoutInflater.from(VerifiedVerificationRequestsActivity.this);
+        View view = inflater.inflate(R.layout.admin_confirm_expire_all_verification_requests, null);
+
+        Button btnConfirmUnlockProperty = view.findViewById(R.id.btnConfirmUnlockProperty);
+        Button btnCancelUnlockProperty = view.findViewById(R.id.btnCancelUnlockProperty);
+
+        AlertDialog confirmExpireAllDialog = new AlertDialog.Builder(VerifiedVerificationRequestsActivity.this).setView(view).create();
+
+        btnConfirmUnlockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmExpireAllDialog.dismiss();
+            }
+        });
+        btnCancelUnlockProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmExpireAllDialog.dismiss();
+            }
+        });
+        confirmExpireAllDialog.setCancelable(false);
+        confirmExpireAllDialog.show();
+    }
+
+    public void expireAllVerifiedRequests() {
         //get the all the issued a verification request
         CollectionReference verificationRequestCollection = database.collection("verificationRequests");
         verificationRequestCollection.whereEqualTo("status", "verified")
@@ -108,9 +163,7 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
                         verifiedVerifications.clear();
                         for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
                             VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
-                            if(!verificationRequestObject.isExpired()) {
-                                verifiedVerifications.add(verificationRequestObject);
-                            }
+                            verifiedVerifications.add(verificationRequestObject);
                         }
                         verificationRequestAdapter.notifyDataSetChanged();
                     }

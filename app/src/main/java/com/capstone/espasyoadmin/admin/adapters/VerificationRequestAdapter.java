@@ -31,7 +31,7 @@ public class VerificationRequestAdapter extends RecyclerView.Adapter<Verificatio
     @Override
     public VerificationRequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate((R.layout.admin_verification_request_item), parent, false);
-        return  new VerificationRequestViewHolder(view, onVerificationRequestListener);
+        return new VerificationRequestViewHolder(view, onVerificationRequestListener);
     }
 
     @Override
@@ -44,15 +44,13 @@ public class VerificationRequestAdapter extends RecyclerView.Adapter<Verificatio
         String classification = verificationRequest.getClassification();
 
 
-        if(!verificationRequest.isExpired()) {
-            if(status.equals("verified")) {
-                holder.verifiedIconDisplay.setImageResource(R.drawable.icon_verified);
-            } else if(status.equals("unverified")){
-                holder.verifiedIconDisplay.setImageResource(R.drawable.icon_unverified);
-            } else if(status.equals("declined")) {
-                holder.verifiedIconDisplay.setImageResource(R.drawable.icon_declined);
-            }
-        } else {
+        if (status.equals("verified")) {
+            holder.verifiedIconDisplay.setImageResource(R.drawable.icon_verified);
+        } else if (status.equals("unverified")) {
+            holder.verifiedIconDisplay.setImageResource(R.drawable.icon_unverified);
+        } else if (status.equals("declined")) {
+            holder.verifiedIconDisplay.setImageResource(R.drawable.icon_declined);
+        } else if (status.equals("expired")) {
             holder.verifiedIconDisplay.setImageResource(R.drawable.icon_expired);
         }
 
@@ -60,9 +58,9 @@ public class VerificationRequestAdapter extends RecyclerView.Adapter<Verificatio
         holder.propertyName.setText(propertyName);
         holder.dateSubmitted.setText(dateSubmitted);
 
-        if(classification.equals("new")) {
+        if (classification.equals("new")) {
             holder.classification.setText("New");
-        } else if(classification.equals("renew")) {
+        } else if (classification.equals("renew")) {
             holder.classification.setText("Renew");
         }
     }
@@ -73,7 +71,7 @@ public class VerificationRequestAdapter extends RecyclerView.Adapter<Verificatio
         return propertyVerifications.size();
     }
 
-    public static class  VerificationRequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class VerificationRequestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView propertyName, dateSubmitted, dateVerified, classification;
         ImageView verifiedIconDisplay;

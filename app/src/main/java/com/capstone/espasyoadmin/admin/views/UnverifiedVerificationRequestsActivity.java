@@ -37,7 +37,6 @@ public class UnverifiedVerificationRequestsActivity extends AppCompatActivity im
     private VerificationRequestAdapter verificationRequestAdapter;
     private ArrayList<VerificationRequest> unverifiedVerifications;
 
-    private ExtendedFloatingActionButton composeVerificationRequestFAB;
     private SwipeRefreshLayout verificationRequestRVSwipeRefresh;
     private CustomProgressDialog progressDialog;
 
@@ -94,7 +93,6 @@ public class UnverifiedVerificationRequestsActivity extends AppCompatActivity im
         verificationRequestRVSwipeRefresh = findViewById(R.id.unverifiedRequestSwipeRefresh);
 
         //initialize custom progress dialog
-        composeVerificationRequestFAB = findViewById(R.id.composeVerificationRequestFAB);
         progressDialog = new CustomProgressDialog(UnverifiedVerificationRequestsActivity.this);
     }
 

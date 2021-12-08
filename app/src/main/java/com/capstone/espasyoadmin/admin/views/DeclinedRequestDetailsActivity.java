@@ -52,9 +52,11 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
 
     private CustomProgressDialog progressDialog;
 
+    //statuses
     private final String VERIFIED = "Verified";
     private final String UNVERIFIED = "Unverified";
     private final String DECLINED = "Declined";
+    private final String EXPIRED = "Expired";
 
     private final String NEW = "New";
     private final String RENEW = "Renew";
@@ -160,6 +162,12 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         } else if (status.equals("unverified")) {
             displayStatus.setText(UNVERIFIED);
             displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_200));
+        } else if (status.equals("declined")) {
+            displayStatus.setText(DECLINED);
+            displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_orange_200));
+        } else if(status.equals("expired")) {
+            displayStatus.setText(EXPIRED);
+            displayStatus.setTextColor(this.getResources().getColor(R.color.espasyo_red_500));
         }
 
         if (classification.equals("new")) {
