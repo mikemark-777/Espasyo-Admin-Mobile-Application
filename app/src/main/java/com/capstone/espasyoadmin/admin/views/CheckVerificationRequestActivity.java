@@ -47,7 +47,7 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
     private Property property;
 
     private TextView displayStatus, displayClassification, displayDateSubmitted, displayPropertyName, displayPropertyType,
-            displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
+            displayPropertyAddress, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView displayBusinessPermit;
 
     private Button btnVerifyVerificationRequest, btnDeclineVerificationRequest, btnViewProperty;
@@ -133,7 +133,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         displayPropertyName = findViewById(R.id.displayPropertyName_verification);
         displayPropertyType = findViewById(R.id.displayPropertyType_verification);
         displayPropertyAddress = findViewById(R.id.displayPropertyAddress_verification);
-        displayProprietorName = findViewById(R.id.displayProprietorName_verification);
         displayLandlordName = findViewById(R.id.displayLandlordName_verification);
         displayLandlordPhoneNumber = findViewById(R.id.displayLandlordPhoneNumber_verification);
 
@@ -181,7 +180,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         String propertyName = property.getName();
         String propertyType = property.getPropertyType();
         String propertyAddress = property.getAddress();
-        String proprietorName = property.getProprietorName();
         String landlordID = property.getOwner();
 
         //display all data
@@ -205,7 +203,6 @@ public class CheckVerificationRequestActivity extends AppCompatActivity {
         displayPropertyName.setText(propertyName);
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);
-        displayProprietorName.setText(proprietorName);
 
         //will display the image of municipal business permit based on the newly picked municipal business permit image
         Picasso.get()

@@ -46,7 +46,7 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
     private Property property;
 
     private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayReason, displayPropertyName, displayPropertyType,
-            displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
+            displayPropertyAddress, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView declinedRequestMenuOption;
     private ImageView displayBusinessPermit;
 
@@ -103,7 +103,6 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         displayPropertyName = findViewById(R.id.displayPropertyName_declined);
         displayPropertyType = findViewById(R.id.displayPropertyType_declined);
         displayPropertyAddress = findViewById(R.id.displayPropertyAddress_declined);
-        displayProprietorName = findViewById(R.id.displayProprietorName_declined);
         displayLandlordName = findViewById(R.id.displayLandlordName_declined);
         displayLandlordPhoneNumber = findViewById(R.id.displayLandlordPhoneNumber_declined);
 
@@ -150,7 +149,6 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         String propertyName = property.getName();
         String propertyType = property.getPropertyType();
         String propertyAddress = property.getAddress();
-        String proprietorName = property.getProprietorName();
         String landlordID = property.getOwner();
 
         //display all data
@@ -181,7 +179,6 @@ public class DeclinedRequestDetailsActivity extends AppCompatActivity  implement
         displayPropertyName.setText(propertyName);
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);
-        displayProprietorName.setText(proprietorName);
 
         //will display the image of municipal business permit based on the newly picked municipal business permit image
         Picasso.get()

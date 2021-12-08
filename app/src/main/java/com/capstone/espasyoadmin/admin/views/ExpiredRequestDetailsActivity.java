@@ -45,7 +45,7 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
     private String propertyID;
     private Property property;
 
-    private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayPropertyName, displayPropertyType, displayPropertyAddress, displayProprietorName, displayLandlordName, displayLandlordPhoneNumber;
+    private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayPropertyName, displayPropertyType, displayPropertyAddress, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView verifiedRequestMenuOption;
     private ImageView displayBusinessPermit;
 
@@ -118,7 +118,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         displayPropertyName = findViewById(R.id.displayPropertyName_verified);
         displayPropertyType = findViewById(R.id.displayPropertyType_verified);
         displayPropertyAddress = findViewById(R.id.displayPropertyAddress_verified);
-        displayProprietorName = findViewById(R.id.displayProprietorName_verified);
         displayLandlordName = findViewById(R.id.displayLandlordName_verified);
         displayLandlordPhoneNumber = findViewById(R.id.displayLandlordPhoneNumber_verified);
 
@@ -170,7 +169,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         String propertyName = property.getName();
         String propertyType = property.getPropertyType();
         String propertyAddress = property.getAddress();
-        String proprietorName = property.getProprietorName();
         String landlordID = property.getOwner();
 
         //display all data
@@ -195,7 +193,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         displayPropertyName.setText(propertyName);
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);
-        displayProprietorName.setText(proprietorName);
 
 
         //will display the image of municipal business permit based on the newly picked municipal business permit image

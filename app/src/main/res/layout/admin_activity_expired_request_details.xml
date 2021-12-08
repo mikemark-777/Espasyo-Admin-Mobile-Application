@@ -333,26 +333,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Proprietor Name: "
-                                android:textColor="@color/black"
-                                android:textSize="13sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/displayProprietorName_verified"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="Beverly Q. Bautista"
-                                android:textSize="13sp" />
-
-                        </LinearLayout>
+                            android:orientation="horizontal"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"

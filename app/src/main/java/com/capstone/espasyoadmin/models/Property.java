@@ -29,7 +29,6 @@ public class Property implements Parcelable{
     private String propertyType;
     private String name;
     private String address;
-    private String proprietorName;
     private int minimumPrice;
     private int maximumPrice;
     private boolean isElectricityIncluded;
@@ -56,7 +55,6 @@ public class Property implements Parcelable{
         propertyType = in.readString();
         name = in.readString();
         address = in.readString();
-        proprietorName = in.readString();
         minimumPrice = in.readInt();
         maximumPrice = in.readInt();
         isElectricityIncluded = in.readByte() != 0;
@@ -120,10 +118,6 @@ public class Property implements Parcelable{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public void setProprietorName(String proprietorName) {
-        this.proprietorName = proprietorName;
     }
 
     public void setMinimumPrice(int minimumPrice) {
@@ -200,10 +194,6 @@ public class Property implements Parcelable{
         return address;
     }
 
-    public String getProprietorName() {
-        return proprietorName;
-    }
-
     public int getMinimumPrice() {
         return minimumPrice;
     }
@@ -250,7 +240,6 @@ public class Property implements Parcelable{
         dest.writeString(propertyType);
         dest.writeString(name);
         dest.writeString(address);
-        dest.writeString(proprietorName);
         dest.writeInt(minimumPrice);
         dest.writeInt(maximumPrice);
         dest.writeByte((byte) (isElectricityIncluded ? 1 : 0));
