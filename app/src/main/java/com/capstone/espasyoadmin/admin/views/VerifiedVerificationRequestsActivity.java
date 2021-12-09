@@ -1,5 +1,6 @@
 package com.capstone.espasyoadmin.admin.views;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,13 +22,17 @@ import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.widgets.VerificationRequestRecyclerView;
 import com.capstone.espasyoadmin.models.Property;
 import com.capstone.espasyoadmin.models.VerificationRequest;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 
@@ -131,18 +136,20 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
         LayoutInflater inflater = LayoutInflater.from(VerifiedVerificationRequestsActivity.this);
         View view = inflater.inflate(R.layout.admin_confirm_expire_all_verification_requests, null);
 
-        Button btnConfirmUnlockProperty = view.findViewById(R.id.btnConfirmUnlockProperty);
-        Button btnCancelUnlockProperty = view.findViewById(R.id.btnCancelUnlockProperty);
+        Button btnConfirmExpireAllProperty = view.findViewById(R.id.btnContinueExpireAllProperty);
+        Button btnCancelExpireAllProperty = view.findViewById(R.id.btnCancelExpireAllProperty);
 
         AlertDialog confirmExpireAllDialog = new AlertDialog.Builder(VerifiedVerificationRequestsActivity.this).setView(view).create();
 
-        btnConfirmUnlockProperty.setOnClickListener(new View.OnClickListener() {
+        btnConfirmExpireAllProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.showProgressDialog("Expiring All Requests...", false);
+                expireAllVerifiedRequests();
                 confirmExpireAllDialog.dismiss();
             }
         });
-        btnCancelUnlockProperty.setOnClickListener(new View.OnClickListener() {
+        btnCancelExpireAllProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 confirmExpireAllDialog.dismiss();
@@ -154,20 +161,41 @@ public class VerifiedVerificationRequestsActivity extends AppCompatActivity impl
 
     public void expireAllVerifiedRequests() {
         //get the all the issued a verification request
-        CollectionReference verificationRequestCollection = database.collection("verificationRequests");
-        verificationRequestCollection.whereEqualTo("status", "verified")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        verifiedVerifications.clear();
-                        for (QueryDocumentSnapshot verification : queryDocumentSnapshots) {
-                            VerificationRequest verificationRequestObject = verification.toObject(VerificationRequest.class);
-                            verifiedVerifications.add(verificationRequestObject);
+
+        for(VerificationRequest request : verifiedVerifications) {
+            request.setDateVerified(null);
+            request.setStatus("expired");
+            String propertyID = request.getPropertyID();
+            String verificationID = request.getVerificationRequestID();
+            DocumentReference verificationDocRef = database.collection("verificationRequests").document(verificationID);
+            verificationDocRef.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    DocumentReference propertyDocRef = database.collection("properties").document(propertyID);
+                    propertyDocRef.update("verified", false);
+                    propertyDocRef.update("locked", false);
+                    propertyDocRef.update("reasonLocked", null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            progressDialog.dismissProgressDialog();
+                            Toast.makeText(VerifiedVerificationRequestsActivity.this, "Verified Requests has been expired" , Toast.LENGTH_SHORT).show();
                         }
-                        verificationRequestAdapter.notifyDataSetChanged();
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismissProgressDialog();
+                            Toast.makeText(VerifiedVerificationRequestsActivity.this, e.toString() , Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismissProgressDialog();
+                    Toast.makeText(VerifiedVerificationRequestsActivity.this, e.toString() , Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override

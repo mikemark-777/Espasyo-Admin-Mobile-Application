@@ -138,7 +138,7 @@ public class LoginFragment extends Fragment {
         //initialize views
         initializeViews(view);
 
-        //Navigate to Signup Fragment
+/*         //Navigate to Signup Fragment
         gotoSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,12 +146,12 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+       btnForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment);
             }
-        });
+        });*/
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,8 +247,8 @@ public class LoginFragment extends Fragment {
         textInputEmail = view.findViewById(R.id.text_input_email_login);
         textInputPassword = view.findViewById(R.id.text_input_password_login);
 
-        gotoSignUp = view.findViewById(R.id.gotoSignUp);
-        btnForgotPassword = view.findViewById(R.id.btnForgotPassword);
+        //gotoSignUp = view.findViewById(R.id.gotoSignUp);
+        //btnForgotPassword = view.findViewById(R.id.btnForgotPassword);
         btnLogin = view.findViewById(R.id.btnLogin);
         navController = Navigation.findNavController(view);
         loginProgressBar = view.findViewById(R.id.loginProgressBar);

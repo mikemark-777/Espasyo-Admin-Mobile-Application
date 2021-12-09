@@ -138,7 +138,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="40dp"
                 android:text=" up your account."
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -155,14 +155,6 @@
                 android:layout_height="51dp"
                 android:backgroundTint="#FF9800"
                 android:text="Login to your account" />
-
-            <TextView
-                android:id="@+id/gotoUpdateEmailFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Change Email Address"
-                android:textColor="#12B0E8" />
 
         </LinearLayout>
 

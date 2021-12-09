@@ -68,9 +68,8 @@ public class EmailVerificationFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
         btnLoginToYourAccount = view.findViewById(R.id.btnLoginToYourAccount);
-        gotoUpdateEmailFragment = view.findViewById(R.id.gotoUpdateEmailFragment);
         txtEmail = view.findViewById(R.id.txtEmail);
-
+        //gotoUpdateEmailFragment = view.findViewById(R.id.gotoUpdateEmailFragment);
 
         btnLoginToYourAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +79,11 @@ public class EmailVerificationFragment extends Fragment {
             }
         });
 
-        gotoUpdateEmailFragment.setOnClickListener(new View.OnClickListener() {
+/*        gotoUpdateEmailFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_emailVerificationFragment_to_updateEmailFragment);
             }
-        });
+        });*/
     }
 }
