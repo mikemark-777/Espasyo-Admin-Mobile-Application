@@ -90,7 +90,6 @@ public class LoginFragment extends Fragment {
                             //Get currentUser's UID
                             String UID = firebaseUser.getUid();
                             userReference = database.collection("users").document(UID);
-
                             userReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

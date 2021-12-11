@@ -72,7 +72,7 @@ public class AdminAccountActivity extends AppCompatActivity {
         initializeViews();
         getAdminAccountData();
 
-        btnChangeName.setOnClickListener(new View.OnClickListener() {
+/*        btnChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminAccountActivity.this, AdminChangeNameActivity.class);
@@ -88,7 +88,7 @@ public class AdminAccountActivity extends AppCompatActivity {
                 intent.putExtra("admin", admin);
                 startActivity(intent);
             }
-        });
+        });*/
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,8 +150,8 @@ public class AdminAccountActivity extends AppCompatActivity {
         displayAdminEmail = findViewById(R.id.displayAdminEmail_account);
 
         //cardviews
-        btnChangeName = findViewById(R.id.btnChangeName_account);
-        btnChangePassword = findViewById(R.id.btnChangePassword_account);
+        //btnChangeName = findViewById(R.id.btnChangeName_account);
+        //btnChangePassword = findViewById(R.id.btnChangePassword_account);
         btnLogout = findViewById(R.id.btnLogout_account);
 
         //progress bars
