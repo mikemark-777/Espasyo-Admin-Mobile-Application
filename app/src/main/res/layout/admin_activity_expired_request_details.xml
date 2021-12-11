@@ -409,22 +409,9 @@
                     android:id="@+id/displayBusinessPermitImageView_verified"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
+                    android:layout_marginBottom="35dp"
                     android:src="@drawable/img_expired_verification_requests"/>
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/img_verified_by"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Espasyo Admin"
-                android:textAlignment="center"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
 
         </LinearLayout>
 
