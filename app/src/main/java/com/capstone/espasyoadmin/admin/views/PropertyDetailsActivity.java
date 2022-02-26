@@ -46,7 +46,6 @@ import java.util.ArrayList;
 
 public class PropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener, SetReasonLockPropertyDialog.ConfirmSetReasonLockPropertyListener {
 
-    //i have added comment here
 
     private FirebaseConnection firebaseConnection;
     private FirebaseAuth fAuth;
