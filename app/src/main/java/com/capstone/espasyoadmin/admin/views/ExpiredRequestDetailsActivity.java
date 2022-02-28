@@ -50,7 +50,7 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
     private String propertyID;
     private Property property;
 
-    private TextView displayStatus, displayClassification, displayDateSubmitted, displayDateVerified, displayPropertyName, displayPropertyType, displayPropertyAddress, displayLandlordName, displayLandlordPhoneNumber;
+    private TextView displayStatus, displayClassification, displayDateSubmitted, displayPropertyName, displayPropertyType, displayPropertyAddress, displayLandlordName, displayLandlordPhoneNumber;
     private ImageView verifiedRequestMenuOption;
     private ImageView displayBusinessPermit;
 
@@ -104,7 +104,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         displayStatus = findViewById(R.id.displayStatus_verified);
         displayClassification = findViewById(R.id.displayClassification_verified);
         displayDateSubmitted = findViewById(R.id.displayDateSubmitted_verified);
-        displayDateVerified = findViewById(R.id.displayDateVerified_verified);
         displayPropertyName = findViewById(R.id.displayPropertyName_verified);
         displayPropertyType = findViewById(R.id.displayPropertyType_verified);
         displayPropertyAddress = findViewById(R.id.displayPropertyAddress_verified);
@@ -152,7 +151,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         String status = verificationRequest.getStatus();
         String classification = verificationRequest.getClassification();
         String dateSubmitted = verificationRequest.getDateSubmitted();
-        String dateVerified = verificationRequest.getDateVerified();
         String businessPermitImageURL = verificationRequest.getMunicipalBusinessPermitImageURL();
 
         //data from property
@@ -185,7 +183,6 @@ public class ExpiredRequestDetailsActivity extends AppCompatActivity implements 
         }
 
         displayDateSubmitted.setText(dateSubmitted);
-        displayDateVerified.setText(dateVerified);
         displayPropertyName.setText(propertyName);
         displayPropertyType.setText(propertyType);
         displayPropertyAddress.setText(propertyAddress);
