@@ -36,12 +36,11 @@ public class Property implements Parcelable{
     private boolean isInternetIncluded;
     private boolean isGarbageCollectionIncluded;
     private String imageFolder;
+    private String exclusivity;
 
     public Property(){
         //empty property constructor **required`
     }
-
-    //setters
 
     protected Property(Parcel in) {
         propertyID = in.readString();
@@ -62,6 +61,7 @@ public class Property implements Parcelable{
         isInternetIncluded = in.readByte() != 0;
         isGarbageCollectionIncluded = in.readByte() != 0;
         imageFolder = in.readString();
+        exclusivity = in.readString();
     }
 
     public static final Creator<Property> CREATOR = new Creator<Property>() {
@@ -76,6 +76,7 @@ public class Property implements Parcelable{
         }
     };
 
+    //setters
     public void setPropertyID(String propertyID) {
         this.propertyID = propertyID;
     }
@@ -146,6 +147,10 @@ public class Property implements Parcelable{
 
     public void setImageFolder(String imageFolder) {
         this.imageFolder = imageFolder;
+    }
+
+    public void setExclusivity(String exclusivity) {
+        this.exclusivity = exclusivity;
     }
 
     //getters
@@ -222,6 +227,11 @@ public class Property implements Parcelable{
         return imageFolder;
     }
 
+    public String getExclusivity()   {
+        return exclusivity;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -247,5 +257,6 @@ public class Property implements Parcelable{
         dest.writeByte((byte) (isInternetIncluded ? 1 : 0));
         dest.writeByte((byte) (isGarbageCollectionIncluded ? 1 : 0));
         dest.writeString(imageFolder);
+        dest.writeString(exclusivity);
     }
 }
