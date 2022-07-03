@@ -252,6 +252,7 @@ public class VerifiedRequestDetailsActivity extends AppCompatActivity implements
                 //second is to change isVerified and isLocked of property linked to this to false
                 property.setVerified(false);
                 property.setLocked(false);
+                property.setReasonLocked(null);
                 propertyDocRef.set(property).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
