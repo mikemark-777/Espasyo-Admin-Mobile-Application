@@ -20,9 +20,12 @@ import com.capstone.espasyoadmin.R;
 import com.capstone.espasyoadmin.admin.CustomDialogs.CustomProgressDialog;
 import com.capstone.espasyoadmin.admin.repository.FirebaseConnection;
 import com.capstone.espasyoadmin.admin.views.AdminAccountActivity;
+import com.capstone.espasyoadmin.admin.views.EditLandlordNameActivity;
 import com.capstone.espasyoadmin.admin.views.PropertiesOnMapActivity;
 import com.capstone.espasyoadmin.admin.views.PropertyMasterListActivity;
+import com.capstone.espasyoadmin.admin.views.ShowLandlordListActivity;
 import com.capstone.espasyoadmin.admin.views.VerificationRequestsOnTheirStatus;
+import com.capstone.espasyoadmin.admin.views.ViewLandlordInformationActivity;
 import com.capstone.espasyoadmin.auth.viewmodels.AuthViewModel;
 import com.capstone.espasyoadmin.models.Property;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +47,8 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private CardView btnGotoPropertyMasterList,
             btnGotoPropertyOnMap,
-            btnGotoVerificationRequests;
+            btnGotoVerificationRequests,
+            btnGotoManageLandlordInformation;
 
     private TextView apartmentCountDisplay,
             boardingHouseCountDisplay,
@@ -97,12 +101,21 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         });
 
+        btnGotoManageLandlordInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoManageLandlordInformation();
+            }
+        });
+
         btnIconGotoProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 gotoAdminProfile();
             }
         });
+
+
     }
 
     public void initializeViews() {
@@ -113,6 +126,7 @@ public class AdminMainActivity extends AppCompatActivity {
         btnGotoPropertyMasterList = findViewById(R.id.btnGotoPropertyMasterlist);
         btnGotoPropertyOnMap = findViewById(R.id.btnGotoPropertyOnMap);
         btnGotoVerificationRequests = findViewById(R.id.btnGotoVerificaitonRequests);
+        btnGotoManageLandlordInformation = findViewById(R.id.btnGotoManageLandlordInformation);
 
         //TextViews
         apartmentCountDisplay = findViewById(R.id.apartmentCountDisplay);
@@ -139,11 +153,11 @@ public class AdminMainActivity extends AppCompatActivity {
                         displayCounts();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AdminMainActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminMainActivity.this, "Error: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void gotoPropertyMasterList() {
@@ -161,6 +175,13 @@ public class AdminMainActivity extends AppCompatActivity {
 
     public void gotoVerificationRequests() {
         Intent intent = new Intent(AdminMainActivity.this, VerificationRequestsOnTheirStatus.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void gotoManageLandlordInformation() {
+        //must change it to where the landlord list view is
+        Intent intent = new Intent(AdminMainActivity.this, ShowLandlordListActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

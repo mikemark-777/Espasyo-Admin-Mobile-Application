@@ -79,7 +79,7 @@ public class PropertyMasterListActivity extends AppCompatActivity implements Pro
         propertyRecyclerView.setAdapter(propertyAdapter);
 
         //initialize data aside from recyclerView
-        propertyMasterlistRVSwipeRefresh = findViewById(R.id.propertyMasterlistRVSwipeRefresh);
+        propertyMasterlistRVSwipeRefresh = findViewById(R.id.landlordListRVSwipeRefresh);
         progressDialog = new CustomProgressDialog(this);
     }
 

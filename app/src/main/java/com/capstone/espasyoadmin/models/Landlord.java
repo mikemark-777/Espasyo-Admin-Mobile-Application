@@ -1,6 +1,10 @@
 package com.capstone.espasyoadmin.models;
 
-public class Landlord {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Landlord implements Parcelable {
+
     private String landlordID;
     private String firstName;
     private String lastName;
@@ -22,6 +26,28 @@ public class Landlord {
         this.userRole = userRole;
         this.phoneNumber = phoneNumber;
     }
+
+    protected Landlord(Parcel in) {
+        landlordID = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        email = in.readString();
+        password = in.readString();
+        userRole = in.readInt();
+        phoneNumber = in.readString();
+    }
+
+    public static final Creator<Landlord> CREATOR = new Creator<Landlord>() {
+        @Override
+        public Landlord createFromParcel(Parcel in) {
+            return new Landlord(in);
+        }
+
+        @Override
+        public Landlord[] newArray(int size) {
+            return new Landlord[size];
+        }
+    };
 
     public void setLandlordID(String landlordID) {
         this.landlordID = landlordID;
@@ -77,5 +103,21 @@ public class Landlord {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(landlordID);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(email);
+        dest.writeString(password);
+        dest.writeInt(userRole);
+        dest.writeString(phoneNumber);
     }
 }

@@ -15,6 +15,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EspasyoAdmin">
         <activity
+            android:name=".admin.views.ShowLandlordListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.views.ViewLandlordInformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.views.EditLandlordNameActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.views.ViewReasonLockedPropertyActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -25,7 +34,7 @@
         <activity
             android:name=".admin.views.AdminChangeNameActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.RoomDetailsActivity"
             android:exported="true"
@@ -33,27 +42,27 @@
         <activity
             android:name=".admin.views.ShowAllRoomsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.DeclinedRequestDetailsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.VerifiedRequestDetailsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.ProvideReasonDeclinedVerificationActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.AdminAccountActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.PreviewImageActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.DeclinedVerificationRequestsActivity"
             android:exported="true"
@@ -61,7 +70,7 @@
         <activity
             android:name=".admin.views.ExpiredVerificationRequestsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.ExpiredRequestDetailsActivity"
             android:exported="true"
@@ -69,11 +78,11 @@
         <activity
             android:name=".admin.views.UnverifiedVerificationRequestsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.VerificationRequestsOnTheirStatus"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.CheckVerificationRequestActivity"
             android:exported="true"
@@ -81,7 +90,7 @@
         <activity
             android:name=".admin.views.VerifiedVerificationRequestsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.PropertiesOnMapActivity"
             android:exported="true">
@@ -99,11 +108,11 @@
         <activity
             android:name=".admin.views.PropertyDetailsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.ViewPropertyDetailsActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".admin.views.PropertyMasterListActivity"
             android:exported="true"
@@ -111,7 +120,7 @@
         <activity
             android:name=".admin.AdminMainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

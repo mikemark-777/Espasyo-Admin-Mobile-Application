@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.views.PropertyMasterListActivity">
+    tools:context=".admin.views.ShowLandlordListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Property Masterlist"
+            android:text="Landlord List"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -41,8 +41,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <com.capstone.espasyoadmin.admin.widgets.PropertyRecyclerView
-            android:id="@+id/propertyMasterlistRecyclerView"
+        <com.capstone.espasyoadmin.admin.widgets.LandlordRecyclerView
+            android:id="@+id/landlordListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
@@ -55,10 +55,9 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
     <include
-        android:id="@+id/empty_property_state_propertyMasterList"
-        layout="@layout/admin_empty_property_recyclerview"
+        android:id="@+id/empty_landlord_state_landlordList"
+        layout="@layout/admin_empty_landlord_recyclerview"
         app:layout_constraintBottom_toBottomOf="@+id/landlordListRVSwipeRefresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
