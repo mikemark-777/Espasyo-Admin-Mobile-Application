@@ -35,6 +35,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ViewPropertyDetailsActivity extends AppCompatActivity implements RoomAdapter.OnRoomListener {
@@ -136,6 +138,7 @@ public class ViewPropertyDetailsActivity extends AppCompatActivity implements Ro
         String name = property.getName();
         String propertyType = property.getPropertyType();
         String address = property.getAddress();
+        String exclusivity = property.getExclusivity();
         int minimumPrice = property.getMinimumPrice();
         int maximumPrice = property.getMaximumPrice();
         boolean isElectricityIncluded = property.isElectricityIncluded();
@@ -146,6 +149,7 @@ public class ViewPropertyDetailsActivity extends AppCompatActivity implements Ro
         TextView propName = findViewById(R.id.propertyNameDisplay);
         TextView propType = findViewById(R.id.propertyTypeDisplay);
         TextView propAddress = findViewById(R.id.propertyAddressDisplay);
+        TextView propExclusivity = findViewById(R.id.propertyExclusivityDisplay);
         TextView propMinimumPrice = findViewById(R.id.propertyMinimumPriceDisplay);
         TextView propMaximumPrice = findViewById(R.id.propertyMaximumPriceDisplay);
 
@@ -170,6 +174,15 @@ public class ViewPropertyDetailsActivity extends AppCompatActivity implements Ro
         propName.setText(name);
         propType.setText(propertyType);
         propAddress.setText(address);
+
+        if(exclusivity.equals("Male Only")) {
+            propExclusivity.setText("Male");
+        } else if(exclusivity.equals("Female Only")) {
+            propExclusivity.setText("Female");
+        } else if(exclusivity.equals("Male and Female")) {
+            propExclusivity.setText("Male and Female");
+        }
+
         propMinimumPrice.setText(Integer.toString(minimumPrice));
         propMaximumPrice.setText(Integer.toString(maximumPrice));
 

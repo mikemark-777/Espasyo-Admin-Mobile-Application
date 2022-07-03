@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ASUS/StudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/drawable-v24/icon_border.xml" value="0.171" />
         <entry key="..\:/Users/ASUS/StudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_expired_request_details.xml" value="0.4" />
+        <entry key="..\:/Users/ASUS/StudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_property_details.xml" value="0.264" />
         <entry key="..\:/Users/ASUS/StudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_verified_verification_requests.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/ASUS/StudioProjects/Espasyo-Admin-Mobile-Application/app/src/main/res/layout/admin_activity_view_property_details.xml" value="0.25" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable-v24/custom_thumb.xml" value="0.14131944444444444" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable-v24/custom_track.xml" value="0.14131944444444444" />
         <entry key="..\:/Users/DESKTOP/AndroidStudioProjects/NativeAndroid/EspasyoAdmin/app/src/main/res/drawable-v24/icon_back_normal.xml" value="0.21197916666666666" />
