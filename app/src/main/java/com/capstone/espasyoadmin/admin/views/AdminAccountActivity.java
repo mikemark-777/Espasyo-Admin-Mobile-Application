@@ -54,8 +54,6 @@ public class AdminAccountActivity extends AppCompatActivity {
     private CardView btnChangeName, btnChangePassword, btnLogout;
     private CustomProgressDialog progressDialog;
 
-    private ActivityResultLauncher<Intent> ChangeNameActivityResultLauncher;
-    private ActivityResultLauncher<Intent> ChangePasswordActivityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,24 +69,6 @@ public class AdminAccountActivity extends AppCompatActivity {
 
         initializeViews();
         getAdminAccountData();
-
-/*        btnChangeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminAccountActivity.this, AdminChangeNameActivity.class);
-                intent.putExtra("admin", admin);
-                startActivity(intent);
-            }
-        });
-
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminAccountActivity.this, AdminChangePasswordActivity.class);
-                intent.putExtra("admin", admin);
-                startActivity(intent);
-            }
-        });*/
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,32 +94,9 @@ public class AdminAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-
-        //will handle the result if the admin has reset his name or not
-        ChangeNameActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            getAdminAccountData();
-                        }
-                    }
-                });
-
-        //will handle the result if the admin has reset his password or not
-        ChangePasswordActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            getAdminAccountData();
-                        }
-                    }
-                });
     }
 
     public void initializeViews() {
